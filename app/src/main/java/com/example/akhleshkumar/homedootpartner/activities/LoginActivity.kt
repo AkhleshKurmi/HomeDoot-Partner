@@ -39,6 +39,9 @@ class LoginActivity : AppCompatActivity() {
                 login(binding.editTextEmail.text.toString(),binding.editTextPassword.text.toString())
             }
         }
+        binding.tvFpassword.setOnClickListener {
+            startActivity(Intent(this,ForgotPasswordActivity::class.java))
+        }
 
     }
     fun login(userName:String, password:String){

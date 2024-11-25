@@ -7,7 +7,10 @@ import com.example.akhleshkumar.homedoot.models.user.RegistrationRequest
 import com.example.akhleshkumar.homedoot.models.user.RegistrationResponse
 import com.example.akhleshkumar.homedoot.models.user.SendOtpRequest
 import com.example.akhleshkumar.homedootpartner.models.ApiResponseCategory
+import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
+import com.example.akhleshkumar.homedootpartner.models.user.ForgotPasswordResponse
 import com.example.akhleshkumar.homedootpartner.models.user.LoginUserResponse
+import com.example.akhleshkumar.homedootpartner.models.user.UpdatePasswordResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -24,7 +27,14 @@ interface ApiService {
     @POST("city")
     fun getCity(@Query("state_id")stateId:Int) :Call<CityResponse>
 
-   @POST("login")
+    @POST("forgot_password")
+    fun forgotPassword(@Query("username") userName:String, @Query("guard") userType:String) : Call<ForgotPasswordResponse>
+
+    @POST("update_password")
+    fun updatePassword(@Query("username") userName:String, @Query("guard") userType:String, @Query("password") password: String, @Query("password_confirmation") confirmPassword:String) : Call<UpdatePasswordResponse>
+
+
+    @POST("login")
     fun userLogin(@Query("username") userName:String, @Query("guard") userType:String, @Query("login_password") password:String) :Call<LoginUserResponse>
 
     @POST("user-register")
@@ -83,5 +93,8 @@ interface ApiService {
     fun vendorReview(){
 
     }
+
+    @POST("vendor-dashboard")
+     fun getVendorDashboard(@Query("vendor_id")userId: String) : Call<VendorDashboardResponse>
 
 }
