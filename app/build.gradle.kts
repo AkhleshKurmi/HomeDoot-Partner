@@ -49,4 +49,13 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation ("androidx.viewpager2:viewpager2:1.1.0")
+    implementation ("com.makeramen:roundedimageview:2.3.0")
+    implementation ("com.tbuonomo:dotsindicator:4.3")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("io.github.chaosleung:pinview:1.4.4")
+
 }
