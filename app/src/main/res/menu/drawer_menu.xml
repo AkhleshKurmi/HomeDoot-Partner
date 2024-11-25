@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_calendar"
+        android:icon="@drawable/ic_calendar"
+        android:title="Calendar" />
+    <item
+        android:id="@+id/menu_job_history"
+        android:icon="@drawable/ic_job_history"
+        android:title="Job History" />
+    <item
+        android:id="@+id/menu_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="My Profile" />
+    <item
+        android:id="@+id/menu_business_detail"
+        android:icon="@drawable/ic_business"
+        android:title="Update Business Detail" />
+    <item
+        android:id="@+id/menu_bank_detail"
+        android:icon="@drawable/baseline_food_bank_24"
+        android:title="Update Bank Detail" />
+    <item
+        android:id="@+id/menu_rating"
+        android:icon="@drawable/ic_rating"
+        android:title="Rating" />
+    <item
+        android:id="@+id/menu_commission"
+        android:title="Commission" />
+
+</menu>
