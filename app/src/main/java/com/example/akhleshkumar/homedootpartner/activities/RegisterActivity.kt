@@ -221,6 +221,13 @@ class RegisterActivity : AppCompatActivity() {
                                     finish()
 
                                 }
+                                else{
+                                    Toast.makeText(
+                                        this@RegisterActivity,
+                                        response.body()!!.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
 
