@@ -6,6 +6,7 @@ import com.example.akhleshkumar.homedoot.models.user.OtpResponse
 import com.example.akhleshkumar.homedoot.models.user.RegistrationRequest
 import com.example.akhleshkumar.homedoot.models.user.RegistrationResponse
 import com.example.akhleshkumar.homedoot.models.user.SendOtpRequest
+import com.example.akhleshkumar.homedootpartner.models.ApiResponseCategory
 import com.example.akhleshkumar.homedootpartner.models.user.LoginUserResponse
 import retrofit2.Call
 import retrofit2.http.Body
@@ -14,6 +15,9 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ApiService {
+    @GET("category")
+    fun fetchCategories(): Call<ApiResponseCategory>
+
     @GET("state")
     fun getState(): Call<StateResponse>
 

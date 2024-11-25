@@ -20,7 +20,9 @@ import com.example.akhleshkumar.homedoot.models.user.RegistrationRequest
 import com.example.akhleshkumar.homedoot.models.user.RegistrationResponse
 import com.example.akhleshkumar.homedoot.models.user.SendOtpRequest
 import com.example.akhleshkumar.homedootpartner.R
+import com.example.akhleshkumar.homedootpartner.adaters.CategorySpinnerAdapter
 import com.example.akhleshkumar.homedootpartner.databinding.ActivityRegisterBinding
+import com.example.akhleshkumar.homedootpartner.models.ApiResponseCategory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +30,7 @@ import retrofit2.Response
 class RegisterActivity : AppCompatActivity() {
     lateinit var binding: ActivityRegisterBinding
     lateinit var stateSpinnerAdapter: StateSpinnerAdapter
+    lateinit var categorySpinnerAdapter: CategorySpinnerAdapter
     lateinit var cityAdapter: CitySpinnerAdapter
     lateinit var progressDialog: ProgressDialog
     var cityId = 0
@@ -41,6 +44,7 @@ class RegisterActivity : AppCompatActivity() {
             setCancelable(false)
         }
         getState()
+        getCategoryList()
         binding.btnRegister.setOnClickListener {
             if (isValidation()) {
                 progressDialog.show()
@@ -86,6 +90,44 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun getCategoryList() {
+        progressDialog.show()
+        RetrofitClient.instance.fetchCategories().enqueue(object : Callback<ApiResponseCategory> {
+            override fun onResponse(call: Call<ApiResponseCategory>, response: Response<ApiResponseCategory>) {
+                if (response.isSuccessful) {
+                    progressDialog.dismiss()
+                    if (response.body()!!.success) {
+                        stateSpinnerAdapter =
+                            StateSpinnerAdapter(this@RegisterActivity, response.body()!!.data)
+                        binding.stateInput.adapter = stateSpinnerAdapter
+                        binding.stateInput.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>,
+                                view: View,
+                                position: Int,
+                                id: Long
+                            ) {
+                                val selectedCityId = stateSpinnerAdapter.getCityId(position)
+                                stateId = selectedCityId
+                                getCity(selectedCityId)
+
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>) {
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseCategory>, t: Throwable) {
+                progressDialog.dismiss()
+            }
+
+        })
     }
 
     fun getState() {
