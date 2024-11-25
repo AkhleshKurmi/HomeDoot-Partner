@@ -33,6 +33,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var categorySpinnerAdapter: CategorySpinnerAdapter
     lateinit var cityAdapter: CitySpinnerAdapter
     lateinit var progressDialog: ProgressDialog
+    var selectedCategory = ""
     var cityId = 0
     var stateId = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +60,8 @@ class RegisterActivity : AppCompatActivity() {
                         cityId,
                         binding.pincodeInput.text.toString(),
                         binding.passwordInput.text.toString(),
-                        binding.CpasswordInput.text.toString()
+                        binding.CpasswordInput.text.toString(),
+                        selectedCategory
                     )
                 ).enqueue(object : Callback<OtpResponse> {
                     override fun onResponse(
@@ -99,19 +101,19 @@ class RegisterActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     progressDialog.dismiss()
                     if (response.body()!!.success) {
-                        stateSpinnerAdapter =
-                            StateSpinnerAdapter(this@RegisterActivity, response.body()!!.data)
-                        binding.stateInput.adapter = stateSpinnerAdapter
-                        binding.stateInput.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        categorySpinnerAdapter =
+                           CategorySpinnerAdapter (this@RegisterActivity, response.body()!!.data.category)
+                        binding.category.adapter = categorySpinnerAdapter
+                        binding.category.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(
                                 parent: AdapterView<*>,
                                 view: View,
                                 position: Int,
                                 id: Long
                             ) {
-                                val selectedCityId = stateSpinnerAdapter.getCityId(position)
-                                stateId = selectedCityId
-                                getCity(selectedCityId)
+                                val selectedCityId = categorySpinnerAdapter.getCategory(position)
+                                selectedCategory = selectedCityId
+
 
                             }
 
@@ -177,6 +179,10 @@ class RegisterActivity : AppCompatActivity() {
             binding.emailInput.error = "Enter Email"
             return false
         }
+        if (selectedCategory.isEmpty()){
+            Toast.makeText(this, "Select category", Toast.LENGTH_SHORT).show()
+            return false
+        }
         if (binding.mobileInput.text.toString().isEmpty()) {
             binding.mobileInput.error = "Enter Mobile Number"
             return false
@@ -230,7 +236,7 @@ class RegisterActivity : AppCompatActivity() {
                 progressDialog.show()
                 RetrofitClient.instance.userRegister(
                     RegistrationRequest(
-                        2,
+                        3,
                         binding.nameInput.text.toString(),
                         binding.emailInput.text.toString(),
                         binding.mobileInput.text.toString(),
@@ -241,7 +247,8 @@ class RegisterActivity : AppCompatActivity() {
                         binding.passwordInput.text.toString(),
                         binding.CpasswordInput.text.toString(),
                         register_otp = etOtp.text.toString(),
-                        VerificationCode = verificationCode
+                        VerificationCode = verificationCode,
+                        selectedCategory
                     )
                 )
                     .enqueue(object : Callback<RegistrationResponse> {

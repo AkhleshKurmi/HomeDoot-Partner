@@ -30,7 +30,7 @@ class CategorySpinnerAdapter(context: Context, private val categoryList: List<Ca
         return view
     }
 
-    fun getCityId(position: Int): Int {
-        return categoryList[position].id
+    fun getCategory(position: Int): String {
+        return categoryList[position].category_name
     }
 }

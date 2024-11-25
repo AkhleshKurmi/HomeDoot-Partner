@@ -12,5 +12,6 @@ data class RegistrationRequest (
     val password: String,
     val password_confirmation: String,
     val register_otp:String,
-    val VerificationCode : String
+    val VerificationCode : String,
+    val category:String
 )

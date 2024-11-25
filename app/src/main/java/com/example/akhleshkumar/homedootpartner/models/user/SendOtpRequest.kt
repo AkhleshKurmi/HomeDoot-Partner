@@ -10,7 +10,8 @@ data class SendOtpRequest(
     val city: Int,
     val pincode: String,
     val password: String,
-    val password_confirmation: String
+    val password_confirmation: String,
+    val category:String
 )
 
 data class OtpResponse(
