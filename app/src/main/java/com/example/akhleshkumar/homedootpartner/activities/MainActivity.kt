@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.telecom.Call
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,7 +17,6 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var drawerLayout: DrawerLayout
 
     lateinit var progressDialog: ProgressDialog
     lateinit var sharedPreferences: SharedPreferences
@@ -26,12 +26,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        drawerLayout = findViewById(R.id.drawer_layout)
-        val navigationView: NavigationView = findViewById(R.id.navigation_view)
+        setSupportActionBar(binding.toolbar)
 
-        navigationView.setNavigationItemSelectedListener { menuItem ->
+        // Set up ActionBarDrawerToggle
+        val toggle = ActionBarDrawerToggle(
+            this, binding.drawerLayout, binding.toolbar,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+
+        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             // Close Drawer
-            drawerLayout.closeDrawer(GravityCompat.START)
+//            binding.drawerLayout.closeDrawer(GravityCompat.START)
 
             // Show Toast based on clicked item
             when (menuItem.itemId) {
@@ -77,5 +85,12 @@ class MainActivity : AppCompatActivity() {
 //    }
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+    override fun onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 }
