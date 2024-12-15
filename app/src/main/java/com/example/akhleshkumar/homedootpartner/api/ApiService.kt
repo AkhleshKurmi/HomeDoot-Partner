@@ -11,10 +11,14 @@ import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import com.example.akhleshkumar.homedootpartner.models.user.ForgotPasswordResponse
 import com.example.akhleshkumar.homedootpartner.models.user.LoginUserResponse
 import com.example.akhleshkumar.homedootpartner.models.user.UpdatePasswordResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface ApiService {
@@ -42,6 +46,22 @@ interface ApiService {
 
     @POST("user-register")
     fun userRegister(@Body request: RegistrationRequest): Call<RegistrationResponse>
+
+    @Multipart
+    @POST("") // Replace with your API endpoint
+    fun uploadVendorDetails(
+        @Part("business_name") businessName: RequestBody,
+        @Part("contact_person") contactPerson: RequestBody,
+        @Part("contact_mobile") contactMobile: RequestBody,
+        @Part("business_address") businessAddress: RequestBody,
+        @Part("pan_details") panDetails: RequestBody,
+        @Part("aadhar_details") aadharDetails: RequestBody,
+        @Part("vendor_id") vendorId: RequestBody,
+        @Part hid_address_proof: MultipartBody.Part,
+        @Part hid_tan_file: MultipartBody.Part,
+        @Part hid_aadhar_proof: MultipartBody.Part
+    ): Call<Void>
+
 //    @POST("forgot_password")
 //    fun forgotPassword(@Query("username") userName:String, @Query("guard") userType:String) : Call<ForgotPasswordResponse>
 
