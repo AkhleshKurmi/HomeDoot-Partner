@@ -9,9 +9,17 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.R
 import com.example.akhleshkumar.homedootpartner.databinding.ActivityMainBinding
+import com.example.akhleshkumar.homedootpartner.fragments.BankDetailsFragment
+import com.example.akhleshkumar.homedootpartner.fragments.BusinessDetailFragment
+import com.example.akhleshkumar.homedootpartner.fragments.HomeFragment
+import com.example.akhleshkumar.homedootpartner.fragments.MyProfileFragment
+import com.example.akhleshkumar.homedootpartner.fragments.RatingFragment
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import com.google.android.material.navigation.NavigationView
 
@@ -36,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-
+        loadFragment(HomeFragment())
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             // Close Drawer
 //            binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -45,11 +53,19 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.menu_calendar -> showToast("Calendar Clicked")
                 R.id.menu_job_history -> showToast("Job History Clicked")
-                R.id.menu_profile -> showToast("My Profile Clicked")
-                R.id.menu_business_detail -> showToast("Update Business Detail Clicked")
-                R.id.menu_bank_detail -> showToast("Update Bank Detail Clicked")
-                R.id.menu_rating -> showToast("Rating Clicked")
+                R.id.menu_profile -> loadFragment(MyProfileFragment())
+                R.id.menu_business_detail -> loadFragment(BusinessDetailFragment())
+                R.id.menu_bank_detail -> loadFragment(BankDetailsFragment())
+                R.id.menu_rating -> loadFragment(RatingFragment())
                 R.id.menu_commission -> showToast("Commission Clicked")
+                else -> showToast("Unknown Item Clicked")
+            }
+            true
+        }
+
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            when(menuItem.itemId){
+                R.id.home -> loadFragment(HomeFragment())
                 else -> showToast("Unknown Item Clicked")
             }
             true
@@ -63,6 +79,12 @@ class MainActivity : AppCompatActivity() {
             setCancelable(false)
         }
        // getVendorDashboard(sharedPreferences.getString("userId","").toString())
+    }
+
+    private fun loadFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
     }
 
 //    private fun getVendorDashboard(userId:String) {

@@ -68,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
                             editorSP.putBoolean("isLogin", true)
                             editorSP.commit()
                                 progressDialog.dismiss()
-                                startActivity(Intent(this@LoginActivity, MainActivity::class.java)
+                            startActivity(Intent(this@LoginActivity, MainActivity::class.java)
 
                                     .putExtra("fragment","h"))
                                 finish()
@@ -76,6 +76,8 @@ class LoginActivity : AppCompatActivity() {
                         }
                         else{
                             progressDialog.dismiss()
+                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+
                             Toast.makeText(this@LoginActivity, response.body()!!.message, Toast.LENGTH_SHORT)
                                 .show()
                         }
