@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.akhleshkumar.homedootpartner.databinding.ActivityLoginBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
-import com.example.akhleshkumar.homedootpartner.databinding.ActivityLoginBinding
 import com.example.akhleshkumar.homedootpartner.models.user.LoginUserResponse
 import com.example.akhleshkumar.homedootpartner.models.user.UserData
 import retrofit2.Call

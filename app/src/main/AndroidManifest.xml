@@ -13,18 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HomeDootPartner"
         tools:targetApi="31">
-        <activity android:name=".activities.ForgotPasswordActivity"
+        <activity android:name="com.example.akhleshkumar.homedootpartner.activities.ForgotPasswordActivity"
             android:exported="false"/>
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.example.akhleshkumar.homedootpartner.activities.MainActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".activities.RegisterActivity"
+            android:name="com.example.akhleshkumar.homedootpartner.activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name="com.example.akhleshkumar.homedootpartner.activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -12,9 +12,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.example.akhleshkumar.homedoot.api.RetrofitClient
-import com.example.akhleshkumar.homedootpartner.R
-import com.example.akhleshkumar.homedootpartner.databinding.ActivityMainBinding
+import com.akhleshkumar.homedootpartner.R
+import com.akhleshkumar.homedootpartner.databinding.ActivityMainBinding
 import com.example.akhleshkumar.homedootpartner.fragments.BankDetailsFragment
 import com.example.akhleshkumar.homedootpartner.fragments.BusinessDetailFragment
 import com.example.akhleshkumar.homedootpartner.fragments.HomeFragment

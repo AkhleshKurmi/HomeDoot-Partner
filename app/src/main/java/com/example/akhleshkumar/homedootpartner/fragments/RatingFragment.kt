@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.akhleshkumar.homedootpartner.R
+import com.akhleshkumar.homedootpartner.R
 import com.example.akhleshkumar.homedootpartner.fragments.placeholder.PlaceholderContent
 
 /**

@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.akhleshkumar.homedootpartner.R
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
-import com.example.akhleshkumar.homedootpartner.R
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

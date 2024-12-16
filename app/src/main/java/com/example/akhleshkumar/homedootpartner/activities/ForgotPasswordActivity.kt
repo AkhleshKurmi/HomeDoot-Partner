@@ -7,10 +7,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.akhleshkumar.homedootpartner.R
+import com.akhleshkumar.homedootpartner.databinding.ActivityForgotPasswordBinding
 import com.chaos.view.PinView
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
-import com.example.akhleshkumar.homedootpartner.R
-import com.example.akhleshkumar.homedootpartner.databinding.ActivityForgotPasswordBinding
 import com.example.akhleshkumar.homedootpartner.models.user.ForgotPasswordResponse
 import com.example.akhleshkumar.homedootpartner.models.user.UpdatePasswordResponse
 import retrofit2.Call

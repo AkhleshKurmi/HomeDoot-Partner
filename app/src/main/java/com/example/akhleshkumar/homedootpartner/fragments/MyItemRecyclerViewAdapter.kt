@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.akhleshkumar.homedootpartner.R
-
+import com.akhleshkumar.homedootpartner.databinding.FragmentRatingBinding
 import com.example.akhleshkumar.homedootpartner.fragments.placeholder.PlaceholderContent.PlaceholderItem
-import com.example.akhleshkumar.homedootpartner.databinding.FragmentRatingBinding
 
 /**
  * [RecyclerView.Adapter] that can display a [PlaceholderItem].
