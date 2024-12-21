@@ -2,8 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.BankDetailsFragment">
+    android:layout_height="match_parent">
 
 
     <ScrollView
@@ -20,7 +19,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add/Update Bank Details"
+                android:text="Add Bank Details"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/black"/>
@@ -29,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Approved"
-                android:id="@+id/approvedUpdate"
+                android:id="@+id/approvedSave"
                 android:background="@android:color/holo_green_light"
                 android:padding="4dp"
                 android:textColor="@android:color/white"
@@ -44,8 +43,8 @@
                 android:textStyle="bold"/>
             <EditText
                 android:layout_width="match_parent"
-                android:id="@+id/etAccountNoUpdate"
                 android:layout_height="wrap_content"
+                android:id="@+id/etAccountNo"
                 android:hint="Enter Account Number"
                 android:inputType="number"/>
 
@@ -58,7 +57,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/etBankNameUpdate"
+                android:id="@+id/etBankName"
                 android:hint="Enter Bank Name"/>
 
             <!-- Branch Name -->
@@ -70,7 +69,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/etBranchNameUpdate"
+                android:id="@+id/etBranchName"
                 android:hint="Enter Branch Name"/>
 
             <!-- IFSC Code -->
@@ -82,7 +81,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/etIFSCUpdate"
+                android:id="@+id/etIFSC"
                 android:hint="Enter IFSC Code"
                 android:inputType="text"/>
 
@@ -96,18 +95,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Choose File"
-                android:id="@+id/chooseFileChequeUpdate"
+                android:id="@+id/chooseFileCheque"
                 android:layout_marginTop="4dp"/>
 
             <!-- Update Button -->
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Update Bank Details"
-                android:id="@+id/btnSaveBNDetailUpdate"
+                android:text="Save Bank Details"
+                android:id="@+id/btnSaveBNDetail"
                 android:backgroundTint="@android:color/holo_blue_dark"
                 android:textColor="@android:color/white"
                 android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Skip"
+                android:id="@+id/skip"
+                android:textAlignment="textEnd"
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
     </ScrollView>
