@@ -9,6 +9,8 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.akhleshkumar.homedootpartner.R
+import com.akhleshkumar.homedootpartner.databinding.ActivityRegisterBinding
 import com.chaos.view.PinView
 import com.example.akhleshkumar.homedoot.adapters.CitySpinnerAdapter
 import com.example.akhleshkumar.homedoot.adapters.StateSpinnerAdapter
@@ -19,9 +21,7 @@ import com.example.akhleshkumar.homedoot.models.user.OtpResponse
 import com.example.akhleshkumar.homedoot.models.user.RegistrationRequest
 import com.example.akhleshkumar.homedoot.models.user.RegistrationResponse
 import com.example.akhleshkumar.homedoot.models.user.SendOtpRequest
-import com.example.akhleshkumar.homedootpartner.R
 import com.example.akhleshkumar.homedootpartner.adaters.CategorySpinnerAdapter
-import com.example.akhleshkumar.homedootpartner.databinding.ActivityRegisterBinding
 import com.example.akhleshkumar.homedootpartner.models.ApiResponseCategory
 import retrofit2.Call
 import retrofit2.Callback

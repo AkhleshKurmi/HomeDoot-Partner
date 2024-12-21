@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.akhleshkumar.homedootpartner"
+    namespace = "com.akhleshkumar.homedootpartner"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.akhleshkumar.homedootpartner"
+        applicationId = "com.akhleshkumar.homedootpartner"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
