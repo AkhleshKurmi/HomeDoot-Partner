@@ -3,15 +3,11 @@ package com.example.akhleshkumar.homedootpartner.activities
 import android.app.ProgressDialog
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.telecom.Call
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.ActivityMainBinding
 import com.example.akhleshkumar.homedootpartner.fragments.BankDetailsFragment
@@ -19,8 +15,6 @@ import com.example.akhleshkumar.homedootpartner.fragments.BusinessDetailFragment
 import com.example.akhleshkumar.homedootpartner.fragments.HomeFragment
 import com.example.akhleshkumar.homedootpartner.fragments.MyProfileFragment
 import com.example.akhleshkumar.homedootpartner.fragments.RatingFragment
-import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
-import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -77,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             setMessage("Loading...")
             setCancelable(false)
         }
-       // getVendorDashboard(sharedPreferences.getString("userId","").toString())
+       // getVendorDashboard(sharedPreferences.getString("vendor_id","").toString())
     }
 
     private fun loadFragment(fragment: Fragment) {

@@ -1,6 +1,7 @@
 package com.example.akhleshkumar.homedootpartner.activities
 
 import android.app.Dialog
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
@@ -20,11 +21,14 @@ import retrofit2.Response
 class ForgotPasswordActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityForgotPasswordBinding
-
+    lateinit var sharedpref: SharedPreferences
+    lateinit var editor: SharedPreferences.Editor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sharedpref = getSharedPreferences("HomeDoot", MODE_PRIVATE)
+        editor = sharedpref.edit()
         binding.btnSendOtp.setOnClickListener {
             if (validation()){
                 RetrofitClient.instance.forgotPassword(binding.usernameInput.text.toString(), "vendor").enqueue(object : Callback<ForgotPasswordResponse>{

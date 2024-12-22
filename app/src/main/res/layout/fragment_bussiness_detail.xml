@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add/Update Business Details"
+                android:text="Update Business Details"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/black"/>
@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Approved"
+                android:visibility="gone"
                 android:id="@+id/approved"
                 android:paddingVertical="4dp"
                 android:textColor="@android:color/holo_green_dark"/>

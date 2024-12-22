@@ -48,7 +48,7 @@ interface ApiService {
     fun userRegister(@Body request: RegistrationRequest): Call<RegistrationResponse>
 
     @Multipart
-    @POST("") // Replace with your API endpoint
+    @POST("vendor-business-details") // Replace with your API endpoint
     fun uploadVendorDetails(
         @Part("business_name") businessName: RequestBody,
         @Part("contact_person") contactPerson: RequestBody,
@@ -57,9 +57,10 @@ interface ApiService {
         @Part("pan_details") panDetails: RequestBody,
         @Part("aadhar_details") aadharDetails: RequestBody,
         @Part("vendor_id") vendorId: RequestBody,
-        @Part hid_address_proof: MultipartBody.Part,
-        @Part hid_tan_file: MultipartBody.Part,
-        @Part hid_aadhar_proof: MultipartBody.Part
+        @Part hid_pan_file: MultipartBody.Part?,
+        @Part hid_address_proof: MultipartBody.Part?,
+        @Part hid_tan_file: MultipartBody.Part?,
+        @Part hid_aadhar_proof: MultipartBody.Part?
     ): Call<Void>
 
 //    @POST("forgot_password")
@@ -116,5 +117,16 @@ interface ApiService {
 
     @POST("vendor-dashboard")
      fun getVendorDashboard(@Query("vendor_id")userId: String) : Call<VendorDashboardResponse>
+
+    @Multipart
+    @POST("vendor-bank-details") // Replace with the actual endpoint
+    fun uploadBankDetails(
+        @Part("vendor_id") vendorId: RequestBody,
+        @Part("account_number") accountNumber: RequestBody,
+        @Part("bank_name") bankName: RequestBody,
+        @Part("branch_name") branchName: RequestBody,
+        @Part("ifsc_code") ifscCode: RequestBody,
+        @Part hid_cheque_file: MultipartBody.Part?
+    ): Call<Any>
 
 }

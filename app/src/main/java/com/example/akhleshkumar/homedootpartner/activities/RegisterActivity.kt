@@ -2,6 +2,8 @@ package com.example.akhleshkumar.homedootpartner.activities
 
 import android.app.Dialog
 import android.app.ProgressDialog
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -33,6 +35,8 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var categorySpinnerAdapter: CategorySpinnerAdapter
     lateinit var cityAdapter: CitySpinnerAdapter
     lateinit var progressDialog: ProgressDialog
+    lateinit var sharedpref: SharedPreferences
+    lateinit var editor: SharedPreferences.Editor
     var selectedCategory = ""
     var cityId = 0
     var stateId = 0
@@ -40,6 +44,8 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sharedpref = getSharedPreferences("HomeDoot", MODE_PRIVATE)
+        editor = sharedpref.edit()
         progressDialog = ProgressDialog(this).apply {
             setMessage("Loading...")
             setCancelable(false)
@@ -267,6 +273,8 @@ class RegisterActivity : AppCompatActivity() {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                     dialog.dismiss()
+                                    editor.putString("vendor_id", response.body()!!.data.id.toString())
+                                    startActivity(Intent(this@RegisterActivity, SaveBusinessDetaiiilsActivity::class.java))
                                     finish()
 
                                 }

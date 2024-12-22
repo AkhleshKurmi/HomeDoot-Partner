@@ -1,12 +1,16 @@
 package com.example.akhleshkumar.homedootpartner.activities
 
+import android.Manifest
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.akhleshkumar.homedootpartner.databinding.ActivityLoginBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.models.user.LoginUserResponse
@@ -42,6 +46,12 @@ class LoginActivity : AppCompatActivity() {
         binding.tvFpassword.setOnClickListener {
             startActivity(Intent(this,ForgotPasswordActivity::class.java))
         }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.CAMERA),
+                100)
+        }
 
     }
     fun login(userName:String, password:String){
@@ -56,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
                         progressDialog.dismiss()
                         if (response.body()!!.success){
                             val data = response.body()!!.data as UserData
-                            editorSP.putInt("userId",data.id)
+                            editorSP.putInt("vendor_id",data.id)
                             editorSP.putString("userName",data.email)
                             editorSP.putString("password",binding.editTextPassword.text.toString())
                             editorSP.putString("mobile",data.mobile)
@@ -67,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
                             editorSP.putString("pincodeS",data.pincode.toString())
                             editorSP.putBoolean("isLogin", true)
                             editorSP.commit()
-                                progressDialog.dismiss()
+                            progressDialog.dismiss()
                             startActivity(Intent(this@LoginActivity, MainActivity::class.java)
 
                                     .putExtra("fragment","h"))
@@ -76,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                         else{
                             progressDialog.dismiss()
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+//                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
 
                             Toast.makeText(this@LoginActivity, response.body()!!.message, Toast.LENGTH_SHORT)
                                 .show()
@@ -106,4 +116,5 @@ class LoginActivity : AppCompatActivity() {
 
         return true
     }
+
 }

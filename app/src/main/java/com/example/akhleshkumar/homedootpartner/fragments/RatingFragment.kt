@@ -11,9 +11,7 @@ import android.view.ViewGroup
 import com.akhleshkumar.homedootpartner.R
 import com.example.akhleshkumar.homedootpartner.fragments.placeholder.PlaceholderContent
 
-/**
- * A fragment representing a list of Items.
- */
+
 class RatingFragment : Fragment() {
 
     private var columnCount = 1
@@ -46,11 +44,8 @@ class RatingFragment : Fragment() {
     }
 
     companion object {
-
-        // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
 
-        // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
             RatingFragment().apply {
