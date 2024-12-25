@@ -12,11 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.akhleshkumar.homedootpartner.databinding.ActivityLoginBinding
-//import com.akhleshkumar.homedootpartner.databinding.ActivityLoginBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
-//import com.example.akhleshkumar.homedootpartner.databinding.ActivityLoginBinding
 import com.example.akhleshkumar.homedootpartner.models.user.LoginUserResponse
-import com.example.akhleshkumar.homedootpartner.models.user.UserData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -67,24 +64,30 @@ class LoginActivity : AppCompatActivity() {
                     if (response.isSuccessful){
                         progressDialog.dismiss()
                         if (response.body()!!.success){
-                            val data = response.body()!!.data as UserData
-                            editorSP.putInt("vendor_id",data.id)
-                            editorSP.putString("userName",data.email)
-                            editorSP.putString("password",binding.editTextPassword.text.toString())
-                            editorSP.putString("mobile",data.mobile)
-                            editorSP.putString("name",data.name)
-                            editorSP.putString("cityS",data.city.toString())
-                            editorSP.putString("stateS",data.state.toString())
-                            editorSP.putString("addressS",data.address)
-                            editorSP.putString("pincodeS",data.pincode.toString())
-                            editorSP.putBoolean("isLogin", true)
-                            editorSP.commit()
-                            progressDialog.dismiss()
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java)
+                            val data = response.body()!!.data
+                            if (data != null) {
+                                editorSP.putInt("vendor_id", data.id)
+                                editorSP.putString("userName", data.email)
+                                editorSP.putString(
+                                    "password",
+                                    binding.editTextPassword.text.toString()
+                                )
+                                editorSP.putString("mobile", data.mobile)
+                                editorSP.putString("name", data.name)
+                                editorSP.putString("cityS", data.city.toString())
+                                editorSP.putString("stateS", data.state.toString())
+                                editorSP.putString("addressS", data.address)
+                                editorSP.putString("pincodeS", data.pincode.toString())
+                                editorSP.putBoolean("isLogin", true)
+                                editorSP.commit()
+                                progressDialog.dismiss()
+                                startActivity(
+                                    Intent(this@LoginActivity, MainActivity::class.java)
 
-                                    .putExtra("fragment","h"))
+                                        .putExtra("fragment", "h")
+                                )
                                 finish()
-
+                            }
                         }
                         else{
                             progressDialog.dismiss()
