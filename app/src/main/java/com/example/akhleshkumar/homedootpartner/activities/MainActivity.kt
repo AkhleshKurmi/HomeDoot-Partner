@@ -10,6 +10,10 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.ActivityMainBinding
+//import com.akhleshkumar.homedootpartner.R
+//import com.akhleshkumar.homedootpartner.databinding.ActivityMainBinding
+//import com.example.akhleshkumar.homedootpartner.R
+//import com.example.akhleshkumar.homedootpartner.databinding.ActivityMainBinding
 import com.example.akhleshkumar.homedootpartner.fragments.BankDetailsFragment
 import com.example.akhleshkumar.homedootpartner.fragments.BusinessDetailFragment
 import com.example.akhleshkumar.homedootpartner.fragments.HomeFragment
