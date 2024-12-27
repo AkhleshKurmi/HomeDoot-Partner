@@ -1,7 +1,9 @@
 package com.example.akhleshkumar.homedootpartner.fragments
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,9 +20,18 @@ import retrofit2.Response
 
 class HomeFragment : Fragment() {
     lateinit var binding : FragmentHomeBinding
+    lateinit var progressDialog: ProgressDialog
+    lateinit var sharedPreferences: SharedPreferences
+    lateinit var editorSP : SharedPreferences.Editor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        sharedPreferences = requireActivity().getSharedPreferences("HomeDoot", Activity.MODE_PRIVATE)
+        editorSP = sharedPreferences.edit()
+        progressDialog = ProgressDialog(requireContext()).apply {
+            setMessage("Loading...")
+            setCancelable(false)
+        }
     }
 
     override fun onCreateView(
@@ -34,7 +45,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        RetrofitClient.instance.getVendorDashboard("10").enqueue(object : Callback<VendorDashboardResponse>{
+        binding.forwordPending.setOnClickListener {
+
+        }
+        binding.forwordCancelled.setOnClickListener {
+
+        }
+
+
+        RetrofitClient.instance.getVendorDashboard(sharedPreferences.getInt("vendor_id",0).toString()).enqueue(object : Callback<VendorDashboardResponse>{
             override fun onResponse(
                 call: Call<VendorDashboardResponse>,
                 response: Response<VendorDashboardResponse>
@@ -42,7 +61,8 @@ class HomeFragment : Fragment() {
                 if (response.isSuccessful){
                     if (response.body()!!.success){
                         val data = response.body()!!.data
-                        data.dashboard
+                        binding.count.text = data.dashboard[0].statusCount.toString()
+                        binding.count1.text = data.dashboard[1].statusCount.toString()
                     }
                 }
             }

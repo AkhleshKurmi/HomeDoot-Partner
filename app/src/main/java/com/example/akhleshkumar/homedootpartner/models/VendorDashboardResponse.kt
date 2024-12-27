@@ -2,15 +2,22 @@ package com.example.akhleshkumar.homedootpartner.models
 
 import com.google.gson.annotations.SerializedName
 
-data class VendorDashboardResponse (
-    @SerializedName("success") val success: Boolean,
-    @SerializedName("message") val message: String,
-    @SerializedName("data") val data: Data
+data class VendorDashboardResponse ( @SerializedName("success") val success: Boolean,
+                                     @SerializedName("message") val message: String,
+                                     @SerializedName("data") val data: Data
 )
 
 data class Data(
-    @SerializedName("Dashboard") val dashboard: List<Any>, // Assuming it's an empty array
+    @SerializedName("Dashboard") val dashboard: List<Dashboard>,
     @SerializedName("VendorDetails") val vendorDetails: VendorDetails
+)
+
+data class Dashboard(
+    @SerializedName("status_count") val statusCount: Int,
+    @SerializedName("order_status") val orderStatus: String,
+    @SerializedName("customers") val customers: Any?,
+    @SerializedName("assigned_order") val assignedOrder: Any?,
+    @SerializedName("items") val items: List<Any>
 )
 
 data class VendorDetails(
@@ -20,7 +27,7 @@ data class VendorDetails(
     @SerializedName("name") val name: String,
     @SerializedName("email") val email: String,
     @SerializedName("email_verification") val emailVerification: String,
-    @SerializedName("email_verified_at") val emailVerifiedAt: String?,
+    @SerializedName("email_verified_at") val emailVerifiedAt: Any?,
     @SerializedName("mobile") val mobile: String,
     @SerializedName("encrypted_password") val encryptedPassword: String,
     @SerializedName("address") val address: String,
@@ -28,8 +35,8 @@ data class VendorDetails(
     @SerializedName("city") val city: Int,
     @SerializedName("state") val state: Int,
     @SerializedName("pincode") val pincode: String,
-    @SerializedName("current_team_id") val currentTeamId: String?,
-    @SerializedName("profile_photo_path") val profilePhotoPath: String,
+    @SerializedName("current_team_id") val currentTeamId: Any?,
+    @SerializedName("profile_photo_path") val profilePhotoPath: Any?,
     @SerializedName("category") val category: Int,
     @SerializedName("sub_category") val subCategory: String,
     @SerializedName("date_range") val dateRange: String,
@@ -54,7 +61,7 @@ data class VendorDetails(
 data class BankDetails(
     @SerializedName("id") val id: Int,
     @SerializedName("bank_token") val bankToken: String,
-    @SerializedName("user_id") val userId: String?,
+    @SerializedName("user_id") val userId: Any?,
     @SerializedName("vendor_id") val vendorId: Int,
     @SerializedName("account_number") val accountNumber: String,
     @SerializedName("bank_name") val bankName: String,
@@ -77,11 +84,11 @@ data class BusinessDetails(
     @SerializedName("contact_person") val contactPerson: String,
     @SerializedName("contact_mobile") val contactMobile: String,
     @SerializedName("business_address") val businessAddress: String,
-    @SerializedName("gst_details") val gstDetails: String?,
+    @SerializedName("gst_details") val gstDetails: String,
     @SerializedName("gst_file") val gstFile: String,
     @SerializedName("pan_details") val panDetails: String,
     @SerializedName("pan_file") val panFile: String,
-    @SerializedName("tan_details") val tanDetails: String?,
+    @SerializedName("tan_details") val tanDetails: Any?,
     @SerializedName("tan_file") val tanFile: String,
     @SerializedName("approval") val approval: String,
     @SerializedName("created_at") val createdAt: String,

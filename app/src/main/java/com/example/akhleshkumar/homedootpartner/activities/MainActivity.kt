@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.ActivityMainBinding
+import com.example.akhleshkumar.homedoot.api.RetrofitClient
 //import com.akhleshkumar.homedootpartner.R
 //import com.akhleshkumar.homedootpartner.databinding.ActivityMainBinding
 //import com.example.akhleshkumar.homedootpartner.R
@@ -19,6 +20,10 @@ import com.example.akhleshkumar.homedootpartner.fragments.BusinessDetailFragment
 import com.example.akhleshkumar.homedootpartner.fragments.HomeFragment
 import com.example.akhleshkumar.homedootpartner.fragments.MyProfileFragment
 import com.example.akhleshkumar.homedootpartner.fragments.RatingFragment
+import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -75,7 +80,7 @@ class MainActivity : AppCompatActivity() {
             setMessage("Loading...")
             setCancelable(false)
         }
-       // getVendorDashboard(sharedPreferences.getString("vendor_id","").toString())
+        getVendorDashboard(sharedPreferences.getInt("vendor_id",0).toString())
     }
 
     private fun loadFragment(fragment: Fragment) {
@@ -84,24 +89,30 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-//    private fun getVendorDashboard(userId:String) {
-//        RetrofitClient.instance.getVendorDashboard(userId).enqueue(object : Callback<VendorDashboardResponse> {
-//            override fun onResponse(
-//                call: Call<VendorDashboardResponse>,
-//                response: Response<VendorDashboardResponse>
-//            ) {
-//                if (response.isSuccessful){
-//
-//                    Toast.makeText(this@MainActivity, response.body()?.message, Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<VendorDashboardResponse>, t: Throwable) {
-//                Toast.makeText(this@MainActivity, "something went wrong", Toast.LENGTH_SHORT).show()
-//            }
-//
-//        })
-//    }
+    private fun getVendorDashboard(userId:String) {
+        RetrofitClient.instance.getVendorDashboard(userId).enqueue(object :
+            Callback<VendorDashboardResponse> {
+            override fun onResponse(
+                call: Call<VendorDashboardResponse>,
+                response: Response<VendorDashboardResponse>
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body()!!.success) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            response.body()?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<VendorDashboardResponse>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "something went wrong", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }

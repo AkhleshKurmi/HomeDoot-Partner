@@ -17,6 +17,7 @@ import androidx.core.content.PermissionChecker.checkPermission
 import androidx.fragment.app.Fragment
 import com.akhleshkumar.homedootpartner.databinding.FragmentBussinessDetailBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
+import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -40,9 +41,19 @@ class BusinessDetailFragment : Fragment() {
     private var hidAddressUri: Uri? = null
     private var hidTanUri: Uri? = null
     private var hidAadharUri: Uri? = null
+    lateinit var progressDialog: android.app.ProgressDialog
+    lateinit var sharedPreferences: android.content.SharedPreferences
+    lateinit var editorSP : android.content.SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPreferences = requireActivity().getSharedPreferences("HomeDoot", android.content.Context.MODE_PRIVATE)
+        editorSP = sharedPreferences.edit()
+        progressDialog = android.app.ProgressDialog(requireContext()).apply {
+            setMessage("Loading...")
+            setCancelable(false)
+        }
+
 
     }
 
@@ -57,6 +68,37 @@ class BusinessDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressDialog.show()
+        RetrofitClient.instance.getVendorDashboard(sharedPreferences.getInt("vendor_id",0).toString()).enqueue(object : Callback<VendorDashboardResponse>{
+            override fun onResponse(
+                call: Call<VendorDashboardResponse>,
+                response: Response<VendorDashboardResponse>
+            ) {
+                if (response.isSuccessful){
+                    progressDialog.dismiss()
+                    if (response.body()!!.success){
+                        val data = response.body()!!.data
+                       binding.etGstDetail.setText(data.vendorDetails.businessDetails.gstDetails)
+                        binding.etBusinessName.setText(data.vendorDetails.businessDetails.businessName)
+                        binding.etBusinessAddress.setText(data.vendorDetails.businessDetails.businessAddress)
+                        binding.etMobileNo.setText(data.vendorDetails.businessDetails.contactPerson)
+                        binding.etConPerName.setText(data.vendorDetails.businessDetails.contactMobile)
+                        binding.etPANDetail.setText(data.vendorDetails.businessDetails.panDetails)
+                        binding.etAAdharDetail.setText(data.vendorDetails.businessDetails.aadharDetails)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<VendorDashboardResponse>, t: Throwable) {
+                progressDialog.dismiss()
+                Toast.makeText(requireContext(), t.message, Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
+
+
+
         cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
             if (bitmap != null) {
                 imageUri = saveBitmapToFile(bitmap)
@@ -149,13 +191,14 @@ class BusinessDetailFragment : Fragment() {
     }
 
     fun updateBusiness(){
-        val businessName = "tset".toRequestBody("text/plain".toMediaTypeOrNull())
-        val contactPerson = "pqpqpq".toRequestBody("text/plain".toMediaTypeOrNull())
-        val contactMobile = "1234567898".toRequestBody("text/plain".toMediaTypeOrNull())
-        val businessAddress = "Lorem ipsim".toRequestBody("text/plain".toMediaTypeOrNull())
-        val panDetails = "121121212".toRequestBody("text/plain".toMediaTypeOrNull())
-        val aadharDetails = "12121212".toRequestBody("text/plain".toMediaTypeOrNull())
-        val vendorId = "10".toRequestBody("text/plain".toMediaTypeOrNull())
+        progressDialog.show()
+        val businessName = binding.etBusinessName.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val contactPerson = binding.etConPerName.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val contactMobile = binding.etMobileNo.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val businessAddress =  binding.etBusinessAddress.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val panDetails = binding.etPANDetail.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val aadharDetails = binding.etAAdharDetail.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val vendorId = sharedPreferences.getInt("vendor_id",0).toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
         val panPart = uriToMultipart(hidPanUri, "hid_pan_file")
         val addressProofPart = uriToMultipart(hidAddressUri, "hid_address_proof")
@@ -180,13 +223,16 @@ class BusinessDetailFragment : Fragment() {
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
+                    progressDialog.dismiss()
                     Log.d("Success", "Upload successful")
                 } else {
+                    progressDialog.dismiss()
                     Log.e("Error", "Error: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
+                progressDialog.dismiss()
                 Log.e("Failure", "Request failed: ${t.message}")
             }
         })
