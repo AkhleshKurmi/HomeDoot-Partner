@@ -1,10 +1,13 @@
 package com.example.akhleshkumar.homedootpartner.fragments
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -33,17 +36,15 @@ import java.io.File
 class BusinessDetailFragment : Fragment() {
 
     lateinit var binding: FragmentBussinessDetailBinding
-    private lateinit var cameraLauncher: ActivityResultLauncher<Void?>
-    private lateinit var galleryLauncher: ActivityResultLauncher<String>
-    private var imageUri: Uri? = null
-    private var selectedImageFile: File? = null
-    private var hidPanUri: Uri? = null
-    private var hidAddressUri: Uri? = null
-    private var hidTanUri: Uri? = null
-    private var hidAadharUri: Uri? = null
     lateinit var progressDialog: android.app.ProgressDialog
     lateinit var sharedPreferences: android.content.SharedPreferences
     lateinit var editorSP : android.content.SharedPreferences.Editor
+    private val REQUEST_CODE_PICK_IMAGE = 100
+    var adharImage: String? = null
+    var panImage: String? = null
+    var tanImage: String? = null
+    var addressImage: String? = null
+    var imageType = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,100 +96,69 @@ class BusinessDetailFragment : Fragment() {
             }
 
         })
-
-
-
-
-        cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
-            if (bitmap != null) {
-                imageUri = saveBitmapToFile(bitmap)
-            }
+        binding.btnUploadAdharFile.setOnClickListener {
+            imageType = 1
+            openGallery()
         }
-
-        // Gallery launcher
-        galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            if (uri != null) {
-                imageUri = uri
-                selectedImageFile = uriToFile(uri)
-            }
+        binding.btnUplaodPAN.setOnClickListener {
+            imageType = 2
+            openGallery()
         }
-
-//        binding.btnUplaodPAN.setOnClickListener {
-//            showImageSourceDialog()
-//        }
-//        binding.btnUplaodPAN.setOnClickListener { selectFile("hid_pan_file") }
-//        binding.btnAddressFile.setOnClickListener { selectFile("hid_address_proof") }
-//        binding.etGstDetail.setOnClickListener { selectFile("hid_tan_file") }
-//        binding.btnUploadAdharFile.setOnClickListener { selectFile("hid_aadhar_proof") }
+        binding.btnGstFile.setOnClickListener {
+            imageType = 3
+            openGallery()
+        }
+        binding.btnAddressFile.setOnClickListener {
+            imageType = 4
+            openGallery()
+        }
 
 
         binding.btnUpdeateBusinessDeltail.setOnClickListener {
-            if (true){
+            if (checkValidation()){
                 updateBusiness()
             }
         }
 
 
     }
-
-    private fun selectFile(paramName: String) {
-        val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            when (paramName) {
-                "hid_pan_file" -> hidPanUri = uri
-                "hid_address_proof" -> hidAddressUri = uri
-                "hid_tan_file" -> hidTanUri = uri
-                "hid_aadhar_proof" -> hidAadharUri = uri
-            }
-            Toast.makeText(requireContext(), "$paramName selected", Toast.LENGTH_SHORT).show()
+    private fun checkValidation(): Boolean {
+        if (binding.etBusinessName.text.toString().isEmpty()) {
+            binding.etBusinessName.error = "Enter Business Name"
+            return false
         }
-        galleryLauncher.launch("image/*")
-    }
-    private fun createImageFilePart(paramName: String, filePath: String): MultipartBody.Part {
-        val file = File(filePath)
-        val requestFile = RequestBody.create("image/png".toMediaTypeOrNull(), file)
-        return MultipartBody.Part.createFormData(paramName, file.name, requestFile)
-    }
-    private fun showImageSourceDialog() {
-        val options = arrayOf("Camera", "Gallery")
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Choose Image Source")
-        builder.setItems(options) { _, which ->
-            when (which) {
-                0 -> {
-                    if (checkPermission(Manifest.permission.CAMERA)) {
-                        cameraLauncher.launch(null)
-                    }
-                }
-                1 -> {
-                    galleryLauncher.launch("image/*")
-                }
-            }
+
+        if (binding.etBusinessAddress.text.toString().isEmpty()) {
+            binding.etBusinessAddress.error = "Enter Business Address"
+            return false
         }
-        builder.show()
-    }
+        if (binding.etMobileNo.text.toString().isEmpty()) {
+            binding.etMobileNo.error = "Enter mobile number"
+            return false
+        }
+        if (binding.etGstDetail.text.toString().isEmpty()) {
+            binding.etGstDetail.error = "Enter GST Number"
+            return false
+        }
+        if (binding.etPANDetail.text.toString().isEmpty()) {
+            binding.etPANDetail.error = "Enter PAN Number"
+            return false
+        }
+        if (binding.etAAdharDetail.text.toString().isEmpty()) {
+            binding.etAAdharDetail.error = "Enter Aadhar Number"
+            return false
+        }
 
-    private fun saveBitmapToFile(bitmap: Bitmap): Uri? {
-        // Implement logic to save the Bitmap to a file and return its Uri
-        return null // Replace with your logic
-    }
-
-    private fun uriToFile(uri: Uri): File? {
-        // Convert Uri to File object
-        return null // Replace with your logic
-    }
-    fun checkValidation () : Boolean{
+        if (binding.etConPerName.text.toString().isEmpty()) {
+            binding.etConPerName.error = "Enter Business Description"
+            return false
+        }
 
         return true
     }
-    private fun uriToMultipart(fileUri: Uri?, paramName: String): MultipartBody.Part? {
-        return if (fileUri != null) {
-            val file = uriToFile(fileUri) ?: return null
-            val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-            MultipartBody.Part.createFormData(paramName, file.name, requestBody)
-        } else {
-            null
-        }
-    }
+
+
+
 
     fun updateBusiness(){
         progressDialog.show()
@@ -200,10 +170,21 @@ class BusinessDetailFragment : Fragment() {
         val aadharDetails = binding.etAAdharDetail.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val vendorId = sharedPreferences.getInt("vendor_id",0).toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
-        val panPart = uriToMultipart(hidPanUri, "hid_pan_file")
-        val addressProofPart = uriToMultipart(hidAddressUri, "hid_address_proof")
-        val tanPart = uriToMultipart(hidTanUri, "hid_tan_file")
-        val aadharPart = uriToMultipart(hidAadharUri, "hid_aadhar_proof")
+        val filePan = File(panImage) // Replace with the actual file path
+        val requestBodyPan = filePan.asRequestBody("image/png".toMediaTypeOrNull())
+        val filePartPan = MultipartBody.Part.createFormData("hid_cheque_file", filePan.name, requestBodyPan) ?: null
+
+        val fileAdhar = File(adharImage) // Replace with the actual file path
+        val requestBodyAdhar = fileAdhar.asRequestBody("image/png".toMediaTypeOrNull())
+        val filePartAdhar = MultipartBody.Part.createFormData("hid_cheque_file", fileAdhar.name, requestBodyAdhar) ?: null
+
+        val fileAddress = File(addressImage) // Replace with the actual file path
+        val requestBodyAddress = fileAddress.asRequestBody("image/png".toMediaTypeOrNull())
+        val filePartAddress = MultipartBody.Part.createFormData("hid_cheque_file", fileAddress.name, requestBodyAddress) ?: null
+
+        val fileTan = File(tanImage) // Replace with the actual file path = File(bankImage) // Replace with the actual file path
+        val requestBodyTan = fileTan.asRequestBody("image/png".toMediaTypeOrNull())
+        val filePartTan = MultipartBody.Part.createFormData("hid_cheque_file", fileTan.name, requestBodyTan) ?: null
 
         // Call API
         val call = RetrofitClient.instance.uploadVendorDetails(
@@ -214,10 +195,10 @@ class BusinessDetailFragment : Fragment() {
             panDetails,
             aadharDetails,
             vendorId,
-            null,
-            null,
-            null,
-            null
+            filePartPan?:null,
+            filePartAddress?:null,
+            filePartTan?:null,
+            filePartAdhar?:null
         )
 
         call.enqueue(object : Callback<Void> {
@@ -240,6 +221,64 @@ class BusinessDetailFragment : Fragment() {
     private fun checkPermission(permission: String): Boolean {
         return ContextCompat.checkSelfPermission(requireContext(), permission) ==
                 android.content.pm.PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+            val imageUri: Uri? = data?.data
+            imageUri?.let {
+                when(imageType){
+                    1-> {
+                        val filePath = getRealPathFromUri(it)
+                        if (filePath != null) {
+                            adharImage = filePath
+                        } else {
+                            Log.d("error","error")
+                        }
+                    }
+                    2-> {
+                        val filePath = getRealPathFromUri(it)
+                        if (filePath != null) {
+                            panImage = filePath
+                        } else {
+                            Log.d("error","error")
+                        }
+                    }
+                    3-> {
+                        val filePath = getRealPathFromUri(it)
+                        if (filePath != null) {
+                            tanImage = filePath
+                        } else {
+                            Log.d("error","error")
+                        }
+                    }
+                    4-> {
+                        val filePath = getRealPathFromUri(it)
+                        if (filePath != null) {
+                            addressImage = filePath
+                        } else {
+                            Log.d("error","error")
+                        }
+
+                    }
+                    else -> Log.d("error","error")
+                }
+            }
+        }
+    }
+    private fun getRealPathFromUri(uri: Uri): String? {
+        val cursor = requireContext().contentResolver.query(uri, null, null, null, null)
+        cursor?.moveToFirst()
+        val idx = cursor?.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+        val filePath = cursor?.getString(idx ?: 0)
+        cursor?.close()
+        return filePath
     }
 
 }

@@ -1,8 +1,11 @@
 package com.example.akhleshkumar.homedootpartner.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.akhleshkumar.homedootpartner.databinding.FragmentSaveBankDetailBinding
@@ -17,21 +20,28 @@ import retrofit2.Response
 import java.io.File
 
 class SaveBankDetailsActivity : AppCompatActivity() {
+
     lateinit var binding: FragmentSaveBankDetailBinding
     lateinit var sharedpref: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
-    lateinit var vendorId: String
+
+    lateinit var bankImage: String
+    private val REQUEST_CODE_PICK_IMAGE = 100
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentSaveBankDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sharedpref = getSharedPreferences("HomeDoot", MODE_PRIVATE)
         editor = sharedpref.edit()
-        vendorId = sharedpref.getString("vendor_id", "").toString()
+
+        binding.chooseFileCheque.setOnClickListener {
+            openGallery()
+        }
+
         binding.btnSaveBNDetail.setOnClickListener {
             if (checkValidation()){
             uploadBankDetails()
-                }
+            }
         }
     }
     private fun checkValidation(): Boolean {
@@ -58,15 +68,15 @@ class SaveBankDetailsActivity : AppCompatActivity() {
 
     private fun uploadBankDetails() {
         // Prepare RequestBody and File
-        val vendorId = this.vendorId.toRequestBody("text/plain".toMediaTypeOrNull())
+        val vendorId = sharedpref.getInt("vendor_id",0).toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val accountNumber = binding.etAccountNo.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val bankName = binding.etBankName.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val branchName = binding.etBranchName.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val ifscCode = binding.etIFSC.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
-        val file = File("/path/to/your/file/12344353363.png") // Replace with the actual file path
+        val file = File(bankImage) // Replace with the actual file path
         val requestBody = file.asRequestBody("image/png".toMediaTypeOrNull())
-        val filePart = MultipartBody.Part.createFormData("hid_cheque_file", file.name, requestBody)
+        val filePart = MultipartBody.Part.createFormData("hid_cheque_file", file.name, requestBody) ?: null
 
         // Make the API call
         val call = RetrofitClient.instance.uploadBankDetails(
@@ -75,7 +85,7 @@ class SaveBankDetailsActivity : AppCompatActivity() {
             bankName,
             branchName,
             ifscCode,
-            null
+            filePart?:null
         )
 
         call.enqueue(object : Callback<Any> {
@@ -95,4 +105,29 @@ class SaveBankDetailsActivity : AppCompatActivity() {
         })
     }
 
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+            val imageUri: Uri? = data?.data
+            imageUri?.let {
+                val filePath = getRealPathFromUri(it)
+                if (filePath != null) {
+                    bankImage = filePath
+                }
+            }
+        }
+    }
+    private fun getRealPathFromUri(uri: Uri): String? {
+        val cursor = contentResolver.query(uri, null, null, null, null)
+        cursor?.moveToFirst()
+        val idx = cursor?.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+        val filePath = cursor?.getString(idx ?: 0)
+        cursor?.close()
+        return filePath
+    }
 }

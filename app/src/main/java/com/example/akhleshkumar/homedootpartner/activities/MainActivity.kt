@@ -61,6 +61,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_bank_detail -> loadFragment(BankDetailsFragment())
                 R.id.menu_rating -> loadFragment(RatingFragment())
                 R.id.menu_commission -> showToast("Commission Clicked")
+                R.id.log_out -> {
+                    sharedPreferences.all.clear()
+                    editorSP.clear()
+                    editorSP.apply()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
                 else -> showToast("Unknown Item Clicked")
             }
             true

@@ -28,5 +28,8 @@
     <item
         android:id="@+id/menu_commission"
         android:title="Commission" />
+    <item android:id="@+id/log_out"
+        android:title="Log Out" />
+
 
 </menu>

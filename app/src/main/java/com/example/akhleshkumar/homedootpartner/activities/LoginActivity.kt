@@ -1,6 +1,7 @@
 package com.example.akhleshkumar.homedootpartner.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
@@ -23,12 +24,14 @@ class LoginActivity : AppCompatActivity() {
     lateinit var progressDialog: ProgressDialog
     lateinit var sharedPreferences: SharedPreferences
     lateinit var editorSP : SharedPreferences.Editor
+    private val STORAGE_PERMISSION_CODE = 101
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sharedPreferences = getSharedPreferences("HomeDoot", MODE_PRIVATE)
         editorSP = sharedPreferences.edit()
+        checkAndRequestPermissions()
         progressDialog = ProgressDialog(this).apply {
             setMessage("Loading...")
             setCancelable(false)
@@ -120,6 +123,38 @@ class LoginActivity : AppCompatActivity() {
         }
 
         return true
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed with file access
+
+            } else {
+                // Permission denied, show a message to the user
+               checkAndRequestPermissions()
+            }
+        }
+    }
+
+    @SuppressLint("InlinedApi")
+    private fun checkAndRequestPermissions() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_MEDIA_IMAGES
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.READ_MEDIA_IMAGES),
+                STORAGE_PERMISSION_CODE
+            )
+        }
     }
 
 }
