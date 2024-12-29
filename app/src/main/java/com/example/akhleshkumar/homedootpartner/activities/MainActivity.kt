@@ -1,6 +1,7 @@
 package com.example.akhleshkumar.homedootpartner.activities
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             // Show Toast based on clicked item
             when (menuItem.itemId) {
                 R.id.menu_calendar -> showToast("Calendar Clicked")
-                R.id.menu_job_history -> showToast("Job History Clicked")
+                R.id.menu_job_history -> startActivity(Intent(this,OrdersActivity::class.java).putExtra("from","completed"))
                 R.id.menu_profile -> loadFragment(MyProfileFragment())
                 R.id.menu_business_detail -> loadFragment(BusinessDetailFragment())
                 R.id.menu_bank_detail -> loadFragment(BankDetailsFragment())

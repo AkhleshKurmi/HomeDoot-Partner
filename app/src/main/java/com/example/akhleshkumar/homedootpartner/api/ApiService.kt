@@ -8,6 +8,7 @@ import com.example.akhleshkumar.homedoot.models.user.RegistrationResponse
 import com.example.akhleshkumar.homedoot.models.user.SendOtpRequest
 import com.example.akhleshkumar.homedootpartner.models.ApiResponseCategory
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
+import com.example.akhleshkumar.homedootpartner.models.VendorOrderRes
 import com.example.akhleshkumar.homedootpartner.models.user.ForgotPasswordResponse
 import com.example.akhleshkumar.homedootpartner.models.user.LoginUserResponse
 import com.example.akhleshkumar.homedootpartner.models.user.UpdatePasswordResponse
@@ -128,5 +129,8 @@ interface ApiService {
         @Part("ifsc_code") ifscCode: RequestBody,
         @Part hid_cheque_file: MultipartBody.Part?
     ): Call<Any>
+
+    @POST("vendor-orders")
+    fun vendorOrders(@Query("vendor_id") vendorId:String, @Query("status") status:String) : Call<VendorOrderRes>
 
 }

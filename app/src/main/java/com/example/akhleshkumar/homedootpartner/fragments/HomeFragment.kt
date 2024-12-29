@@ -1,5 +1,6 @@
 package com.example.akhleshkumar.homedootpartner.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
@@ -13,7 +14,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.akhleshkumar.homedootpartner.databinding.FragmentHomeBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
-import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
+import com.example.akhleshkumar.homedootpartner.activities.OrdersActivity
+import com.example.akhleshkumar.homedootpartner.models.VendorOrderRes
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,28 +48,52 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.forwordPending.setOnClickListener {
-
+            val intent = Intent(requireContext(), OrdersActivity::class.java)
+            intent.putExtra("from","pending")
+            startActivity(intent)
         }
         binding.forwordCancelled.setOnClickListener {
-
+            val intent = Intent(requireContext(), OrdersActivity::class.java)
+            intent.putExtra("from","cancelled")
+            startActivity(intent)
         }
 
 
-        RetrofitClient.instance.getVendorDashboard(sharedPreferences.getInt("vendor_id",0).toString()).enqueue(object : Callback<VendorDashboardResponse>{
+        RetrofitClient.instance.vendorOrders(sharedPreferences.getInt("vendor_id",0).toString(), "pending").enqueue(object : Callback<VendorOrderRes>{
+            @SuppressLint("SetTextI18n")
             override fun onResponse(
-                call: Call<VendorDashboardResponse>,
-                response: Response<VendorDashboardResponse>
+                call: Call<VendorOrderRes>,
+                response: Response<VendorOrderRes>
             ) {
                 if (response.isSuccessful){
                     if (response.body()!!.success){
                         val data = response.body()!!.data
-                        binding.count.text = data.dashboard[0].statusCount.toString()
-                        binding.count1.text = data.dashboard[1].statusCount.toString()
+                        binding.count.text = data.data.size.toString()
                     }
                 }
             }
 
-            override fun onFailure(call: Call<VendorDashboardResponse>, t: Throwable) {
+            override fun onFailure(call: Call<VendorOrderRes>, t: Throwable) {
+                Toast.makeText(requireContext(), t.message, Toast.LENGTH_SHORT).show()
+            }
+
+        })
+        RetrofitClient.instance.vendorOrders(sharedPreferences.getInt("vendor_id",0).toString(), "cancelled").enqueue(object : Callback<VendorOrderRes>{
+            @SuppressLint("SetTextI18n")
+            override fun onResponse(
+                call: Call<VendorOrderRes>,
+                response: Response<VendorOrderRes>
+            ) {
+                if (response.isSuccessful){
+                    if (response.body()!!.success){
+                        val data = response.body()!!.data
+                        binding.count1.text = data.data.size.toString()
+
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<VendorOrderRes>, t: Throwable) {
                 Toast.makeText(requireContext(), t.message, Toast.LENGTH_SHORT).show()
             }
 
