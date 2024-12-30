@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="Approved"
                 android:id="@+id/approvedUpdate"
-                android:background="@android:color/holo_green_light"
+                android:background="#07620B"
                 android:padding="4dp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
@@ -39,11 +39,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="16sp"
                 android:text="Account Number *"
-                android:textStyle="bold"/>
+                android:textColor="@color/black"/>
             <EditText
                 android:layout_width="match_parent"
                 android:id="@+id/etAccountNoUpdate"
+                android:textSize="12sp"
                 android:layout_height="wrap_content"
                 android:hint="Enter Account Number"
                 android:inputType="number"/>
@@ -95,6 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Choose File"
+                android:backgroundTint="#887E7E"
                 android:id="@+id/chooseFileChequeUpdate"
                 android:layout_marginTop="4dp"/>
 
@@ -103,8 +106,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Update Bank Details"
+                android:background="@drawable/btn_back"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="50dp"
                 android:id="@+id/btnSaveBNDetailUpdate"
-                android:backgroundTint="@android:color/holo_blue_dark"
                 android:textColor="@android:color/white"
                 android:layout_marginTop="16dp"/>
 

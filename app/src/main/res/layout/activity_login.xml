@@ -52,8 +52,10 @@
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="0dp"
+        android:layout_marginLeft="50dp"
         android:layout_height="wrap_content"
         android:text="Login"
+        android:layout_marginRight="50dp"
         android:textColor="#FFFFFF"
         android:padding="12dp"
         android:background="@drawable/btn_back"
@@ -77,12 +79,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvFpassword"
             android:layout_gravity="center"
+            android:textColor="#E14919"
 
             android:text="Forget Password        "/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvRegister"
+        android:textColor="@color/black"
         android:layout_gravity="center"
 
 
