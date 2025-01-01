@@ -9,6 +9,7 @@ import com.example.akhleshkumar.homedoot.models.user.SendOtpRequest
 import com.example.akhleshkumar.homedootpartner.models.ApiResponseCategory
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorOrderRes
+import com.example.akhleshkumar.homedootpartner.models.WalletHistoryResponse
 import com.example.akhleshkumar.homedootpartner.models.user.ForgotPasswordResponse
 import com.example.akhleshkumar.homedootpartner.models.user.LoginUserResponse
 import com.example.akhleshkumar.homedootpartner.models.user.UpdatePasswordResponse
@@ -133,4 +134,6 @@ interface ApiService {
     @POST("vendor-orders")
     fun vendorOrders(@Query("vendor_id") vendorId:String, @Query("status") status:String) : Call<VendorOrderRes>
 
+    @POST("vendor-wallet-transaction")
+    fun walletTransaction(@Query("vendor_id") vendorId:String, @Query("type") type:String) : Call<WalletHistoryResponse>
 }

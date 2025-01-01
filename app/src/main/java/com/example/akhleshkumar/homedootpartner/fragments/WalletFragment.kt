@@ -13,8 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.DialogAddMoneyBinding
 import com.akhleshkumar.homedootpartner.databinding.FragmentWalletBinding
+import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.adaters.TransactionAdapter
 import com.example.akhleshkumar.homedootpartner.models.Transaction
+import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
+import com.example.akhleshkumar.homedootpartner.models.WalletHistoryResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -30,7 +36,8 @@ class WalletFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        sharedpref = requireActivity().getSharedPreferences("HomeDoot", AppCompatActivity.MODE_PRIVATE)
+        editor = sharedpref.edit()
     }
 
     override fun onCreateView(
@@ -38,8 +45,7 @@ class WalletFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWalletBinding.inflate(layoutInflater)
-        sharedpref = requireActivity().getSharedPreferences("HomeDoot", AppCompatActivity.MODE_PRIVATE)
-        editor = sharedpref.edit()
+
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -50,6 +56,7 @@ class WalletFragment : Fragment() {
         // Set up RecyclerView
 
         binding.rvTransactions.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvDebitTransactions.layoutManager = LinearLayoutManager(requireContext())
 
 
         // Add Money Button Click
@@ -57,9 +64,83 @@ class WalletFragment : Fragment() {
             showAddMoneyDialog()
         }
 
+        setWalletBalance()
+        fetchDebitTransaction()
+        fetchTransactions()
         // Initialize Wallet Balance
-        updateWalletBalance()
+
     }
+fun setWalletBalance() {
+    RetrofitClient.instance.getVendorDashboard(sharedpref.getInt("vendor_id",0).toString())
+        .enqueue(object : Callback<VendorDashboardResponse> {
+            override fun onResponse(
+                call: Call<VendorDashboardResponse>,
+                response: Response<VendorDashboardResponse>
+            ) {
+                if (response.isSuccessful){
+                    val data = response.body()?.data
+                    if (data != null) {
+                        walletBalance = data.vendorDetails.wallet.toDouble()
+                        updateWalletBalance()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<VendorDashboardResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+}
+
+    fun fetchTransactions() {
+        RetrofitClient.instance.walletTransaction(sharedpref.getInt("vendor_id",0).toString(),"credit").enqueue(object : Callback<WalletHistoryResponse> {
+            override fun onResponse(
+                call: Call<WalletHistoryResponse>,
+                response: Response<WalletHistoryResponse>
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body()!!.success) {
+                        if (response.body()!!.data.walletHistory !=null) {
+                            binding.rvTransactions.adapter =
+                                TransactionAdapter(response.body()!!.data.walletHistory, "Credit")
+
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<WalletHistoryResponse>, t: Throwable) {
+
+            }
+
+        })
+    }
+
+    fun fetchDebitTransaction(){
+        RetrofitClient.instance.walletTransaction(sharedpref.getInt("vendor_id",0).toString(),"debit").enqueue(object : Callback<WalletHistoryResponse> {
+            override fun onResponse(
+                call: Call<WalletHistoryResponse>,
+                response: Response<WalletHistoryResponse>
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body()!!.success) {
+                        if (response.body()!!.data.walletHistory != null) {
+                            binding.rvDebitTransactions.adapter =
+                                TransactionAdapter(response.body()!!.data.walletHistory, "Debit")
+
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<WalletHistoryResponse>, t: Throwable) {
+
+            }
+
+        })
+    }
+
 
     private fun showAddMoneyDialog() {
         val dialogBinding = DialogAddMoneyBinding.inflate(LayoutInflater.from(requireContext()))
@@ -70,7 +151,7 @@ class WalletFragment : Fragment() {
             .setPositiveButton("Add") { _, _ ->
                 val amount = dialogBinding.etAmount.text.toString().toDoubleOrNull()
                 if (amount != null && amount > 0) {
-                    addMoneyToWallet(amount)
+
                 } else {
                     Toast.makeText(requireContext(), "Invalid Amount", Toast.LENGTH_SHORT).show()
                 }
@@ -79,10 +160,8 @@ class WalletFragment : Fragment() {
             .show()
     }
 
-    private fun addMoneyToWallet(amount: Double) {
 
-        adapter.notifyItemInserted(transactions.size - 1)
-    }
+
 
     private fun updateWalletBalance() {
         binding.tvWalletBalance.text = "₹ $walletBalance"

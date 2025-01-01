@@ -57,13 +57,30 @@
         android:textStyle="bold"
         android:layout_marginBottom="8dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        >
     <!-- Transactions List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_transactions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:scrollbars="vertical"
         android:background="@android:color/white" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:id="@+id/rvDebitTransactions"
+            android:scrollbars="vertical"
+            android:background="@android:color/white" />
+
+    </LinearLayout>
 </LinearLayout>
