@@ -7,8 +7,11 @@ import com.example.akhleshkumar.homedoot.models.user.RegistrationRequest
 import com.example.akhleshkumar.homedoot.models.user.RegistrationResponse
 import com.example.akhleshkumar.homedoot.models.user.SendOtpRequest
 import com.example.akhleshkumar.homedootpartner.models.ApiResponseCategory
+import com.example.akhleshkumar.homedootpartner.models.ReviewResponse
+import com.example.akhleshkumar.homedootpartner.models.VendorCommissionResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorOrderRes
+import com.example.akhleshkumar.homedootpartner.models.WalletHistoryResponse
 import com.example.akhleshkumar.homedootpartner.models.user.ForgotPasswordResponse
 import com.example.akhleshkumar.homedootpartner.models.user.LoginUserResponse
 import com.example.akhleshkumar.homedootpartner.models.user.UpdatePasswordResponse
@@ -133,4 +136,21 @@ interface ApiService {
     @POST("vendor-orders")
     fun vendorOrders(@Query("vendor_id") vendorId:String, @Query("status") status:String) : Call<VendorOrderRes>
 
+    @POST("vendor-wallet-transaction")
+    fun walletTransaction(@Query("vendor_id") vendorId:String, @Query("type") type:String) : Call<WalletHistoryResponse>
+
+    @POST("vendor-rating")
+    fun vendorReview(@Query("vendor_id") vendorId:String) : Call<ReviewResponse>
+
+    @POST("api/vendor-commision")
+    fun getVendorCommission(
+        @Query("vendor_id") vendorId: Int,
+        @Query("from_date") fromDate: String,
+        @Query("to_date") toDate: String,
+        @Query("request_type") requestType: String
+    ): Call<VendorCommissionResponse>
+
+
+
 }
+
