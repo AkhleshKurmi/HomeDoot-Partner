@@ -12,13 +12,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.akhleshkumar.homedootpartner.databinding.FragmentHomeBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.activities.OrdersActivity
+import com.example.akhleshkumar.homedootpartner.adaters.DateAdapter
+import com.example.akhleshkumar.homedootpartner.adaters.TodayOrdersAdapter
+import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorOrderRes
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class HomeFragment : Fragment() {
     lateinit var binding : FragmentHomeBinding
@@ -34,7 +40,7 @@ class HomeFragment : Fragment() {
             setMessage("Loading...")
             setCancelable(false)
         }
-    }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +54,28 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.rvTodayJob.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvDates.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+
+        RetrofitClient.instance.getVendorDashboard(sharedPreferences.getInt("vendor_id",0).toString()).enqueue(object : Callback<VendorDashboardResponse>{
+            override fun onResponse(
+                call: Call<VendorDashboardResponse>,
+                response: Response<VendorDashboardResponse>
+            ) {
+                if (response.isSuccessful){
+                    if (response.body()!!.success){
+                       val data = response.body()!!.data
+                        binding.rvDates.adapter = DateAdapter(generateFormattedDateList(data.vendorDetails.nonAvailabilityFrom,data.vendorDetails.nonAvailabilityTo))
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<VendorDashboardResponse>, t: Throwable) {
+
+            }
+
+        })
+
 
         RetrofitClient.instance.vendorOrders(sharedPreferences.getInt("vendor_id",0).toString(), "pending").enqueue(object : Callback<VendorOrderRes>{
             @SuppressLint("SetTextI18n")
@@ -58,7 +86,7 @@ class HomeFragment : Fragment() {
                 if (response.isSuccessful){
                     if (response.body()!!.success){
                         val data = response.body()!!.data
-                      //  binding.count.text = data.data.size.toString()
+                        binding.noJobsText.text = data.data.size.toString()+" jobs pending"
                     }
                 }
             }
@@ -77,7 +105,8 @@ class HomeFragment : Fragment() {
                 if (response.isSuccessful){
                     if (response.body()!!.success){
                         val data = response.body()!!.data
-                      //  binding.count1.text = data.data.size.toString()
+                     binding.jobsTodayTitle.text  =  data.data.size.toString() + " jobs"
+                        binding.rvTodayJob.adapter = TodayOrdersAdapter(data.data)
 
                     }
                 }
@@ -95,5 +124,22 @@ class HomeFragment : Fragment() {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             // Do something with the image bitmap
         }
+    }
+    fun generateFormattedDateList(startDate: String, endDate: String): List<String> {
+        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val outputFormatter = DateTimeFormatter.ofPattern("EEE, MMM dd") // Desired format
+
+        val start = LocalDate.parse(startDate, inputFormatter)
+        val end = LocalDate.parse(endDate, inputFormatter)
+
+        val dateList = mutableListOf<String>()
+        var current = start
+
+        while (!current.isAfter(end)) {
+            dateList.add(current.format(outputFormatter))
+            current = current.plusDays(1)
+        }
+
+        return dateList
     }
 }

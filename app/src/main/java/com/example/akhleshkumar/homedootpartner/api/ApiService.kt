@@ -137,7 +137,7 @@ interface ApiService {
     fun vendorOrders(@Query("vendor_id") vendorId:String, @Query("status") status:String) : Call<VendorOrderRes>
 
     @POST("vendor-wallet-transaction")
-    fun walletTransaction(@Query("vendor_id") vendorId:String, @Query("type") type:String) : Call<WalletHistoryResponse>
+    fun walletTransaction(@Query("vendor_id") vendorId:Int, @Query("type") type:String) : Call<WalletHistoryResponse>
 
     @POST("vendor-rating")
     fun vendorReview(@Query("vendor_id") vendorId:String) : Call<ReviewResponse>

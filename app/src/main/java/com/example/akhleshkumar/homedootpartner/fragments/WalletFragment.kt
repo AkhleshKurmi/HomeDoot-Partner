@@ -89,16 +89,16 @@ fun setWalletBalance() {
 }
 
     fun fetchTransactions() {
-        RetrofitClient.instance.walletTransaction(sharedpref.getInt("vendor_id",0).toString(),"credit").enqueue(object : Callback<WalletHistoryResponse> {
+        RetrofitClient.instance.walletTransaction(sharedpref.getInt("vendor_id",0),"credit").enqueue(object : Callback<WalletHistoryResponse> {
             override fun onResponse(
                 call: Call<WalletHistoryResponse>,
                 response: Response<WalletHistoryResponse>
             ) {
                 if (response.isSuccessful) {
                     if (response.body()!!.success) {
-                        if (response.body()!!.data.walletHistory !=null) {
+                        if (response.body()!!.data.wallet_history !=null) {
                             binding.rvTransactions.adapter =
-                                TransactionAdapter(response.body()!!.data.walletHistory, "Credit")
+                                TransactionAdapter(response.body()!!.data.wallet_history, "Credit")
 
                         }
                     }
@@ -113,16 +113,16 @@ fun setWalletBalance() {
     }
 
     fun fetchDebitTransaction(){
-        RetrofitClient.instance.walletTransaction(sharedpref.getInt("vendor_id",0).toString(),"debit").enqueue(object : Callback<WalletHistoryResponse> {
+        RetrofitClient.instance.walletTransaction(sharedpref.getInt("vendor_id",0),"debit").enqueue(object : Callback<WalletHistoryResponse> {
             override fun onResponse(
                 call: Call<WalletHistoryResponse>,
                 response: Response<WalletHistoryResponse>
             ) {
                 if (response.isSuccessful) {
                     if (response.body()!!.success) {
-                        if (response.body()!!.data.walletHistory != null) {
+                        if (response.body()!!.data.wallet_history != null) {
                             binding.rvDebitTransactions.adapter =
-                                TransactionAdapter(response.body()!!.data.walletHistory, "Debit")
+                                TransactionAdapter(response.body()!!.data.wallet_history, "Debit")
 
                         }
                     }

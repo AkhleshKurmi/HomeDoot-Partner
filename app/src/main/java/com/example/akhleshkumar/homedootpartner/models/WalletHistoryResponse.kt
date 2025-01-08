@@ -7,5 +7,5 @@ data class WalletHistoryResponse(
 )
 
 data class WalletData(
-    val walletHistory: List<Transaction>
+    val wallet_history: List<Transaction>
 )

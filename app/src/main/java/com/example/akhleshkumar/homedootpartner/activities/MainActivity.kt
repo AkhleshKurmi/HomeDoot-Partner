@@ -11,6 +11,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.ActivityMainBinding
+import com.akhleshkumar.homedootpartner.databinding.NavHeaderBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.fragments.BankDetailsFragment
 import com.example.akhleshkumar.homedootpartner.fragments.BusinessDetailFragment
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var progressDialog: ProgressDialog
     lateinit var sharedPreferences: SharedPreferences
     lateinit var editorSP : SharedPreferences.Editor
+    lateinit var  headerBinding : NavHeaderBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
 
         loadFragment(HomeFragment())
+        headerBinding = NavHeaderBinding.bind(binding.navigationView.getHeaderView(0))
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             // Close Drawer
 //            binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -104,6 +107,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     if (response.body()!!.success) {
+                        headerBinding.tvName.text = response.body()!!.data.vendorDetails.name
                         Toast.makeText(
                             this@MainActivity,
                             response.body()?.message,

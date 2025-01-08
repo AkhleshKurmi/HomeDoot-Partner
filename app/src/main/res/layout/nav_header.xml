@@ -12,6 +12,7 @@
         android:padding="4dp" />
 
     <TextView
+        android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -24,11 +25,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:id="@+id/tv_rating"
         android:text="⭐ 4.89"
         android:textColor="@color/black"
         android:textSize="14sp" />
 
     <TextView
+        android:id="@+id/tv_share_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
