@@ -17,7 +17,7 @@
             android:id="@+id/greetingText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Good morning, partner!"
+            android:text="Welcome, partner!"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:fontFamily="sans-serif-medium" />
@@ -131,6 +131,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/today_job"
                 android:text="Today 01:30 PM\nsibanti chaudhury"
                 android:textColor="@android:color/black"
                 android:textSize="14sp" />
@@ -139,6 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CANCELLED"
+                android:id="@+id/tv_cancelled"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="14sp" />
         </LinearLayout>

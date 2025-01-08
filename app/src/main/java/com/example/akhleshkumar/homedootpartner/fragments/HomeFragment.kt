@@ -47,16 +47,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        binding.forwordPending.setOnClickListener {
-//            val intent = Intent(requireContext(), OrdersActivity::class.java)
-//            intent.putExtra("from","pending")
-//            startActivity(intent)
-//        }
-//        binding.forwordCancelled.setOnClickListener {
-//            val intent = Intent(requireContext(), OrdersActivity::class.java)
-//            intent.putExtra("from","cancelled")
-//            startActivity(intent)
-//        }
 
 
         RetrofitClient.instance.vendorOrders(sharedPreferences.getInt("vendor_id",0).toString(), "pending").enqueue(object : Callback<VendorOrderRes>{
