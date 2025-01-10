@@ -19,6 +19,7 @@ import com.example.akhleshkumar.homedootpartner.fragments.HomeFragment
 import com.example.akhleshkumar.homedootpartner.fragments.MyProfileFragment
 import com.example.akhleshkumar.homedootpartner.fragments.RatingFragment
 import com.example.akhleshkumar.homedootpartner.fragments.WalletFragment
+import com.example.akhleshkumar.homedootpartner.models.ReviewResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -89,6 +90,7 @@ class MainActivity : AppCompatActivity() {
             setMessage("Loading...")
             setCancelable(false)
         }
+        getVendorRating(sharedPreferences.getInt("vendor_id",0).toString())
         getVendorDashboard(sharedPreferences.getInt("vendor_id",0).toString())
     }
 
@@ -97,6 +99,31 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
+
+    fun getVendorRating(userId: String){
+        RetrofitClient.instance.vendorReview(userId).enqueue(object : Callback<ReviewResponse>{
+            override fun onResponse(
+                call: Call<ReviewResponse>,
+                response: Response<ReviewResponse>
+            ) {
+                if (response.isSuccessful){
+                    if (response.body()!!.success){
+                        var rating = 0
+                        for (rate in response.body()!!.data.ratingCount){
+                            rating += rate.rating
+                        }
+                        rating /= response.body()!!.data.ratingCount.size
+                        headerBinding.tvRating.text = "⭐ "+rating.toString()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ReviewResponse>, t: Throwable) {
+
+            }
+        })
+    }
+
 
     private fun getVendorDashboard(userId:String) {
         RetrofitClient.instance.getVendorDashboard(userId).enqueue(object :
