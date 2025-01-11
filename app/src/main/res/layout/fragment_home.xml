@@ -15,14 +15,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:background="#FFF5D9">
+        android:background="#34706F6C">
 
         <TextView
             android:id="@+id/greetingText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Welcome, partner!"
-            android:textColor="@android:color/black"
+            android:textColor="#056209"
             android:textSize="18sp"
             android:fontFamily="sans-serif-medium" />
 
@@ -42,12 +42,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#EFE6E6"
             android:orientation="vertical">
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="horizontal"
+
                 tools:listitem="@layout/item_view_job_available"
                 android:id="@+id/rv_dates"/>
 
@@ -57,6 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="No new jobs"
+        android:background="@color/white"
         android:textColor="@android:color/black"
         android:padding="10dp"
         android:textSize="16sp"
@@ -68,12 +73,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp"
         android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/jobsTodayTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:padding="16dp"
+            android:drawableEnd="@drawable/baseline_arrow_forward_24"
             android:layout_height="wrap_content"
             android:text="1 more job today"
             android:textColor="@android:color/black"
@@ -89,9 +96,11 @@
     <!-- Cult Section -->
     <TextView
         android:id="@+id/cultTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="wrap_content"
-        android:text="Cult"
+        android:text="Completed Job"
+
         android:textColor="@android:color/black"
         android:padding="16dp"
         android:textSize="16sp"
@@ -99,15 +108,16 @@
         android:layout_marginTop="10dp" />
 
     <HorizontalScrollView
+        android:background="@color/white"
         android:id="@+id/cultSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:layout_marginTop="10dp">
+     >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
             <!-- Cult Items -->
@@ -115,7 +125,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginEnd="8dp"
-                android:src="@color/black"
+                android:src="@drawable/img1"
                 android:scaleType="centerCrop"
                 android:contentDescription="Cult Item" />
 
@@ -123,7 +133,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginEnd="8dp"
-                android:src="@color/black"
+                android:src="@drawable/img2"
                 android:scaleType="centerCrop"
                 android:contentDescription="Cult Item" />
 
@@ -131,7 +141,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginEnd="8dp"
-                android:src="@color/black"
+                android:src="@drawable/img3"
                 android:scaleType="centerCrop"
                 android:contentDescription="Cult Item" />
         </LinearLayout>

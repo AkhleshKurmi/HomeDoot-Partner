@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_calendar"
@@ -8,7 +9,9 @@
     <item
         android:id="@+id/menu_job_history"
         android:icon="@drawable/ic_job_history"
+
         android:title="Job History" />
+
     <item
         android:id="@+id/menu_profile"
         android:icon="@drawable/ic_profile"
@@ -24,7 +27,7 @@
     <item
         android:id="@+id/menu_rating"
         android:icon="@drawable/ic_rating"
-        android:title="Rating" />
+        android:title="Rating"/>
     <item
         android:id="@+id/menu_commission"
         android:title="Commission" />

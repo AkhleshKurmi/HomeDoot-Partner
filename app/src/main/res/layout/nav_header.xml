@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:layout_marginStart="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:src="@drawable/ing"
-        android:layout_gravity="center_horizontal"
+        android:src="@drawable/images"
         android:padding="4dp" />
 
     <TextView
@@ -16,7 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:gravity="center"
         android:text="Aarti Singh"
         android:textColor="@color/black"
         android:textSize="18sp" />
@@ -24,20 +23,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:id="@+id/tv_rating"
         android:text="⭐ 4.89"
         android:textColor="@color/black"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tv_share_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Share Visiting Card"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
+
 
 </LinearLayout>
