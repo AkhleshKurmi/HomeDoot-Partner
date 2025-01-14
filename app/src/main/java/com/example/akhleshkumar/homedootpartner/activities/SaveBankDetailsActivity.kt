@@ -74,10 +74,15 @@ class SaveBankDetailsActivity : AppCompatActivity() {
         val branchName = binding.etBranchName.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val ifscCode = binding.etIFSC.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
-        val file = File(bankImage) // Replace with the actual file path
-        val requestBody = file.asRequestBody("image/png".toMediaTypeOrNull())
-        val filePart = MultipartBody.Part.createFormData("hid_cheque_file", file.name, requestBody) ?: null
-
+        var filePart : MultipartBody.Part? = null
+        if (bankImage != null) {
+            val file = File(bankImage) // Replace with the actual file path
+            val requestBody = file.asRequestBody("image/png".toMediaTypeOrNull())
+            filePart =
+                MultipartBody.Part.createFormData("hid_cheque_file", file.name, requestBody) ?: null
+        } else{
+            filePart = null
+        }
         // Make the API call
         val call = RetrofitClient.instance.uploadBankDetails(
             vendorId,

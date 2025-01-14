@@ -107,21 +107,57 @@ class SaveBusinessDetaiiilsActivity : AppCompatActivity() {
         val aadharDetails = binding.etAAdharDetail.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val vendorId = this.vendorId.toRequestBody("text/plain".toMediaTypeOrNull())
 
-        val filePan = File(panImage) // Replace with the actual file path
-        val requestBodyPan = filePan.asRequestBody("image/png".toMediaTypeOrNull())
-        val filePartPan = MultipartBody.Part.createFormData("hid_cheque_file", filePan.name, requestBodyPan) ?: null
+        var filePartPan : MultipartBody.Part? = null
+        if (panImage!=null) {
+            val filePan = File(panImage) // Replace with the actual file path
+            val requestBodyPan = filePan.asRequestBody("image/png".toMediaTypeOrNull())
+            filePartPan =
+                MultipartBody.Part.createFormData("hid_cheque_file", filePan.name, requestBodyPan)
+                    ?: null
+        }
+        else{
+            filePartPan = null
+        }
 
-        val fileAdhar = File(adharImage) // Replace with the actual file path
-        val requestBodyAdhar = fileAdhar.asRequestBody("image/png".toMediaTypeOrNull())
-        val filePartAdhar = MultipartBody.Part.createFormData("hid_cheque_file", fileAdhar.name, requestBodyAdhar) ?: null
+        var filePartAdhar : MultipartBody.Part? = null
+        if (adharImage!=null) {
+            val fileAdhar = File(adharImage) // Replace with the actual file path
+            val requestBodyAdhar = fileAdhar.asRequestBody("image/png".toMediaTypeOrNull())
+            filePartAdhar = MultipartBody.Part.createFormData(
+                "hid_cheque_file",
+                fileAdhar.name,
+                requestBodyAdhar
+            ) ?: null
+        } else{
+            filePartAdhar = null
+        }
 
-        val fileAddress = File(addressImage) // Replace with the actual file path
-        val requestBodyAddress = fileAddress.asRequestBody("image/png".toMediaTypeOrNull())
-        val filePartAddress = MultipartBody.Part.createFormData("hid_cheque_file", fileAddress.name, requestBodyAddress) ?: null
+        var filePartTan : MultipartBody.Part? = null
+        if (tanImage!=null) {
+            val fileTan = File(tanImage) // Replace with the actual file path = File(bankImage) // Replace with the actual file path
+            val requestBodyTan = fileTan.asRequestBody("image/png".toMediaTypeOrNull())
+            filePartTan = MultipartBody.Part.createFormData("hid_cheque_file", fileTan.name, requestBodyTan) ?: null
 
-        val fileTan = File(tanImage) // Replace with the actual file path = File(bankImage) // Replace with the actual file path
-        val requestBodyTan = fileTan.asRequestBody("image/png".toMediaTypeOrNull())
-        val filePartTan = MultipartBody.Part.createFormData("hid_cheque_file", fileTan.name, requestBodyTan) ?: null
+        }
+        else{
+            filePartTan = null
+        }
+
+        var filePartAddress : MultipartBody.Part? = null
+
+        if (addressImage!=null) {
+
+            val fileAddress = File(addressImage) // Replace with the actual file path
+            val requestBodyAddress = fileAddress.asRequestBody("image/png".toMediaTypeOrNull())
+            filePartAddress = MultipartBody.Part.createFormData(
+                "hid_cheque_file",
+                fileAddress.name,
+                requestBodyAddress
+            ) ?: null
+        }
+        else{
+            filePartAddress = null
+        }
 
 //
 
