@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.akhleshkumar.homedootpartner.databinding.FragmentSaveBankDetailBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
+import com.example.akhleshkumar.homedootpartner.models.UploadAndUpdateResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -93,18 +94,35 @@ class SaveBankDetailsActivity : AppCompatActivity() {
             filePart?:null
         )
 
-        call.enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+        call.enqueue(object : Callback<UploadAndUpdateResponse> {
+            override fun onResponse(call: Call<UploadAndUpdateResponse>, response: Response<UploadAndUpdateResponse>) {
                 if (response.isSuccessful) {
-                    startActivity(Intent(this@SaveBankDetailsActivity, LoginActivity::class.java))
-                    Toast.makeText(this@SaveBankDetailsActivity, "Upload successful!", Toast.LENGTH_SHORT).show()
-                    finish()
+                    if (response.body()!!.success) {
+                        Toast.makeText(
+                            this@SaveBankDetailsActivity,
+                            response.body()!!.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        startActivity(
+                            Intent(
+                                this@SaveBankDetailsActivity,
+                                LoginActivity::class.java
+                            )
+                        )
+                        finish()
+
+                    }
                 } else {
-                    Toast.makeText(this@SaveBankDetailsActivity, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@SaveBankDetailsActivity,
+                        "Error: ${response.message()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
-            override fun onFailure(call: Call<Any>, t: Throwable) {
+            override fun onFailure(call: Call<UploadAndUpdateResponse>, t: Throwable) {
                 Toast.makeText(this@SaveBankDetailsActivity, "Failure: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })

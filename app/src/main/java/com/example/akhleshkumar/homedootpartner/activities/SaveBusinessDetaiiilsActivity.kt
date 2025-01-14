@@ -7,9 +7,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.akhleshkumar.homedootpartner.databinding.FragmentSaveBusinessDetailsBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
+import com.example.akhleshkumar.homedootpartner.models.UploadAndUpdateResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -112,7 +114,7 @@ class SaveBusinessDetaiiilsActivity : AppCompatActivity() {
             val filePan = File(panImage) // Replace with the actual file path
             val requestBodyPan = filePan.asRequestBody("image/png".toMediaTypeOrNull())
             filePartPan =
-                MultipartBody.Part.createFormData("hid_cheque_file", filePan.name, requestBodyPan)
+                MultipartBody.Part.createFormData("hid_pan_file", filePan.name, requestBodyPan)
                     ?: null
         }
         else{
@@ -124,7 +126,7 @@ class SaveBusinessDetaiiilsActivity : AppCompatActivity() {
             val fileAdhar = File(adharImage) // Replace with the actual file path
             val requestBodyAdhar = fileAdhar.asRequestBody("image/png".toMediaTypeOrNull())
             filePartAdhar = MultipartBody.Part.createFormData(
-                "hid_cheque_file",
+                "hid_aadhar_proof",
                 fileAdhar.name,
                 requestBodyAdhar
             ) ?: null
@@ -136,7 +138,7 @@ class SaveBusinessDetaiiilsActivity : AppCompatActivity() {
         if (tanImage!=null) {
             val fileTan = File(tanImage) // Replace with the actual file path = File(bankImage) // Replace with the actual file path
             val requestBodyTan = fileTan.asRequestBody("image/png".toMediaTypeOrNull())
-            filePartTan = MultipartBody.Part.createFormData("hid_cheque_file", fileTan.name, requestBodyTan) ?: null
+            filePartTan = MultipartBody.Part.createFormData("hid_tan_file", fileTan.name, requestBodyTan) ?: null
 
         }
         else{
@@ -150,7 +152,7 @@ class SaveBusinessDetaiiilsActivity : AppCompatActivity() {
             val fileAddress = File(addressImage) // Replace with the actual file path
             val requestBodyAddress = fileAddress.asRequestBody("image/png".toMediaTypeOrNull())
             filePartAddress = MultipartBody.Part.createFormData(
-                "hid_cheque_file",
+                "hid_address_proof",
                 fileAddress.name,
                 requestBodyAddress
             ) ?: null
@@ -170,24 +172,33 @@ class SaveBusinessDetaiiilsActivity : AppCompatActivity() {
             panDetails,
             aadharDetails,
             vendorId,
-            filePartPan?:null,
+            null,
             filePartAddress?:null,
             filePartTan?:null,
+            filePartPan?:null,
             filePartAdhar?:null
         )
 
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+        call.enqueue(object : Callback<UploadAndUpdateResponse> {
+            override fun onResponse(call: Call<UploadAndUpdateResponse>, response: Response<UploadAndUpdateResponse>) {
                 if (response.isSuccessful) {
-                    Log.d("Success", "Upload successful")
-                    startActivity(Intent(this@SaveBusinessDetaiiilsActivity, SaveBankDetailsActivity::class.java))
-                    finish()
+                    if (response.body()!!.success) {
+                        Toast.makeText(this@SaveBusinessDetaiiilsActivity, response.body()!!.message, Toast.LENGTH_SHORT).show()
+                        Log.d("Success", response.body()!!.message)
+                        startActivity(
+                            Intent(
+                                this@SaveBusinessDetaiiilsActivity,
+                                SaveBankDetailsActivity::class.java
+                            )
+                        )
+                        finish()
+                    }
                 } else {
                     Log.e("Error", "Error: ${response.errorBody()?.string()}")
                 }
             }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
+            override fun onFailure(call: Call<UploadAndUpdateResponse>, t: Throwable) {
                 Log.e("Failure", "Request failed: ${t.message}")
             }
         })

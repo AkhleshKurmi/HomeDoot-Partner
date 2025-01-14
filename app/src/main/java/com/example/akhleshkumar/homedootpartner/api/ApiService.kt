@@ -8,6 +8,7 @@ import com.example.akhleshkumar.homedoot.models.user.RegistrationResponse
 import com.example.akhleshkumar.homedoot.models.user.SendOtpRequest
 import com.example.akhleshkumar.homedootpartner.models.ApiResponseCategory
 import com.example.akhleshkumar.homedootpartner.models.ReviewResponse
+import com.example.akhleshkumar.homedootpartner.models.UploadAndUpdateResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorCommissionResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorOrderRes
@@ -61,11 +62,12 @@ interface ApiService {
         @Part("pan_details") panDetails: RequestBody,
         @Part("aadhar_details") aadharDetails: RequestBody,
         @Part("vendor_id") vendorId: RequestBody,
-        @Part hid_pan_file: MultipartBody.Part?,
-        @Part hid_address_proof: MultipartBody.Part?,
-        @Part hid_tan_file: MultipartBody.Part?,
-        @Part hid_aadhar_proof: MultipartBody.Part?
-    ): Call<Void>
+        @Part("pan_file") panFile : RequestBody?,
+        @Part hid_address_proof: MultipartBody.Part? = null,
+        @Part hid_tan_file: MultipartBody.Part?= null,
+        @Part hid_pan_file: MultipartBody.Part? = null,
+        @Part hid_aadhar_proof: MultipartBody.Part? = null
+    ): Call<UploadAndUpdateResponse>
 
 //    @POST("forgot_password")
 //    fun forgotPassword(@Query("username") userName:String, @Query("guard") userType:String) : Call<ForgotPasswordResponse>
@@ -131,7 +133,7 @@ interface ApiService {
         @Part("branch_name") branchName: RequestBody,
         @Part("ifsc_code") ifscCode: RequestBody,
         @Part hid_cheque_file: MultipartBody.Part?
-    ): Call<Any>
+    ): Call<UploadAndUpdateResponse>
 
     @POST("vendor-orders")
     fun vendorOrders(@Query("vendor_id") vendorId:String, @Query("status") status:String) : Call<VendorOrderRes>

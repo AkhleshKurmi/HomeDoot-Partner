@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.FragmentBankDetailsBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
+import com.example.akhleshkumar.homedootpartner.models.UploadAndUpdateResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -131,14 +132,20 @@ class BankDetailsFragment : Fragment() {
             filePart = null
         }
         val call = RetrofitClient.instance.uploadBankDetails(vendorId,accountNumber,bankName,branchName,ifscCode,filePart?:null)
-        call.enqueue(object : Callback<Any>{
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                if (response.isSuccessful){
+        call.enqueue(object : Callback<UploadAndUpdateResponse>{
+            override fun onResponse(call: Call<UploadAndUpdateResponse>, response: Response<UploadAndUpdateResponse>) {
+                if (response.isSuccessful) {
                     progressDialog.dismiss()
-                    Toast.makeText(requireContext(), "Bank Details Updated", Toast.LENGTH_SHORT).show()
+                    if (response.body()!!.success) {
+                        Toast.makeText(
+                            requireContext(),
+                            response.body()!!.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
-            override fun onFailure(call: Call<Any>, t: Throwable) {
+            override fun onFailure(call: Call<UploadAndUpdateResponse>, t: Throwable) {
                 progressDialog.dismiss()
                 Toast.makeText(requireContext(), t.message, Toast.LENGTH_SHORT).show()
             }
