@@ -174,7 +174,7 @@ class BusinessDetailFragment : Fragment() {
         var filePartPan : MultipartBody.Part? = null
         if (panImage!=null) {
             val filePan = File(panImage) // Replace with the actual file path
-            val requestBodyPan = filePan.asRequestBody("image/png".toMediaTypeOrNull())
+            val requestBodyPan = filePan.asRequestBody("image/*".toMediaTypeOrNull())
             filePartPan =
                 MultipartBody.Part.createFormData("hid_pan_file", filePan.name, requestBodyPan)
                     ?: null
@@ -186,7 +186,7 @@ class BusinessDetailFragment : Fragment() {
         var filePartAdhar : MultipartBody.Part? = null
         if (adharImage!=null) {
             val fileAdhar = File(adharImage) // Replace with the actual file path
-            val requestBodyAdhar = fileAdhar.asRequestBody("image/png".toMediaTypeOrNull())
+            val requestBodyAdhar = fileAdhar.asRequestBody("image/*".toMediaTypeOrNull())
             filePartAdhar = MultipartBody.Part.createFormData(
                 "hid_aadhar_proof",
                 fileAdhar.name,
@@ -199,7 +199,7 @@ class BusinessDetailFragment : Fragment() {
         var filePartTan : MultipartBody.Part? = null
         if (tanImage!=null) {
             val fileTan = File(tanImage) // Replace with the actual file path = File(bankImage) // Replace with the actual file path
-            val requestBodyTan = fileTan.asRequestBody("image/png".toMediaTypeOrNull())
+            val requestBodyTan = fileTan.asRequestBody("image/*".toMediaTypeOrNull())
             filePartTan = MultipartBody.Part.createFormData("hid_tan_file", fileTan.name, requestBodyTan) ?: null
 
         }
@@ -212,7 +212,7 @@ class BusinessDetailFragment : Fragment() {
         if (addressImage!=null) {
 
             val fileAddress = File(addressImage) // Replace with the actual file path
-            val requestBodyAddress = fileAddress.asRequestBody("image/png".toMediaTypeOrNull())
+            val requestBodyAddress = fileAddress.asRequestBody("image/*".toMediaTypeOrNull())
             filePartAddress = MultipartBody.Part.createFormData(
                 "hid_address_proof",
                 fileAddress.name,
@@ -232,7 +232,6 @@ class BusinessDetailFragment : Fragment() {
             panDetails,
             aadharDetails,
             vendorId,
-            null,
             filePartAddress?:null,
             filePartTan?:null,
             filePartPan?:null,

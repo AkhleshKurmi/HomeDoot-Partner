@@ -62,7 +62,7 @@ interface ApiService {
         @Part("pan_details") panDetails: RequestBody,
         @Part("aadhar_details") aadharDetails: RequestBody,
         @Part("vendor_id") vendorId: RequestBody,
-        @Part("pan_file") panFile : RequestBody?,
+
         @Part hid_address_proof: MultipartBody.Part? = null,
         @Part hid_tan_file: MultipartBody.Part?= null,
         @Part hid_pan_file: MultipartBody.Part? = null,

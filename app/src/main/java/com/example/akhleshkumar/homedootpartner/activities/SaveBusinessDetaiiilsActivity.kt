@@ -172,7 +172,6 @@ class SaveBusinessDetaiiilsActivity : AppCompatActivity() {
             panDetails,
             aadharDetails,
             vendorId,
-            null,
             filePartAddress?:null,
             filePartTan?:null,
             filePartPan?:null,
