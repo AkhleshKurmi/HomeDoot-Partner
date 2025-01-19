@@ -20,6 +20,7 @@ import androidx.core.content.PermissionChecker.checkPermission
 import androidx.fragment.app.Fragment
 import com.akhleshkumar.homedootpartner.databinding.FragmentBussinessDetailBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
+import com.example.akhleshkumar.homedootpartner.models.UploadAndUpdateResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -170,21 +171,57 @@ class BusinessDetailFragment : Fragment() {
         val aadharDetails = binding.etAAdharDetail.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val vendorId = sharedPreferences.getInt("vendor_id",0).toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
-        val filePan = File(panImage) // Replace with the actual file path
-        val requestBodyPan = filePan.asRequestBody("image/png".toMediaTypeOrNull())
-        val filePartPan = MultipartBody.Part.createFormData("hid_cheque_file", filePan.name, requestBodyPan) ?: null
+        var filePartPan : MultipartBody.Part? = null
+        if (panImage!=null) {
+            val filePan = File(panImage) // Replace with the actual file path
+            val requestBodyPan = filePan.asRequestBody("image/*".toMediaTypeOrNull())
+            filePartPan =
+                MultipartBody.Part.createFormData("hid_pan_file", filePan.name, requestBodyPan)
+                    ?: null
+        }
+        else{
+            filePartPan = null
+        }
 
-        val fileAdhar = File(adharImage) // Replace with the actual file path
-        val requestBodyAdhar = fileAdhar.asRequestBody("image/png".toMediaTypeOrNull())
-        val filePartAdhar = MultipartBody.Part.createFormData("hid_cheque_file", fileAdhar.name, requestBodyAdhar) ?: null
+        var filePartAdhar : MultipartBody.Part? = null
+        if (adharImage!=null) {
+            val fileAdhar = File(adharImage) // Replace with the actual file path
+            val requestBodyAdhar = fileAdhar.asRequestBody("image/*".toMediaTypeOrNull())
+            filePartAdhar = MultipartBody.Part.createFormData(
+                "hid_aadhar_proof",
+                fileAdhar.name,
+                requestBodyAdhar
+            ) ?: null
+        } else{
+            filePartAdhar = null
+        }
 
-        val fileAddress = File(addressImage) // Replace with the actual file path
-        val requestBodyAddress = fileAddress.asRequestBody("image/png".toMediaTypeOrNull())
-        val filePartAddress = MultipartBody.Part.createFormData("hid_cheque_file", fileAddress.name, requestBodyAddress) ?: null
+        var filePartTan : MultipartBody.Part? = null
+        if (tanImage!=null) {
+            val fileTan = File(tanImage) // Replace with the actual file path = File(bankImage) // Replace with the actual file path
+            val requestBodyTan = fileTan.asRequestBody("image/*".toMediaTypeOrNull())
+            filePartTan = MultipartBody.Part.createFormData("hid_tan_file", fileTan.name, requestBodyTan) ?: null
 
-        val fileTan = File(tanImage) // Replace with the actual file path = File(bankImage) // Replace with the actual file path
-        val requestBodyTan = fileTan.asRequestBody("image/png".toMediaTypeOrNull())
-        val filePartTan = MultipartBody.Part.createFormData("hid_cheque_file", fileTan.name, requestBodyTan) ?: null
+        }
+        else{
+            filePartTan = null
+        }
+
+        var filePartAddress : MultipartBody.Part? = null
+
+        if (addressImage!=null) {
+
+            val fileAddress = File(addressImage) // Replace with the actual file path
+            val requestBodyAddress = fileAddress.asRequestBody("image/*".toMediaTypeOrNull())
+            filePartAddress = MultipartBody.Part.createFormData(
+                "hid_address_proof",
+                fileAddress.name,
+                requestBodyAddress
+            ) ?: null
+        }
+        else{
+            filePartAddress = null
+        }
 
         // Call API
         val call = RetrofitClient.instance.uploadVendorDetails(
@@ -195,24 +232,30 @@ class BusinessDetailFragment : Fragment() {
             panDetails,
             aadharDetails,
             vendorId,
-            filePartPan?:null,
             filePartAddress?:null,
             filePartTan?:null,
+            filePartPan?:null,
             filePartAdhar?:null
         )
 
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+        call.enqueue(object : Callback<UploadAndUpdateResponse> {
+            override fun onResponse(call: Call<UploadAndUpdateResponse>, response: Response<UploadAndUpdateResponse>) {
                 if (response.isSuccessful) {
                     progressDialog.dismiss()
-                    Log.d("Success", "Upload successful")
+                    if (response.body()!!.success) {
+                        Toast.makeText(requireContext(), response.body()!!.message, Toast.LENGTH_SHORT).show()
+
+
+
+                        Log.d("Success", "Upload successful")
+                    }
                 } else {
                     progressDialog.dismiss()
                     Log.e("Error", "Error: ${response.errorBody()?.string()}")
                 }
             }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
+            override fun onFailure(call: Call<UploadAndUpdateResponse>, t: Throwable) {
                 progressDialog.dismiss()
                 Log.e("Failure", "Request failed: ${t.message}")
             }

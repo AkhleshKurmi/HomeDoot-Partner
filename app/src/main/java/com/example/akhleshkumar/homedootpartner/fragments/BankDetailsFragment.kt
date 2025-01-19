@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.FragmentBankDetailsBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
+import com.example.akhleshkumar.homedootpartner.models.UploadAndUpdateResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -28,7 +29,7 @@ class BankDetailsFragment : Fragment() {
     lateinit var editorSP : android.content.SharedPreferences.Editor
     lateinit var progressDialog: android.app.ProgressDialog
     lateinit var binding: FragmentBankDetailsBinding
-    lateinit var bankImage: String
+    private var bankImage: String? = null
     private val REQUEST_CODE_PICK_IMAGE = 100
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,19 +121,31 @@ class BankDetailsFragment : Fragment() {
         val accountNumber = binding.etAccountNoUpdate.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val ifscCode = binding.etIFSCUpdate.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val vendorId = sharedPreferences.getInt("vendor_id",0).toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val file = File(bankImage) // Replace with the actual file path
-        val requestBody = file.asRequestBody("image/png".toMediaTypeOrNull())
-        val filePart = MultipartBody.Part.createFormData("hid_cheque_file", file.name, requestBody) ?: null
 
+        var filePart : MultipartBody.Part? = null
+        if (bankImage!=null) {
+            val file = File(bankImage) // Replace with the actual file path
+            val requestBody = file.asRequestBody("image/png".toMediaTypeOrNull())
+            filePart =
+                MultipartBody.Part.createFormData("hid_cheque_file", file.name, requestBody) ?: null
+        } else{
+            filePart = null
+        }
         val call = RetrofitClient.instance.uploadBankDetails(vendorId,accountNumber,bankName,branchName,ifscCode,filePart?:null)
-        call.enqueue(object : Callback<Any>{
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                if (response.isSuccessful){
+        call.enqueue(object : Callback<UploadAndUpdateResponse>{
+            override fun onResponse(call: Call<UploadAndUpdateResponse>, response: Response<UploadAndUpdateResponse>) {
+                if (response.isSuccessful) {
                     progressDialog.dismiss()
-                    Toast.makeText(requireContext(), "Bank Details Updated", Toast.LENGTH_SHORT).show()
+                    if (response.body()!!.success) {
+                        Toast.makeText(
+                            requireContext(),
+                            response.body()!!.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
-            override fun onFailure(call: Call<Any>, t: Throwable) {
+            override fun onFailure(call: Call<UploadAndUpdateResponse>, t: Throwable) {
                 progressDialog.dismiss()
                 Toast.makeText(requireContext(), t.message, Toast.LENGTH_SHORT).show()
             }
