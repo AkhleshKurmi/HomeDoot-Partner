@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.FragmentMyProfileBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse

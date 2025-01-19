@@ -62,11 +62,27 @@ interface ApiService {
         @Part("pan_details") panDetails: RequestBody,
         @Part("aadhar_details") aadharDetails: RequestBody,
         @Part("vendor_id") vendorId: RequestBody,
+        @Part ("hid_address_proof")address: RequestBody? = null,
+        @Part ("hid_tan_file")tan: RequestBody?= null,
+        @Part ("hid_pan_file")pan: RequestBody? = null,
+        @Part ("hid_aadhar_proof")aadhar: RequestBody? = null
+    ): Call<UploadAndUpdateResponse>
 
-        @Part hid_address_proof: MultipartBody.Part? = null,
-        @Part hid_tan_file: MultipartBody.Part?= null,
-        @Part hid_pan_file: MultipartBody.Part? = null,
-        @Part hid_aadhar_proof: MultipartBody.Part? = null
+
+    @Multipart
+    @POST("vendor-business-details") // Replace with your API endpoint
+    fun uploadVendorDetailsNullImages(
+        @Part("business_name") businessName: RequestBody,
+        @Part("contact_person") contactPerson: RequestBody,
+        @Part("contact_mobile") contactMobile: RequestBody,
+        @Part("business_address") businessAddress: RequestBody,
+        @Part("pan_details") panDetails: RequestBody,
+        @Part("aadhar_details") aadharDetails: RequestBody,
+        @Part("vendor_id") vendorId: RequestBody,
+        @Part ("hid_address_proof")address: RequestBody? = null,
+        @Part ("hid_tan_file")tan:RequestBody?= null,
+        @Part ("hid_pan_file")pan: RequestBody? = null,
+        @Part ("hid_aadhar_proof")aadhar: RequestBody? = null
     ): Call<UploadAndUpdateResponse>
 
 //    @POST("forgot_password")
@@ -132,7 +148,7 @@ interface ApiService {
         @Part("bank_name") bankName: RequestBody,
         @Part("branch_name") branchName: RequestBody,
         @Part("ifsc_code") ifscCode: RequestBody,
-        @Part hid_cheque_file: MultipartBody.Part?
+        @Part ("hid_cheque_file")bank: RequestBody?
     ): Call<UploadAndUpdateResponse>
 
     @POST("vendor-orders")

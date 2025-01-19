@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.FragmentRatingListBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.adaters.RatingAdapter

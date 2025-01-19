@@ -164,7 +164,7 @@ class SaveBusinessDetaiiilsActivity : AppCompatActivity() {
 //
 
         // Call API
-        val call = RetrofitClient.instance.uploadVendorDetails(
+        val call = RetrofitClient.instance.uploadVendorDetailsNullImages(
             businessName,
             contactPerson,
             contactMobile,
@@ -172,10 +172,10 @@ class SaveBusinessDetaiiilsActivity : AppCompatActivity() {
             panDetails,
             aadharDetails,
             vendorId,
-            filePartAddress?:null,
-            filePartTan?:null,
-            filePartPan?:null,
-            filePartAdhar?:null
+            filePartAddress.toString().toRequestBody("text/plain".toMediaTypeOrNull())?:null,
+            filePartTan.toString().toRequestBody("text/plain".toMediaTypeOrNull())?:null,
+            filePartPan.toString().toRequestBody("text/plain".toMediaTypeOrNull())?:null,
+            filePartAdhar.toString().toRequestBody("text/plain".toMediaTypeOrNull())?:null
         )
 
         call.enqueue(object : Callback<UploadAndUpdateResponse> {

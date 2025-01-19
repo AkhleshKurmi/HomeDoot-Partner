@@ -91,7 +91,7 @@ class SaveBankDetailsActivity : AppCompatActivity() {
             bankName,
             branchName,
             ifscCode,
-            filePart?:null
+            filePart.toString().toRequestBody("text/plain".toMediaTypeOrNull()) ?:null
         )
 
         call.enqueue(object : Callback<UploadAndUpdateResponse> {

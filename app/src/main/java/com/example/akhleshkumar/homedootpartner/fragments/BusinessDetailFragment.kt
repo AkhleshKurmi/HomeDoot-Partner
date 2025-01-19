@@ -117,7 +117,7 @@ class BusinessDetailFragment : Fragment() {
 
         binding.btnUpdeateBusinessDeltail.setOnClickListener {
             if (checkValidation()){
-                updateBusiness()
+                updateBusinessNullImages()
             }
         }
 
@@ -161,7 +161,111 @@ class BusinessDetailFragment : Fragment() {
 
 
 
-    fun updateBusiness(){
+//    fun updateBusiness(){
+//        progressDialog.show()
+//        val businessName = binding.etBusinessName.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+//        val contactPerson = binding.etConPerName.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+//        val contactMobile = binding.etMobileNo.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+//        val businessAddress =  binding.etBusinessAddress.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+//        val panDetails = binding.etPANDetail.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+//        val aadharDetails = binding.etAAdharDetail.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+//        val vendorId = sharedPreferences.getInt("vendor_id",0).toString().toRequestBody("text/plain".toMediaTypeOrNull())
+//
+//        var filePartPan : MultipartBody.Part? = null
+//        if (panImage!=null) {
+//            val filePan = File(panImage) // Replace with the actual file path
+//            val requestBodyPan = filePan.asRequestBody("image/*".toMediaTypeOrNull())
+//            filePartPan =
+//                MultipartBody.Part.createFormData("hid_pan_file", filePan.name, requestBodyPan)
+//                    ?: null
+//        }
+//        else{
+//            filePartPan = null
+//        }
+//
+//        var filePartAdhar : MultipartBody.Part? = null
+//        if (adharImage!=null) {
+//            val fileAdhar = File(adharImage) // Replace with the actual file path
+//            val requestBodyAdhar = fileAdhar.asRequestBody("image/*".toMediaTypeOrNull())
+//            filePartAdhar = MultipartBody.Part.createFormData(
+//                "hid_aadhar_proof",
+//                fileAdhar.name,
+//                requestBodyAdhar
+//            ) ?: null
+//        } else{
+//            filePartAdhar = null
+//        }
+//
+//        var filePartTan : MultipartBody.Part? = null
+//        if (tanImage!=null) {
+//            val fileTan = File(tanImage) // Replace with the actual file path = File(bankImage) // Replace with the actual file path
+//            val requestBodyTan = fileTan.asRequestBody("image/*".toMediaTypeOrNull())
+//            filePartTan = MultipartBody.Part.createFormData("hid_tan_file", fileTan.name, requestBodyTan) ?: null
+//
+//        }
+//        else{
+//            filePartTan = null
+//        }
+//
+//        var filePartAddress : MultipartBody.Part? = null
+//
+//        if (addressImage!=null) {
+//
+//            val fileAddress = File(addressImage) // Replace with the actual file path
+//            val requestBodyAddress = fileAddress.asRequestBody("image/*".toMediaTypeOrNull())
+//            filePartAddress = MultipartBody.Part.createFormData(
+//                "hid_address_proof",
+//                fileAddress.name,
+//                requestBodyAddress
+//            ) ?: null
+//        }
+//        else{
+//            filePartAddress = null
+//        }
+//
+//        // Call API
+//        val call = RetrofitClient.instance.uploadVendorDetails(
+//            businessName,
+//            contactPerson,
+//            contactMobile,
+//            businessAddress,
+//            panDetails,
+//            aadharDetails,
+//            vendorId,
+//            filePartAddress?:null,
+//            filePartTan?:null,
+//            filePartPan?:null,
+//            filePartAdhar?:null
+//        )
+//
+//        call.enqueue(object : Callback<UploadAndUpdateResponse> {
+//            override fun onResponse(call: Call<UploadAndUpdateResponse>, response: Response<UploadAndUpdateResponse>) {
+//                if (response.isSuccessful) {
+//                    progressDialog.dismiss()
+//                    if (response.body()!!.success) {
+//                        Toast.makeText(requireContext(), response.body()!!.message, Toast.LENGTH_SHORT).show()
+//
+//
+//
+//                        Log.d("Success", "Upload successful")
+//                    }
+//                } else {
+//                    progressDialog.dismiss()
+//                    Log.e("Error", "Error: ${response.errorBody()?.string()}")
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<UploadAndUpdateResponse>, t: Throwable) {
+//                progressDialog.dismiss()
+//                Log.e("Failure", "Request failed: ${t.message}")
+//            }
+//        })
+//    }
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(requireContext(), permission) ==
+                android.content.pm.PackageManager.PERMISSION_GRANTED
+    }
+    fun updateBusinessNullImages(){
         progressDialog.show()
         val businessName = binding.etBusinessName.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val contactPerson = binding.etConPerName.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
@@ -224,7 +328,7 @@ class BusinessDetailFragment : Fragment() {
         }
 
         // Call API
-        val call = RetrofitClient.instance.uploadVendorDetails(
+        val call = RetrofitClient.instance.uploadVendorDetailsNullImages(
             businessName,
             contactPerson,
             contactMobile,
@@ -232,10 +336,10 @@ class BusinessDetailFragment : Fragment() {
             panDetails,
             aadharDetails,
             vendorId,
-            filePartAddress?:null,
-            filePartTan?:null,
-            filePartPan?:null,
-            filePartAdhar?:null
+            filePartAddress.toString().toRequestBody("text/plain".toMediaTypeOrNull())?:null,
+            filePartTan.toString().toRequestBody("text/plain".toMediaTypeOrNull())?:null,
+            filePartPan.toString().toRequestBody("text/plain".toMediaTypeOrNull())?:null,
+            filePartAdhar.toString().toRequestBody("text/plain".toMediaTypeOrNull())?:null
         )
 
         call.enqueue(object : Callback<UploadAndUpdateResponse> {
@@ -261,10 +365,7 @@ class BusinessDetailFragment : Fragment() {
             }
         })
     }
-    private fun checkPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(requireContext(), permission) ==
-                android.content.pm.PackageManager.PERMISSION_GRANTED
-    }
+
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
