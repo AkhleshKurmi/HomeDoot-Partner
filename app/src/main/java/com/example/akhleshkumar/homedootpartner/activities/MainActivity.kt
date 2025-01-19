@@ -55,13 +55,33 @@ class MainActivity : AppCompatActivity() {
 
             // Show Toast based on clicked item
             when (menuItem.itemId) {
-                R.id.menu_calendar -> showToast("Calendar Clicked")
-                R.id.menu_job_history -> startActivity(Intent(this,OrdersActivity::class.java).putExtra("from","completed"))
-                R.id.menu_profile -> loadFragment(MyProfileFragment())
-                R.id.menu_business_detail -> loadFragment(BusinessDetailFragment())
-                R.id.menu_bank_detail -> loadFragment(BankDetailsFragment())
-                R.id.menu_rating -> loadFragment(RatingFragment())
-                R.id.menu_commission -> showToast("Commission Clicked")
+                R.id.menu_calendar ->{ showToast("Calendar Clicked")
+                    binding.drawerLayout.closeDrawers()
+
+                }
+                R.id.menu_job_history -> { startActivity(Intent(this,OrdersActivity::class.java).putExtra("from","completed"))
+                    binding.drawerLayout.closeDrawers()
+                }
+                R.id.menu_profile ->{ loadFragment(MyProfileFragment())
+                    binding.drawerLayout.closeDrawers()
+
+                }
+                R.id.menu_business_detail ->{ loadFragment(BusinessDetailFragment())
+
+                    binding.drawerLayout.closeDrawers()
+
+                }
+                R.id.menu_bank_detail ->{ loadFragment(BankDetailsFragment())
+                    binding.drawerLayout.closeDrawers()
+
+                }
+                R.id.menu_rating ->{ loadFragment(RatingFragment())
+                    binding.drawerLayout.closeDrawers()
+                }
+                R.id.menu_commission ->{ showToast("Commission Clicked")
+                    binding.drawerLayout.closeDrawers()
+
+                }
                 R.id.log_out -> {
                     sharedPreferences.all.clear()
                     editorSP.clear()

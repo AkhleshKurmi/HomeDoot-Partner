@@ -53,6 +53,18 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.noJobsText.setOnClickListener {
+            startActivity(Intent(requireContext(), OrdersActivity::class.java).putExtra("from", "pending"))
+        }
+
+        binding.jobsTodayTitle.setOnClickListener {
+            startActivity(Intent(requireContext(), OrdersActivity::class.java).putExtra("from", "cancelled"))
+        }
+
+        binding.cultTitle.setOnClickListener {
+            startActivity(Intent(requireContext(), OrdersActivity::class.java).putExtra("from", "completed"))
+        }
+
 
         binding.rvTodayJob.layoutManager = LinearLayoutManager(requireContext())
         binding.rvDates.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
