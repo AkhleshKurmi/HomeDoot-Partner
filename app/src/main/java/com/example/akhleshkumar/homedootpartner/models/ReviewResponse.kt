@@ -28,7 +28,7 @@ data class Review(
     @SerializedName("review")
     val review: String,
     @SerializedName("rating")
-    val rating: Int,
+    val rating: Float,
     @SerializedName("created_at")
     val createdAt: String,
     @SerializedName("updated_at")
