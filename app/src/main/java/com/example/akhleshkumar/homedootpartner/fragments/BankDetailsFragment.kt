@@ -52,7 +52,8 @@ class BankDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        progressDialog.show()
+
+
         RetrofitClient.instance.getVendorDashboard(
             sharedPreferences.getInt("vendor_id", 0).toString()
         ).enqueue(object :
@@ -69,6 +70,7 @@ class BankDetailsFragment : Fragment() {
                         binding.etBranchNameUpdate.setText(data.vendorDetails.bankDetails.branchName)
                         binding.etAccountNoUpdate.setText(data.vendorDetails.bankDetails.accountNumber)
                         binding.etIFSCUpdate.setText(data.vendorDetails.bankDetails.ifscCode)
+                        binding.approvedUpdate.text = data.vendorDetails.bankDetails.approval
                     }
                 }
             }
@@ -79,6 +81,7 @@ class BankDetailsFragment : Fragment() {
             }
 
         })
+
 
         binding.chooseFileChequeUpdate.setOnClickListener {
             openGallery()

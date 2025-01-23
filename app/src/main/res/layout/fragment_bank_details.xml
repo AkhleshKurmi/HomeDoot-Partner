@@ -25,15 +25,15 @@
                 android:textColor="@color/black"/>
 
             <TextView
+                android:id="@+id/approvedUpdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Approved"
-                android:id="@+id/approvedUpdate"
+                android:layout_marginTop="4dp"
                 android:background="#07620B"
                 android:padding="4dp"
+                android:text="Approved"
                 android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:layout_marginTop="4dp"/>
+                android:textStyle="bold" />
 
             <!-- Account Number -->
             <TextView

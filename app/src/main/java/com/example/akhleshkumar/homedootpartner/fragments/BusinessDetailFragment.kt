@@ -87,6 +87,7 @@ class BusinessDetailFragment : Fragment() {
                         binding.etConPerName.setText(data.vendorDetails.businessDetails.contactMobile)
                         binding.etPANDetail.setText(data.vendorDetails.businessDetails.panDetails)
                         binding.etAAdharDetail.setText(data.vendorDetails.businessDetails.aadharDetails)
+                        binding.approved.text = data.vendorDetails.businessDetails.approval
                     }
                 }
             }

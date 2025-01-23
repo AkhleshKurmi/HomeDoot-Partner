@@ -7,6 +7,7 @@ import com.example.akhleshkumar.homedoot.models.user.RegistrationRequest
 import com.example.akhleshkumar.homedoot.models.user.RegistrationResponse
 import com.example.akhleshkumar.homedoot.models.user.SendOtpRequest
 import com.example.akhleshkumar.homedootpartner.models.ApiResponseCategory
+import com.example.akhleshkumar.homedootpartner.models.CancelOrderResponse
 import com.example.akhleshkumar.homedootpartner.models.ReviewResponse
 import com.example.akhleshkumar.homedootpartner.models.UploadAndUpdateResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorCommissionResponse
@@ -92,17 +93,17 @@ interface ApiService {
 //    fun updatePassword(@Query("username") userName:String, @Query("guard") userType:String, @Query("password") password: String, @Query("password_confirmation") confirmPassword:String) : Call<UpdatePasswordResponse>
 
 
-//  @POST("update_profile")
-//    fun updateProfile(
-//        @Query("profile_guard") profileGuard: String,
-//        @Query("name") name: String,
-//        @Query("user_id") userId: Int,
-//        @Query("email") email: String,
-//        @Query("mobile") mobile: String,
-//        @Query("address") address: String,
-//        @Query("city") city: Int,
-//        @Query("pincode") pincode: Int
-//    ): Call<CancelOrderResponse>
+  @POST("update_profile")
+    fun updateProfile(
+        @Query("profile_guard") profileGuard: String,
+        @Query("name") name: String,
+        @Query("user_id") userId: Int,
+        @Query("email") email: String,
+        @Query("mobile") mobile: String,
+        @Query("address") address: String,
+        @Query("city") city: Int,
+        @Query("pincode") pincode: Int
+    ): Call<CancelOrderResponse>
 
 
 //    @POST("user-register")

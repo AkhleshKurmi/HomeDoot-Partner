@@ -23,5 +23,9 @@ class RatingAdapter(val listRating: List<Review>) : RecyclerView.Adapter<RatingA
         holder.binding.ratingCountTextView.text  = itemList.rating.toString()
         holder.binding.usernameTextView.text = itemList.customer.name
         holder.binding.reviewContentTextView.text = itemList.review
+        holder.binding.orderTextView.text = "Order No.: "+itemList.orderNo
+        holder.binding.dateRating.text = "Date: "+itemList.createdAt
+
+
     }
 }

@@ -55,11 +55,12 @@ class RatingFragment : Fragment() {
                 ) {
                     if (response.isSuccessful){
                         if (response.body()!!.success){
+                            binding.tvRating.text = "Total rating Count: "+response.body()!!.data.ratingCount[0].total
+                            binding.tvRatingTotal.text = "Total rating: "+ response.body()!!.data.ratingCount[0].rating +" ⭐"
                             binding.rvListRating.adapter = RatingAdapter(response.body()!!.data.reviews)
                         }
                     }
                 }
-
                 override fun onFailure(call: Call<ReviewResponse>, t: Throwable) {
                     Toast.makeText(requireContext(), "failed", Toast.LENGTH_SHORT).show()
                 }

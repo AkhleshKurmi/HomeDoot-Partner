@@ -28,8 +28,7 @@ class TransactionAdapter(private val transactions: List<Transaction>, private va
             tvTransactionType.text = type
             tvTransactionAmount.text = "₹ ${transaction.amount}"
             tvTransactionDate.text = transaction.updatedAt
-
-            // Set color based on transaction type
+            tvTransactionId.text = transaction.razorpayPaymentId
             tvTransactionType.setTextColor(
                 if (type == "Credit") Color.GREEN else Color.RED
             )

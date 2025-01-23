@@ -31,4 +31,11 @@
         android:text="2024-12-01"
         android:textSize="12sp"
         android:textColor="@android:color/darker_gray" />
+    <TextView
+        android:id="@+id/tv_transaction_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TID20241201"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray" />
 </LinearLayout>
