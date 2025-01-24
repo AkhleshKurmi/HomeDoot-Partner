@@ -55,8 +55,14 @@ class RatingFragment : Fragment() {
                 ) {
                     if (response.isSuccessful){
                         if (response.body()!!.success){
-                            binding.tvRating.text = "Total rating Count: "+response.body()!!.data.ratingCount[0].total
-                            binding.tvRatingTotal.text = "Total rating: "+ response.body()!!.data.ratingCount[0].rating +" ⭐"
+                            var rating = 0
+                            for (rate in response.body()!!.data.ratingCount){
+                                rating += rate.rating
+                            }
+                            rating /= response.body()!!.data.ratingCount.size
+
+                            binding.tvRating.text = "Total rating Count: "+response.body()!!.data.reviews.size.toString()
+                            binding.tvRatingTotal.text = "Total rating: "+rating+" ⭐"
                             binding.rvListRating.adapter = RatingAdapter(response.body()!!.data.reviews)
                         }
                     }

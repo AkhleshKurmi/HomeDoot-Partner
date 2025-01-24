@@ -27,8 +27,8 @@ class TransactionAdapter(private val transactions: List<Transaction>, private va
         with(holder.binding) {
             tvTransactionType.text = type
             tvTransactionAmount.text = "₹ ${transaction.amount}"
-            tvTransactionDate.text = transaction.updatedAt
-            tvTransactionId.text = transaction.razorpayPaymentId
+            tvTransactionDate.text = "Payment Date: "+transaction.createdAt
+            tvTransactionId.text = "Payment Id: "+transaction.razorpayPaymentId
             tvTransactionType.setTextColor(
                 if (type == "Credit") Color.GREEN else Color.RED
             )

@@ -18,9 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HomeDootPartner"
         tools:targetApi="31">
-        <activity
-            android:name="com.example.akhleshkumar.homedootpartner.activities.EditProfileActivity"
-            android:exported="false" />
+
         <activity
             android:name="com.example.akhleshkumar.homedootpartner.activities.OrdersActivity"
             android:exported="false" />
@@ -50,7 +48,11 @@
             android:exported="false" />
         <activity
             android:name="com.example.akhleshkumar.homedootpartner.activities.LoginActivity"
-            android:exported="true"></activity>
+            android:exported="true">
+
+        </activity>
+        <activity android:name="com.example.akhleshkumar.homedootpartner.activities.UpdatefrofileActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

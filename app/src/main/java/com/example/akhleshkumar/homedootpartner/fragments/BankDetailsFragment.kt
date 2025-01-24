@@ -70,7 +70,7 @@ class BankDetailsFragment : Fragment() {
                         binding.etBranchNameUpdate.setText(data.vendorDetails.bankDetails.branchName)
                         binding.etAccountNoUpdate.setText(data.vendorDetails.bankDetails.accountNumber)
                         binding.etIFSCUpdate.setText(data.vendorDetails.bankDetails.ifscCode)
-                        binding.approvedUpdate.text = data.vendorDetails.bankDetails.approval
+                        binding.approvedUpdate.text = if (data.vendorDetails.bankDetails.approval =="1") "Approved" else "Not Approved"
                     }
                 }
             }

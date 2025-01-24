@@ -80,14 +80,14 @@ class BusinessDetailFragment : Fragment() {
                     progressDialog.dismiss()
                     if (response.body()!!.success){
                         val data = response.body()!!.data
-                       binding.etGstDetail.setText(data.vendorDetails.businessDetails.gstDetails)
+                        binding.etGstDetail.setText(data.vendorDetails.businessDetails.gstDetails)
                         binding.etBusinessName.setText(data.vendorDetails.businessDetails.businessName)
                         binding.etBusinessAddress.setText(data.vendorDetails.businessDetails.businessAddress)
                         binding.etMobileNo.setText(data.vendorDetails.businessDetails.contactPerson)
                         binding.etConPerName.setText(data.vendorDetails.businessDetails.contactMobile)
                         binding.etPANDetail.setText(data.vendorDetails.businessDetails.panDetails)
                         binding.etAAdharDetail.setText(data.vendorDetails.businessDetails.aadharDetails)
-                        binding.approved.text = data.vendorDetails.businessDetails.approval
+                        binding.approved.text = if (data.vendorDetails.businessDetails.approval =="1") "Approved" else "" + "Not Approved"
                     }
                 }
             }
