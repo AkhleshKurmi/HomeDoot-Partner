@@ -88,11 +88,7 @@
             android:textSize="16sp"
             android:fontFamily="sans-serif-medium" />
 
-         <androidx.recyclerview.widget.RecyclerView
-             android:layout_width="match_parent"
-             android:layout_height="150dp"
-             tools:listitem="@layout/item_view_job_card"
-             android:id="@+id/rv_today_job"/>
+
     </LinearLayout>
     <!-- Cult Section -->
     <TextView

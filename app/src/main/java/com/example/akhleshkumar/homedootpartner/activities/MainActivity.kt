@@ -16,6 +16,7 @@ import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.fragments.BankDetailsFragment
 import com.example.akhleshkumar.homedootpartner.fragments.BusinessDetailFragment
 import com.example.akhleshkumar.homedootpartner.fragments.HomeFragment
+import com.example.akhleshkumar.homedootpartner.fragments.JobHistoryFragment
 import com.example.akhleshkumar.homedootpartner.fragments.MyProfileFragment
 import com.example.akhleshkumar.homedootpartner.fragments.RatingFragment
 import com.example.akhleshkumar.homedootpartner.fragments.WalletFragment
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             when(menuItem.itemId){
                 R.id.home -> loadFragment(HomeFragment())
                 R.id.money -> loadFragment(WalletFragment())
+                R.id.newJob -> loadFragment(JobHistoryFragment())
                 else -> showToast("Unknown Item Clicked")
             }
             true
@@ -117,6 +119,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
             .commit()
     }
 

@@ -30,7 +30,10 @@
                 android:text="Approved"
                 android:id="@+id/approved"
                 android:paddingVertical="4dp"
-                android:textColor="@android:color/holo_green_dark"/>
+                android:background="#07620B"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                />
 
             <!-- Business Name -->
             <TextView

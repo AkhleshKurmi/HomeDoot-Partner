@@ -66,7 +66,6 @@ class HomeFragment : Fragment() {
         }
 
 
-        binding.rvTodayJob.layoutManager = LinearLayoutManager(requireContext())
         binding.rvDates.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
 
         RetrofitClient.instance.getVendorDashboard(sharedPreferences.getInt("vendor_id",0).toString()).enqueue(object : Callback<VendorDashboardResponse>{
@@ -117,8 +116,8 @@ class HomeFragment : Fragment() {
                 if (response.isSuccessful){
                     if (response.body()!!.success){
                         val data = response.body()!!.data
-                     binding.jobsTodayTitle.text  =  data.data.size.toString() + " jobs"
-                        binding.rvTodayJob.adapter = TodayOrdersAdapter(data.data)
+                     binding.jobsTodayTitle.text  =  data.data.size.toString() + " jobs Cancelled"
+
 
                     }
                 }
@@ -153,5 +152,10 @@ class HomeFragment : Fragment() {
         }
 
         return dateList
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        requireActivity().finish()
     }
 }

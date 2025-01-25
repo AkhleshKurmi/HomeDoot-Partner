@@ -10,8 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.FragmentBankDetailsBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
+import com.example.akhleshkumar.homedootpartner.activities.MainActivity
 import com.example.akhleshkumar.homedootpartner.models.UploadAndUpdateResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -71,6 +73,8 @@ class BankDetailsFragment : Fragment() {
                         binding.etAccountNoUpdate.setText(data.vendorDetails.bankDetails.accountNumber)
                         binding.etIFSCUpdate.setText(data.vendorDetails.bankDetails.ifscCode)
                         binding.approvedUpdate.text = if (data.vendorDetails.bankDetails.approval =="1") "Approved" else "Not Approved"
+                        binding.approvedUpdate.background = if (data.vendorDetails.bankDetails.approval =="1") resources.getDrawable(
+                            R.color.green) else resources.getDrawable(R.color.red)
                     }
                 }
             }
@@ -182,6 +186,11 @@ class BankDetailsFragment : Fragment() {
         val filePath = cursor?.getString(idx ?: 0)
         cursor?.close()
         return filePath
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+//        startActivity(Intent(requireContext(),MainActivity::class.java).putExtra("fragment", "h"))
     }
 
 }
