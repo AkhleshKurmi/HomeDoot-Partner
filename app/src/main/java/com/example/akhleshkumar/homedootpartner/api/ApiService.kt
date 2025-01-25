@@ -14,6 +14,7 @@ import com.example.akhleshkumar.homedootpartner.models.VendorCommissionResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorOrderRes
 import com.example.akhleshkumar.homedootpartner.models.WalletHistoryResponse
+import com.example.akhleshkumar.homedootpartner.models.WalletResponse
 import com.example.akhleshkumar.homedootpartner.models.user.ForgotPasswordResponse
 import com.example.akhleshkumar.homedootpartner.models.user.LoginUserResponse
 import com.example.akhleshkumar.homedootpartner.models.user.UpdatePasswordResponse
@@ -170,6 +171,8 @@ interface ApiService {
     ): Call<VendorCommissionResponse>
 
 
+    @POST("fill-wallet")
+    fun fillWallet(@Query("vendor_id") vendorId:Int, @Query("amount") amount:String) : Call<WalletResponse>
 
 }
 

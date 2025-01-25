@@ -60,4 +60,5 @@ dependencies {
     implementation (libs.picasso)
     implementation (libs.pinview)
     implementation(libs.okhttp)
+    implementation(libs.checkout)
 }

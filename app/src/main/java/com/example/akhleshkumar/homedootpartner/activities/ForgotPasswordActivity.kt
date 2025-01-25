@@ -39,6 +39,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
                         if (response.isSuccessful){
                             if (response.body()!!.success){
                                validateOtp(response.body()!!.data.verificationCode.toString())
+                                Toast.makeText(this@ForgotPasswordActivity, response.body()!!.message, Toast.LENGTH_SHORT)
+                                    .show()
                             }
                             else{
                                 Toast.makeText(this@ForgotPasswordActivity, response.body()!!.message, Toast.LENGTH_SHORT)

@@ -53,6 +53,11 @@
         </activity>
         <activity android:name="com.example.akhleshkumar.homedootpartner.activities.UpdatefrofileActivity"
             android:exported="false"/>
+
+        <meta-data android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_HeICphb9DMsZH5"/>
+<!--        <meta-data android:name="com.razorpay.ApiKey"-->
+<!--            android:value="rzp_test_vNW8R8FeHAqIzA"/>-->
     </application>
 
 </manifest>
