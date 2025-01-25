@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
        binding = FragmentHomeBinding.inflate(layoutInflater,container, false)
         return binding.root
@@ -129,6 +129,7 @@ class HomeFragment : Fragment() {
 
         })
     }
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
