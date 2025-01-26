@@ -22,12 +22,14 @@ import com.example.akhleshkumar.homedootpartner.fragments.RatingFragment
 import com.example.akhleshkumar.homedootpartner.fragments.WalletFragment
 import com.example.akhleshkumar.homedootpartner.models.ReviewResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
+import com.razorpay.PaymentData
 import com.razorpay.PaymentResultListener
+import com.razorpay.PaymentResultWithDataListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity(), PaymentResultListener {
+class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
     private lateinit var binding: ActivityMainBinding
 
     lateinit var progressDialog: ProgressDialog
@@ -185,13 +187,14 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
         }
     }
 
-    override fun onPaymentSuccess(p0: String?) {
+
+    override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? WalletFragment
-        fragment?.onPaymentSuccess(p0)
+        fragment?.onPaymentSuccess(p0,p1)
     }
 
-    override fun onPaymentError(p0: Int, p1: String?) {
+    override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? WalletFragment
-        fragment?.onPaymentError(p0,p1)
+        fragment?.onPaymentError(p0,p1,p2)
     }
 }

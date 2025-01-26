@@ -17,7 +17,6 @@ import com.akhleshkumar.homedootpartner.databinding.FragmentHomeBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.activities.OrdersActivity
 import com.example.akhleshkumar.homedootpartner.adaters.DateAdapter
-import com.example.akhleshkumar.homedootpartner.adaters.TodayOrdersAdapter
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorOrderRes
 import retrofit2.Call
