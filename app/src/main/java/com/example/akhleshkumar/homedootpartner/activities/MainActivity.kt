@@ -22,11 +22,12 @@ import com.example.akhleshkumar.homedootpartner.fragments.RatingFragment
 import com.example.akhleshkumar.homedootpartner.fragments.WalletFragment
 import com.example.akhleshkumar.homedootpartner.models.ReviewResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
+import com.razorpay.PaymentResultListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), PaymentResultListener {
     private lateinit var binding: ActivityMainBinding
 
     lateinit var progressDialog: ProgressDialog
@@ -182,5 +183,15 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onPaymentSuccess(p0: String?) {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? WalletFragment
+        fragment?.onPaymentSuccess(p0)
+    }
+
+    override fun onPaymentError(p0: Int, p1: String?) {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? WalletFragment
+        fragment?.onPaymentError(p0,p1)
     }
 }

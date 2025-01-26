@@ -65,6 +65,19 @@ class HomeFragment : Fragment() {
             startActivity(Intent(requireContext(), OrdersActivity::class.java).putExtra("from", "completed"))
         }
 
+        binding.llNewJobs.setOnClickListener {
+            startActivity(Intent(requireContext(), OrdersActivity::class.java).putExtra("from", "pending"))
+        }
+
+        binding.llCancelledJobs.setOnClickListener {
+            startActivity(Intent(requireContext(), OrdersActivity::class.java).putExtra("from", "cancelled"))
+        }
+
+        binding.llCompletedJob.setOnClickListener {
+            startActivity(Intent(requireContext(), OrdersActivity::class.java).putExtra("from", "completed"))
+        }
+
+
 
         binding.rvDates.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
 

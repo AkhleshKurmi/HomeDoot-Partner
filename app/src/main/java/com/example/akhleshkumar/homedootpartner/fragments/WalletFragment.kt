@@ -20,6 +20,7 @@ import com.example.akhleshkumar.homedootpartner.models.WalletHistoryResponse
 import com.example.akhleshkumar.homedootpartner.models.WalletResponse
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
+import com.razorpay.PaymentResultListener
 import com.razorpay.PaymentResultWithDataListener
 import com.razorpay.RazorpayInitializer
 import org.json.JSONObject
@@ -27,7 +28,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class WalletFragment : Fragment(),PaymentResultWithDataListener {
+class WalletFragment : Fragment() {
     lateinit var binding: FragmentWalletBinding
     lateinit var sharedpref: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
@@ -35,7 +36,7 @@ class WalletFragment : Fragment(),PaymentResultWithDataListener {
     private var price = 0.0
     private val transactions = mutableListOf<Transaction>()
     private lateinit var adapter: TransactionAdapter
-
+    lateinit var co :Checkout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedpref = requireActivity().getSharedPreferences("HomeDoot", AppCompatActivity.MODE_PRIVATE)
@@ -47,8 +48,9 @@ class WalletFragment : Fragment(),PaymentResultWithDataListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWalletBinding.inflate(layoutInflater)
+
         Checkout.preload(requireActivity().applicationContext)
-        val co = Checkout()
+        co = Checkout()
 //        co.setKeyID("rzp_test_vNW8R8FeHAqIzA")
         co.setKeyID("rzp_live_HeICphb9DMsZH5")
         // Inflate the layout for this fragment
@@ -168,7 +170,7 @@ fun setWalletBalance() {
 
     private fun setWalletGateway(amount: Double) {
         val activity = requireActivity()
-        val co = Checkout()
+
 
         try {
             val options = JSONObject()
@@ -204,15 +206,7 @@ fun setWalletBalance() {
         binding.tvWalletBalance.text = "₹ $walletBalance"
     }
 
-    override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
-        successPayment(price.toString())
-    }
 
-
-
-    override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
-        Toast.makeText(requireContext(), "Payment Failed", Toast.LENGTH_SHORT).show()
-    }
     private fun successPayment(amount: String) {
         RetrofitClient.instance.fillWallet(sharedpref.getInt("vendor_id",0),amount).enqueue(object :
             Callback<WalletResponse> {
@@ -222,6 +216,7 @@ fun setWalletBalance() {
             ) {
                 if (response.isSuccessful){
                     if (response.body()!!.success){
+                        Toast.makeText(requireContext(), response.body()!!.message, Toast.LENGTH_SHORT).show()
                         setWalletBalance()
                         fetchTransactions()
                         fetchDebitTransaction()
@@ -235,6 +230,14 @@ fun setWalletBalance() {
 
         })
 
+    }
+
+     fun onPaymentSuccess(p0: String?) {
+        successPayment(price.toString())
+    }
+
+     fun onPaymentError(p0: Int, p1: String?) {
+        Toast.makeText(requireContext(), "Payment Failed", Toast.LENGTH_SHORT).show()
     }
 
 }
