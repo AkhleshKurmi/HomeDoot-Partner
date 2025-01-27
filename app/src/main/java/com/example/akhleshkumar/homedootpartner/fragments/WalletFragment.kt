@@ -20,6 +20,7 @@ import com.example.akhleshkumar.homedootpartner.models.WalletHistoryResponse
 import com.example.akhleshkumar.homedootpartner.models.WalletResponse
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
+import com.razorpay.PaymentResultListener
 import com.razorpay.PaymentResultWithDataListener
 import com.razorpay.RazorpayInitializer
 import org.json.JSONObject
@@ -27,7 +28,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class WalletFragment : Fragment(),PaymentResultWithDataListener {
+class WalletFragment : Fragment() {
     lateinit var binding: FragmentWalletBinding
     lateinit var sharedpref: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
@@ -35,7 +36,7 @@ class WalletFragment : Fragment(),PaymentResultWithDataListener {
     private var price = 0.0
     private val transactions = mutableListOf<Transaction>()
     private lateinit var adapter: TransactionAdapter
-
+    lateinit var co :Checkout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedpref = requireActivity().getSharedPreferences("HomeDoot", AppCompatActivity.MODE_PRIVATE)
@@ -47,10 +48,11 @@ class WalletFragment : Fragment(),PaymentResultWithDataListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWalletBinding.inflate(layoutInflater)
+
         Checkout.preload(requireActivity().applicationContext)
-        val co = Checkout()
-//        co.setKeyID("rzp_test_vNW8R8FeHAqIzA")
-        co.setKeyID("rzp_live_HeICphb9DMsZH5")
+        co = Checkout()
+        co.setKeyID("rzp_test_vNW8R8FeHAqIzA")
+//        co.setKeyID("rzp_live_HeICphb9DMsZH5")
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -90,7 +92,6 @@ fun setWalletBalance() {
                     }
                 }
             }
-
             override fun onFailure(call: Call<VendorDashboardResponse>, t: Throwable) {
                 Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
             }
@@ -168,8 +169,6 @@ fun setWalletBalance() {
 
     private fun setWalletGateway(amount: Double) {
         val activity = requireActivity()
-        val co = Checkout()
-
         try {
             val options = JSONObject()
             options.put("name","HomeDoot")
@@ -204,17 +203,10 @@ fun setWalletBalance() {
         binding.tvWalletBalance.text = "₹ $walletBalance"
     }
 
-    override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
-        successPayment(price.toString())
-    }
 
-
-
-    override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
-        Toast.makeText(requireContext(), "Payment Failed", Toast.LENGTH_SHORT).show()
-    }
-    private fun successPayment(amount: String) {
-        RetrofitClient.instance.fillWallet(sharedpref.getInt("vendor_id",0),amount).enqueue(object :
+    private fun successPayment(amount: String,p1: PaymentData?) {
+        RetrofitClient.instance.fillWallet(sharedpref.getInt("vendor_id",0),amount.toString(),0.toString(),amount.toString(),p1!!.paymentId.toString(),
+            p1.paymentId.toString(),p1.paymentId.toString()).enqueue(object :
             Callback<WalletResponse> {
             override fun onResponse(
                 call: Call<WalletResponse>,
@@ -222,19 +214,27 @@ fun setWalletBalance() {
             ) {
                 if (response.isSuccessful){
                     if (response.body()!!.success){
+                        Toast.makeText(requireContext(), response.body()!!.message, Toast.LENGTH_SHORT).show()
                         setWalletBalance()
                         fetchTransactions()
                         fetchDebitTransaction()
                     }
                 }
             }
-
             override fun onFailure(call: Call<WalletResponse>, t: Throwable) {
                 Toast.makeText(requireContext(), "error: "+t.localizedMessage, Toast.LENGTH_SHORT).show()
             }
 
         })
 
+    }
+
+     fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
+        successPayment(price.toString(),p1)
+    }
+
+     fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
+        Toast.makeText(requireContext(), "Payment Failed", Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -18,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.checkPermission
 import androidx.fragment.app.Fragment
+import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.FragmentBussinessDetailBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.models.UploadAndUpdateResponse
@@ -88,6 +89,8 @@ class BusinessDetailFragment : Fragment() {
                         binding.etPANDetail.setText(data.vendorDetails.businessDetails.panDetails)
                         binding.etAAdharDetail.setText(data.vendorDetails.businessDetails.aadharDetails)
                         binding.approved.text = if (data.vendorDetails.businessDetails.approval =="1") "Approved" else "" + "Not Approved"
+                        binding.approved.background = if (data.vendorDetails.businessDetails.approval =="1") resources.getDrawable(
+                            R.color.green) else resources.getDrawable(R.color.red)
                     }
                 }
             }

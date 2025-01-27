@@ -16,16 +16,20 @@ import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.fragments.BankDetailsFragment
 import com.example.akhleshkumar.homedootpartner.fragments.BusinessDetailFragment
 import com.example.akhleshkumar.homedootpartner.fragments.HomeFragment
+import com.example.akhleshkumar.homedootpartner.fragments.JobHistoryFragment
 import com.example.akhleshkumar.homedootpartner.fragments.MyProfileFragment
 import com.example.akhleshkumar.homedootpartner.fragments.RatingFragment
 import com.example.akhleshkumar.homedootpartner.fragments.WalletFragment
 import com.example.akhleshkumar.homedootpartner.models.ReviewResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
+import com.razorpay.PaymentData
+import com.razorpay.PaymentResultListener
+import com.razorpay.PaymentResultWithDataListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
     private lateinit var binding: ActivityMainBinding
 
     lateinit var progressDialog: ProgressDialog
@@ -98,6 +102,7 @@ class MainActivity : AppCompatActivity() {
             when(menuItem.itemId){
                 R.id.home -> loadFragment(HomeFragment())
                 R.id.money -> loadFragment(WalletFragment())
+                R.id.newJob -> loadFragment(JobHistoryFragment())
                 else -> showToast("Unknown Item Clicked")
             }
             true
@@ -117,6 +122,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
             .commit()
     }
 
@@ -179,5 +185,16 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+
+    override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? WalletFragment
+        fragment?.onPaymentSuccess(p0,p1)
+    }
+
+    override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? WalletFragment
+        fragment?.onPaymentError(p0,p1,p2)
     }
 }

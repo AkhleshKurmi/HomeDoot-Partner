@@ -171,8 +171,11 @@ interface ApiService {
     ): Call<VendorCommissionResponse>
 
 
-    @POST("fill-wallet")
-    fun fillWallet(@Query("vendor_id") vendorId:Int, @Query("amount") amount:String) : Call<WalletResponse>
+    @POST("paysuccess-wallet")
+    fun fillWallet(@Query("vendor_id") vendorId:Int, @Query("totalAmount") totalAmount:String,@Query("wallet_pay")walletPay:String,
+                   @Query("totalAmtForPay") totalAmtForPay:String,
+                   @Query("r_pay_id") razorPayId :String, @Query("r_order_id")razorPayOrderId:String,
+                   @Query("r_sign_id") razorPaySignatureId:String) : Call<WalletResponse>
 
 }
 

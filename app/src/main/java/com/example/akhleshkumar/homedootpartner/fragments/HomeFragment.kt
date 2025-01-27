@@ -17,7 +17,6 @@ import com.akhleshkumar.homedootpartner.databinding.FragmentHomeBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.activities.OrdersActivity
 import com.example.akhleshkumar.homedootpartner.adaters.DateAdapter
-import com.example.akhleshkumar.homedootpartner.adaters.TodayOrdersAdapter
 import com.example.akhleshkumar.homedootpartner.models.VendorDashboardResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorOrderRes
 import retrofit2.Call
@@ -45,7 +44,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
        binding = FragmentHomeBinding.inflate(layoutInflater,container, false)
         return binding.root
@@ -65,8 +64,20 @@ class HomeFragment : Fragment() {
             startActivity(Intent(requireContext(), OrdersActivity::class.java).putExtra("from", "completed"))
         }
 
+        binding.llNewJobs.setOnClickListener {
+            startActivity(Intent(requireContext(), OrdersActivity::class.java).putExtra("from", "pending"))
+        }
 
-        binding.rvTodayJob.layoutManager = LinearLayoutManager(requireContext())
+        binding.llCancelledJobs.setOnClickListener {
+            startActivity(Intent(requireContext(), OrdersActivity::class.java).putExtra("from", "cancelled"))
+        }
+
+        binding.llCompletedJob.setOnClickListener {
+            startActivity(Intent(requireContext(), OrdersActivity::class.java).putExtra("from", "completed"))
+        }
+
+
+
         binding.rvDates.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
 
         RetrofitClient.instance.getVendorDashboard(sharedPreferences.getInt("vendor_id",0).toString()).enqueue(object : Callback<VendorDashboardResponse>{
@@ -117,8 +128,8 @@ class HomeFragment : Fragment() {
                 if (response.isSuccessful){
                     if (response.body()!!.success){
                         val data = response.body()!!.data
-                     binding.jobsTodayTitle.text  =  data.data.size.toString() + " jobs"
-                        binding.rvTodayJob.adapter = TodayOrdersAdapter(data.data)
+                     binding.jobsTodayTitle.text  =  data.data.size.toString() + " jobs Cancelled"
+
 
                     }
                 }
@@ -130,6 +141,7 @@ class HomeFragment : Fragment() {
 
         })
     }
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
@@ -153,5 +165,10 @@ class HomeFragment : Fragment() {
         }
 
         return dateList
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        requireActivity().finish()
     }
 }
