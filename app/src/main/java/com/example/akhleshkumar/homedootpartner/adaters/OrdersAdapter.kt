@@ -72,10 +72,7 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>) : R
                }
                dialog.setNegativeButton("Close"){_ , _ ->
                }
-               dialog.setNegativeButton("Cancel Order"){_ , _ ->
 
-
-               }
                dialog.show()
            }
 
