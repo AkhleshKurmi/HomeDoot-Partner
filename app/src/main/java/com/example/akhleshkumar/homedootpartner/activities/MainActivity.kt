@@ -15,6 +15,7 @@ import com.akhleshkumar.homedootpartner.databinding.NavHeaderBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.fragments.BankDetailsFragment
 import com.example.akhleshkumar.homedootpartner.fragments.BusinessDetailFragment
+import com.example.akhleshkumar.homedootpartner.fragments.CommisionFragment
 import com.example.akhleshkumar.homedootpartner.fragments.HomeFragment
 import com.example.akhleshkumar.homedootpartner.fragments.JobHistoryFragment
 import com.example.akhleshkumar.homedootpartner.fragments.MyProfileFragment
@@ -82,7 +83,7 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                 R.id.menu_rating ->{ loadFragment(RatingFragment())
                     binding.drawerLayout.closeDrawers()
                 }
-                R.id.menu_commission ->{ showToast("Commission Clicked")
+                R.id.menu_commission ->{ loadFragment(CommisionFragment())
                     binding.drawerLayout.closeDrawers()
 
                 }

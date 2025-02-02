@@ -162,7 +162,7 @@ interface ApiService {
     @POST("vendor-rating")
     fun vendorReview(@Query("vendor_id") vendorId:String) : Call<ReviewResponse>
 
-    @POST("api/vendor-commision")
+    @POST("vendor-commision")
     fun getVendorCommission(
         @Query("vendor_id") vendorId: Int,
         @Query("from_date") fromDate: String,
@@ -171,11 +171,18 @@ interface ApiService {
     ): Call<VendorCommissionResponse>
 
 
-    @POST("paysuccess-wallet")
-    fun fillWallet(@Query("vendor_id") vendorId:Int, @Query("totalAmount") totalAmount:String,@Query("wallet_pay")walletPay:String,
+    @POST("paysuccess-wallet-transactions")
+    fun paymentSuccess(@Query("vendor_id") vendorId:Int, @Query("totalAmount") totalAmount:String,@Query("wallet_pay")walletPay:String,
                    @Query("totalAmtForPay") totalAmtForPay:String,
                    @Query("r_pay_id") razorPayId :String, @Query("r_order_id")razorPayOrderId:String,
                    @Query("r_sign_id") razorPaySignatureId:String) : Call<WalletResponse>
+
+
+    @POST("fill-wallet")
+    fun fillWallet(@Query("vendor_id") vendorId:Int, @Query("amount") totalAmount:String) : Call<WalletResponse>
+
+    @POST("accept-order")
+    fun acceptOrder(@Query("vendor_id")vendorId: String,@Query("order_no") orderNo: String, @Query("grand_total") grandTotal: Int) : Call<CancelOrderResponse>
 
 }
 
