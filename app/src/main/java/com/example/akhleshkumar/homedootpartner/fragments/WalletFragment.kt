@@ -183,32 +183,6 @@ fun setWalletBalance() {
         })
     }
     fun initializePayment(amount: Double, orderId:String){
-        val payloadHelper = PayloadHelper("INR", amount.toInt(), orderId)
-        payloadHelper.sendSmsHash = true
-        payloadHelper.retryMaxCount = 3
-        payloadHelper.retryEnabled = true
-        payloadHelper.color = "#000000"
-        payloadHelper.allowRotation = true
-        payloadHelper.rememberCustomer = true
-        payloadHelper.timeout = 10
-        payloadHelper.redirect = true
-        payloadHelper.recurring = "1"
-        payloadHelper.subscriptionCardChange = true
-        payloadHelper.customerId = sharedpref.getInt("vendor_id",0).toString()
-        payloadHelper.callbackUrl = "https://accepts-posts.request"
-        payloadHelper.modalConfirmClose = true
-        payloadHelper.backDropColor = "#ffffff"
-        payloadHelper.hideTopBar = true
-        payloadHelper.notes = JSONObject("{\"remarks\":\"Discount to cusomter\"}")
-        payloadHelper.readOnlyEmail = true
-        payloadHelper.readOnlyContact = true
-        payloadHelper.readOnlyName = true
-        payloadHelper.image = "https://www.razorpay.com"
-        // these values are set mandatorily during object initialization. Those values can be overridden like this
-        payloadHelper.amount=amount.toInt()
-        payloadHelper.currency="INR"
-        payloadHelper.orderId = orderId
-
 
         setWalletGateway(amount,orderId)
 

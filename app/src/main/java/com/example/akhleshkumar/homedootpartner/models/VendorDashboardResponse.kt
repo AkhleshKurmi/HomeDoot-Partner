@@ -23,7 +23,7 @@ data class Dashboard(
 data class VendorDetails(
     @SerializedName("id") val id: Int,
     @SerializedName("user_token") val userToken: String,
-    @SerializedName("wallet") val wallet: Int,
+    @SerializedName("wallet") val wallet: Double,
     @SerializedName("name") val name: String,
     @SerializedName("email") val email: String,
     @SerializedName("email_verification") val emailVerification: String,
