@@ -257,15 +257,34 @@
                     android:textSize="14sp" />
 
                 <!-- Accept Button -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
                 <Button
                     android:id="@+id/btnAccept"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
                     android:text="Accept"
+                    android:visibility="gone"
                     android:textColor="@android:color/white"
                     android:backgroundTint="@color/purple_500"
                     android:gravity="center" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/accept_cash"
+                        android:visibility="gone"
+                        android:text="Accept Cash"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/updateStatus"
+                        android:visibility="gone"
+                        android:text="Update Status"/>
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"

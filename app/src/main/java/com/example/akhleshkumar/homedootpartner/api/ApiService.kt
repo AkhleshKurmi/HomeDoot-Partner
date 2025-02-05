@@ -26,6 +26,7 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -183,6 +184,12 @@ interface ApiService {
 
     @POST("accept-order")
     fun acceptOrder(@Query("vendor_id")vendorId: String,@Query("order_no") orderNo: String, @Query("grand_total") grandTotal: Int) : Call<CancelOrderResponse>
+
+    @POST("accept-cash/{order_no}")
+    fun acceptCash(@Path("order_no") order_no: String) : Call<CancelOrderResponse>
+
+    @POST("vendor-update-order")
+    fun updateStatus(@Query("vendor_id") vendorId: String, @Query("order_no") orderNo: String, @Query("status") status: String) : Call<CancelOrderResponse>
 
 }
 

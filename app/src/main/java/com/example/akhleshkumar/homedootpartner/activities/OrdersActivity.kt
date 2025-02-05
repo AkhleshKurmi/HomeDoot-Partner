@@ -48,7 +48,7 @@ class OrdersActivity : AppCompatActivity() {
                     if (response.isSuccessful){
                         if (response.body()!!.success){
                             val list = response.body()!!.data.data
-                            ordersAdapter = OrdersAdapter(this@OrdersActivity,list)
+                            ordersAdapter = OrdersAdapter(this@OrdersActivity,list,status)
                             binding.rvOrders.adapter = ordersAdapter
                         }
                     }

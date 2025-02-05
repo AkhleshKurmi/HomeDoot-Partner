@@ -67,7 +67,7 @@ class JobHistoryFragment : Fragment() {
                     if (response.isSuccessful){
                         if (response.body()!!.success){
                             val list = response.body()!!.data.data
-                            ordersAdapter = OrdersAdapter(requireContext(),list)
+                            ordersAdapter = OrdersAdapter(requireContext(),list,status)
                             binding.rvOrders.adapter = ordersAdapter
                         }
                     }
