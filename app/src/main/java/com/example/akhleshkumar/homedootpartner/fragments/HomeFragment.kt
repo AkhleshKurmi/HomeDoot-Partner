@@ -119,6 +119,26 @@ class HomeFragment : Fragment() {
             }
 
         })
+
+        RetrofitClient.instance.vendorOrders(sharedPreferences.getInt("vendor_id",0).toString(), "completed").enqueue(object : Callback<VendorOrderRes>{
+            @SuppressLint("SetTextI18n")
+            override fun onResponse(
+                call: Call<VendorOrderRes>,
+                response: Response<VendorOrderRes>
+            ) {
+                if (response.isSuccessful){
+                    if (response.body()!!.success){
+                        val data = response.body()!!.data
+                        binding.cultTitle.text = data.data.size.toString()+" jobs Completed"
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<VendorOrderRes>, t: Throwable) {
+                Toast.makeText(requireContext(), t.message, Toast.LENGTH_SHORT).show()
+            }
+
+        })
         RetrofitClient.instance.vendorOrders(sharedPreferences.getInt("vendor_id",0).toString(), "cancelled").enqueue(object : Callback<VendorOrderRes>{
             @SuppressLint("SetTextI18n")
             override fun onResponse(

@@ -11,6 +11,7 @@ import com.akhleshkumar.homedootpartner.databinding.ItemViewOrPendingJobBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.models.CancelOrderResponse
 import com.example.akhleshkumar.homedootpartner.models.OrderResponse
+import com.example.akhleshkumar.homedootpartner.models.OrderResponses
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,11 +42,55 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
         holder.binding.tvAddress.text = data.address
         holder.binding.tvPlacedOn.text = data.updatedAt
         if (status == "completed" || status == "cancelled") {
-            holder.binding.btnAccept.visibility = View.INVISIBLE
-        } else {
-            holder.binding.btnAccept.visibility = View.VISIBLE
+            holder.binding.btnAccept.visibility = View.GONE
+            holder.binding.acceptCash.visibility = View.GONE
+            holder.binding.updateStatus.visibility = View.GONE
+        }
+        if(data.orderStatus == "pending") {
+
+            if(data.assignedOrder.vendorAccepted==0){
+
+                holder.binding.btnAccept.visibility = View.VISIBLE
+                holder.binding.acceptCash.visibility = View.GONE
+                holder.binding.updateStatus.visibility = View.GONE
+
+            } else {
+
+                if (data.cashAccepted == 1){
+                    holder.binding.acceptCash.isClickable = false
+                    holder.binding.acceptCash.text = "Cash Accepted"
+                    holder.binding.btnAccept.visibility = View.GONE
+                    holder.binding.acceptCash.visibility = View.VISIBLE
+                    holder.binding.updateStatus.visibility = View.VISIBLE
+                }
+                else {
+                    holder.binding.btnAccept.visibility = View.GONE
+                    holder.binding.acceptCash.visibility = View.VISIBLE
+                    holder.binding.updateStatus.visibility = View.VISIBLE
+                }
+            }
+        } else{
+            holder.binding.btnAccept.visibility = View.GONE
+            holder.binding.acceptCash.visibility = View.GONE
+            holder.binding.updateStatus.visibility = View.GONE
         }
 
+//        if (data.cashAccepted == 1){
+//            holder.binding.btnAccept.visibility = View.GONE
+//            holder.binding.acceptCash.visibility = View.GONE
+//            holder.binding.updateStatus.visibility = View.VISIBLE
+//        }
+//
+//        if(data.assignedOrder.vendorAccepted==0){
+//            holder.binding.btnAccept.visibility = View.VISIBLE
+//            holder.binding.acceptCash.visibility = View.GONE
+//            holder.binding.updateStatus.visibility = View.GONE
+//        } else {
+//
+//            holder.binding.btnAccept.visibility = View.GONE
+//            holder.binding.acceptCash.visibility = View.VISIBLE
+//            holder.binding.updateStatus.visibility = View.GONE
+//        }
         holder.binding.updateStatus.setOnClickListener {
             val dialog = AlertDialog.Builder(context)
             dialog.setTitle("Update Status")
@@ -54,13 +99,13 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
                 RetrofitClient.instance.updateStatus(
                     sharedPreferences.getInt("vendor_id", 0).toString(),
                     data.orderNo,
-                    "completed").enqueue(object : Callback<CancelOrderResponse>{
+                    "completed").enqueue(object : Callback<OrderResponses>{
                     override fun onResponse(
-                        call: Call<CancelOrderResponse>,
-                        response: Response<CancelOrderResponse>
+                        call: Call<OrderResponses>,
+                        response: Response<OrderResponses>
                     ) {
                         if (response.isSuccessful) {
-                            if (response.body()?.success!!) {
+                            if (response.body()?.status!!) {
                                 holder.binding.acceptCash.visibility = View.GONE
                                 holder.binding.updateStatus.visibility = View.GONE
                                 holder.binding.btnAccept.visibility = View.GONE
@@ -81,7 +126,7 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
                         }
                     }
 
-                    override fun onFailure(call: Call<CancelOrderResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<OrderResponses>, t: Throwable) {
                         Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                     }
 
@@ -91,13 +136,13 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
                 RetrofitClient.instance.updateStatus(
                     sharedPreferences.getInt("vendor_id", 0).toString(),
                     data.orderNo,
-                    "cancelled").enqueue(object : Callback<CancelOrderResponse>{
+                    "cancelled").enqueue(object : Callback<OrderResponses>{
                     override fun onResponse(
-                        call: Call<CancelOrderResponse>,
-                        response: Response<CancelOrderResponse>
+                        call: Call<OrderResponses>,
+                        response: Response<OrderResponses>
                     ) {
                         if (response.isSuccessful) {
-                            if (response.body()?.success!!) {
+                            if (response.body()?.status!!) {
                                 holder.binding.acceptCash.visibility = View.GONE
                                 holder.binding.updateStatus.visibility = View.GONE
                                 holder.binding.btnAccept.visibility = View.GONE
@@ -118,7 +163,7 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
                         }
                     }
 
-                    override fun onFailure(call: Call<CancelOrderResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<OrderResponses>, t: Throwable) {
                         Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                     }
 
@@ -144,7 +189,9 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
                         ) {
                             if (response.isSuccessful) {
                                 if (response.body()?.success!!) {
-                                    holder.binding.acceptCash.visibility = View.GONE
+                                    holder.binding.acceptCash.isClickable = false
+                                    holder.binding.acceptCash.text = "Cash Accepted"
+                                    holder.binding.acceptCash.visibility = View.VISIBLE
                                     holder.binding.updateStatus.visibility = View.VISIBLE
                                     holder.binding.btnAccept.visibility = View.GONE
                                     Toast.makeText(
@@ -187,14 +234,15 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
                         sharedPreferences.getInt("vendor_id", 0).toString(),
                         data.orderNo.toString(),
                         data.grandTotal
-                    ).enqueue(object : retrofit2.Callback<CancelOrderResponse> {
+                    ).enqueue(object : retrofit2.Callback<OrderResponses> {
                         override fun onResponse(
-                            call: Call<CancelOrderResponse>,
-                            response: Response<CancelOrderResponse>
+                            call: Call<OrderResponses>,
+                            response: Response<OrderResponses>
                         ) {
                             if (response.isSuccessful) {
-                                if (response.body()?.success!!) {
+                                if (response.body()?.status!!) {
                                     holder.binding.acceptCash.visibility = View.VISIBLE
+                                    holder.binding.updateStatus.visibility = View.VISIBLE
                                     holder.binding.btnAccept.visibility = View.GONE
                                     Toast.makeText(
                                         context,
@@ -216,8 +264,8 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
 
                         }
 
-                        override fun onFailure(call: Call<CancelOrderResponse>, t: Throwable) {
-                            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT)
+                        override fun onFailure(call: Call<OrderResponses>, t: Throwable) {
+                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT)
                                 .show()
                         }
 

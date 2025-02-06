@@ -8,6 +8,7 @@ import com.example.akhleshkumar.homedoot.models.user.RegistrationResponse
 import com.example.akhleshkumar.homedoot.models.user.SendOtpRequest
 import com.example.akhleshkumar.homedootpartner.models.ApiResponseCategory
 import com.example.akhleshkumar.homedootpartner.models.CancelOrderResponse
+import com.example.akhleshkumar.homedootpartner.models.OrderResponses
 import com.example.akhleshkumar.homedootpartner.models.ReviewResponse
 import com.example.akhleshkumar.homedootpartner.models.UploadAndUpdateResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorCommissionResponse
@@ -183,13 +184,13 @@ interface ApiService {
     fun fillWallet(@Query("vendor_id") vendorId:Int, @Query("amount") totalAmount:String) : Call<WalletResponse>
 
     @POST("accept-order")
-    fun acceptOrder(@Query("vendor_id")vendorId: String,@Query("order_no") orderNo: String, @Query("grand_total") grandTotal: Int) : Call<CancelOrderResponse>
+    fun acceptOrder(@Query("vendor_id")vendorId: String,@Query("order_no") orderNo: String, @Query("grand_total") grandTotal: Int) : Call<OrderResponses>
 
     @POST("accept-cash/{order_no}")
     fun acceptCash(@Path("order_no") order_no: String) : Call<CancelOrderResponse>
 
     @POST("vendor-update-order")
-    fun updateStatus(@Query("vendor_id") vendorId: String, @Query("order_no") orderNo: String, @Query("status") status: String) : Call<CancelOrderResponse>
+    fun updateStatus(@Query("vendor_id") vendorId: String, @Query("order_no") orderNo: String, @Query("status") status: String) : Call<OrderResponses>
 
 }
 

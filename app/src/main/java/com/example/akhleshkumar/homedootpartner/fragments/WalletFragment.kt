@@ -198,7 +198,6 @@ fun setWalletBalance() {
             options.put("order_id",orderId.toString())
             options.put("currency","INR");
             options.put("amount",amount*100)//pass amount in currency subunits
-
             val retryObj = JSONObject();
             retryObj.put("enabled", true);
             retryObj.put("max_count", 3);
