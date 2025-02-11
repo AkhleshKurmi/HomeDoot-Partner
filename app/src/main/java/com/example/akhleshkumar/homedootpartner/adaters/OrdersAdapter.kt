@@ -60,10 +60,12 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
                     holder.binding.acceptCash.isClickable = false
                     holder.binding.acceptCash.text = "Cash Accepted"
                     holder.binding.btnAccept.visibility = View.GONE
+                    holder.binding.jobStarted.visibility = View.VISIBLE
                     holder.binding.acceptCash.visibility = View.VISIBLE
                     holder.binding.updateStatus.visibility = View.VISIBLE
                 }
                 else {
+                    holder.binding.jobStarted.visibility = View.VISIBLE
                     holder.binding.btnAccept.visibility = View.GONE
                     holder.binding.acceptCash.visibility = View.VISIBLE
                     holder.binding.updateStatus.visibility = View.VISIBLE
@@ -73,6 +75,7 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
             holder.binding.btnAccept.visibility = View.GONE
             holder.binding.acceptCash.visibility = View.GONE
             holder.binding.updateStatus.visibility = View.GONE
+            holder.binding.jobStarted.visibility = View.GONE
         }
 
 //        if (data.cashAccepted == 1){
@@ -109,6 +112,7 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
                                 holder.binding.acceptCash.visibility = View.GONE
                                 holder.binding.updateStatus.visibility = View.GONE
                                 holder.binding.btnAccept.visibility = View.GONE
+                                holder.binding.jobStarted.visibility = View.GONE
 
                                 Toast.makeText(
                                     context,
@@ -146,7 +150,8 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
                                 holder.binding.acceptCash.visibility = View.GONE
                                 holder.binding.updateStatus.visibility = View.GONE
                                 holder.binding.btnAccept.visibility = View.GONE
-
+                                holder.binding.jobStarted.visibility = View.GONE
+                                cancelledOrder(data.razorOrderId)
                                 Toast.makeText(
                                     context,
                                     response.body()?.message,
@@ -193,6 +198,7 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
                                     holder.binding.acceptCash.text = "Cash Accepted"
                                     holder.binding.acceptCash.visibility = View.VISIBLE
                                     holder.binding.updateStatus.visibility = View.VISIBLE
+                                    holder.binding.jobStarted.visibility = View.VISIBLE
                                     holder.binding.btnAccept.visibility = View.GONE
                                     Toast.makeText(
                                         context,
@@ -225,6 +231,38 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
 
         }
 
+        holder.binding.jobStarted.setOnClickListener {
+            val dialog = AlertDialog.Builder(context)
+            dialog.setTitle("Job Started")
+            dialog.setMessage("Are you sure you have started the job?")
+            dialog.setPositiveButton("Started") { _, _ ->
+                RetrofitClient.instance.jobStarted(data.orderNo.toString()).enqueue(object : Callback<CancelOrderResponse>{
+                    override fun onResponse(
+                        call: Call<CancelOrderResponse>,
+                        response: Response<CancelOrderResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            if (response.body()?.success!!) {
+                                Toast.makeText(context, response.body()?.message, Toast.LENGTH_SHORT).show()
+
+                            }
+                            else{
+                                Toast.makeText(context, response.body()?.message, Toast.LENGTH_SHORT).show()
+                            }
+
+                        } else{
+                            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    override fun onFailure(call: Call<CancelOrderResponse>, t: Throwable) {
+                        Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+            dialog.setNegativeButton("Close") { _, _ ->
+            }
+        }
+
             holder.binding.btnAccept.setOnClickListener {
                 val dialog = AlertDialog.Builder(context)
                 dialog.setTitle("Accept Order")
@@ -243,6 +281,7 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
                                 if (response.body()?.status!!) {
                                     holder.binding.acceptCash.visibility = View.VISIBLE
                                     holder.binding.updateStatus.visibility = View.VISIBLE
+                                    holder.binding.jobStarted.visibility = View.VISIBLE
                                     holder.binding.btnAccept.visibility = View.GONE
                                     Toast.makeText(
                                         context,
@@ -279,5 +318,30 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
 
         }
 
+    private fun cancelledOrder(razorOrderId: String) {
+        RetrofitClient.instance.cancelOrderDelete(razorOrderId,0.toString()).enqueue(object : Callback<CancelOrderResponse>{
+            override fun onResponse(
+                call: Call<CancelOrderResponse>,
+                response: Response<CancelOrderResponse>
+            ) {
+                if (response.isSuccessful){
+                    if(response.body()?.success!!){
+                        Toast.makeText(context, response.body()?.message, Toast.LENGTH_SHORT).show()
+                    } else{
+                        Toast.makeText(context, response.body()?.message, Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<CancelOrderResponse>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+            }
+
+        })
 
     }
+
+
+}

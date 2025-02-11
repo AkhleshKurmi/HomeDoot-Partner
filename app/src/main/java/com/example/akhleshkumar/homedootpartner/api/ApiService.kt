@@ -192,5 +192,10 @@ interface ApiService {
     @POST("vendor-update-order")
     fun updateStatus(@Query("vendor_id") vendorId: String, @Query("order_no") orderNo: String, @Query("status") status: String) : Call<OrderResponses>
 
+    @POST("cancel-order-delete")
+    fun cancelOrderDelete(@Query("razor_order_id") razorOrderId: String, @Query("table") table: String) : Call<CancelOrderResponse>
+
+    @POST("job-started/{order_no}")
+    fun jobStarted(@Path("order_no") order_no: String) : Call<CancelOrderResponse>
 }
 
