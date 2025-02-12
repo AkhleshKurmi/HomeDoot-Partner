@@ -15,6 +15,7 @@ import com.akhleshkumar.homedootpartner.databinding.NavHeaderBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
 import com.example.akhleshkumar.homedootpartner.fragments.BankDetailsFragment
 import com.example.akhleshkumar.homedootpartner.fragments.BusinessDetailFragment
+import com.example.akhleshkumar.homedootpartner.fragments.CalenderFragment
 import com.example.akhleshkumar.homedootpartner.fragments.CommisionFragment
 import com.example.akhleshkumar.homedootpartner.fragments.HomeFragment
 import com.example.akhleshkumar.homedootpartner.fragments.JobHistoryFragment
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
             // Show Toast based on clicked item
             when (menuItem.itemId) {
-                R.id.menu_calendar ->{ showToast("Calendar Clicked")
+                R.id.menu_calendar ->{ loadFragment(CalenderFragment())
                     binding.drawerLayout.closeDrawers()
 
                 }
@@ -94,6 +95,7 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                 }
+
                 else -> showToast("Unknown Item Clicked")
             }
             true
