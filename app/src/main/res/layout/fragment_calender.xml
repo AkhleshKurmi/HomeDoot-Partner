@@ -1,0 +1,62 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.akhleshkumar.homedootpartner.fragments.CalenderFragment">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       android:padding="16dp">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:gravity="center">
+
+           <!-- Start Date -->
+           <Button
+               android:id="@+id/btnStartDate"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_margin="5dp"
+               android:textSize="13sp"
+               android:layout_height="wrap_content"
+               android:text="Select Start Date" />
+
+           <!-- End Date -->
+           <Button
+               android:id="@+id/btnEndDate"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:textSize="13dp"
+               android:layout_margin="5dp"
+               android:layout_height="wrap_content"
+               android:text="Select End Date" />
+       </LinearLayout>
+
+       <!-- Buttons for Search and Clear -->
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:gravity="center"
+           android:paddingTop="8dp">
+
+           <!-- Search Button -->
+           <Button
+               android:id="@+id/btn_unavalable"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_margin="5dp"
+               android:layout_height="wrap_content"
+               android:text="Confirm Unavalibility" />
+
+
+       </LinearLayout>
+
+   </LinearLayout>
+
+</FrameLayout>

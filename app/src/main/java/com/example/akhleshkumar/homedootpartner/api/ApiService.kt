@@ -197,5 +197,9 @@ interface ApiService {
 
     @POST("job-started/{order_no}")
     fun jobStarted(@Path("order_no") order_no: String) : Call<CancelOrderResponse>
+
+    @POST("update-availability")
+    fun vendorAvailability( @Query("vendor_id") vendorId: Int,
+                            @Query("date_range") fromDate: String) : Call<CancelOrderResponse>
 }
 

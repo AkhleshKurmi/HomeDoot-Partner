@@ -1,7 +1,8 @@
 package com.example.akhleshkumar.homedootpartner.fragments
 
+import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Context.MODE_PRIVATE
+import android.app.ProgressDialog
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,11 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.DatePicker
 import android.widget.Toast
 import com.akhleshkumar.homedootpartner.R
-import com.akhleshkumar.homedootpartner.databinding.FragmentCommisionBinding
+import com.akhleshkumar.homedootpartner.databinding.FragmentCalenderBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
+import com.example.akhleshkumar.homedootpartner.models.CancelOrderResponse
 import com.example.akhleshkumar.homedootpartner.models.VendorCommissionResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,56 +23,56 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+class CalenderFragment : Fragment() {
 
-class CommisionFragment : Fragment() {
-    lateinit var binding: FragmentCommisionBinding
+    lateinit var binding : FragmentCalenderBinding
+    lateinit var progressDialog: ProgressDialog
     lateinit var sharedPreferences: SharedPreferences
-    lateinit var editor: SharedPreferences.Editor
-     var dateStart:String = ""
+    lateinit var editorSP : SharedPreferences.Editor
+    var dateStart:String = ""
     var dateEnd:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-     sharedPreferences = requireActivity().getSharedPreferences("HomeDoot", MODE_PRIVATE)
-        editor = sharedPreferences.edit()
+
+        sharedPreferences = requireActivity().getSharedPreferences("HomeDoot", Activity.MODE_PRIVATE)
+        editorSP = sharedPreferences.edit()
+        progressDialog = ProgressDialog(requireContext()).apply {
+            setMessage("Loading...")
+            setCancelable(false)
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentCommisionBinding.inflate(layoutInflater,container,false)
+    ): View {
+          binding = FragmentCalenderBinding.inflate(layoutInflater,container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       binding.btnStartDate.setOnClickListener {
-         showDatePickerDialog(binding.btnStartDate)
-       }
-       binding.btnEndDate.setOnClickListener {
-            showDatePickerDialog(binding.btnEndDate)
-       }
 
-        binding.btnSearch.setOnClickListener {
+        binding.btnStartDate.setOnClickListener {
+            showDatePickerDialog(binding.btnStartDate)
+        }
+        binding.btnEndDate.setOnClickListener {
+            showDatePickerDialog(binding.btnEndDate)
+        }
+
+        binding.btnUnavalable.setOnClickListener {
             if (dateStart.isNotEmpty() && dateEnd.isNotEmpty()){
-                RetrofitClient.instance.getVendorCommission(sharedPreferences.getInt("vendor_id",0),dateStart,dateEnd,"search").enqueue(object :
-                    Callback<VendorCommissionResponse> {
+                RetrofitClient.instance.vendorAvailability(sharedPreferences.getInt("vendor_id",0),"$dateStart-$dateEnd").enqueue(object :
+                    Callback<CancelOrderResponse> {
                     override fun onResponse(
-                        call: Call<VendorCommissionResponse>,
-                        response: Response<VendorCommissionResponse>
+                        call: Call<CancelOrderResponse>,
+                        response: Response<CancelOrderResponse>
                     ) {
                         if (response.isSuccessful){
                             if (response.body()?.success!!){
-                                val data = response.body()?.data
-                                if (data != null){
-                                    if (data.invoices.isNullOrEmpty()){
-                                        Toast.makeText(requireContext(),"No invoices found", Toast.LENGTH_SHORT).show()
-                                    }
-                                    if(data.orderItems.isNullOrEmpty()){
-                                        Toast.makeText(requireContext(),"No order items found", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
+                                   Toast.makeText(requireContext(),response.body()?.message, Toast.LENGTH_SHORT).show()
+
                             }
                             else{
                                 Toast.makeText(requireContext(),response.body()?.message, Toast.LENGTH_SHORT).show()
@@ -84,7 +85,7 @@ class CommisionFragment : Fragment() {
                         }
                     }
 
-                    override fun onFailure(call: Call<VendorCommissionResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<CancelOrderResponse>, t: Throwable) {
                         Toast.makeText(requireContext(),t.message, Toast.LENGTH_SHORT).show()
                     }
 
@@ -126,4 +127,6 @@ class CommisionFragment : Fragment() {
 
         datePickerDialog.show()
     }
+
+
 }
