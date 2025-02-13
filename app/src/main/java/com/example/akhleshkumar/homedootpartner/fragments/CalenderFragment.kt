@@ -109,7 +109,7 @@ class CalenderFragment : Fragment() {
             val selectedCalendar = Calendar.getInstance()
             selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
 
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
             formattedDate = dateFormat.format(selectedCalendar.time)
 
             // Display the selected date in TextView
