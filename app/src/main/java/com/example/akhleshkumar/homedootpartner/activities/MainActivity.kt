@@ -3,6 +3,7 @@ package com.example.akhleshkumar.homedootpartner.activities
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -88,6 +89,16 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                     binding.drawerLayout.closeDrawers()
 
                 }
+                R.id.privacy_policy ->{
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.homedoot.com/privacy-policy")))
+                }
+                R.id.return_policy ->{
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.homedoot.com/refund-policy")))
+
+                }
+                R.id.terms_conditions ->{
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.homedoot.com/term-conditions")))
+                }
                 R.id.log_out -> {
                     sharedPreferences.all.clear()
                     editorSP.clear()
@@ -95,6 +106,7 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                 }
+
 
                 else -> showToast("Unknown Item Clicked")
             }

@@ -30,6 +30,12 @@
     <item
         android:id="@+id/menu_commission"
         android:title="Commission" />
+    <item android:id="@+id/privacy_policy"
+        android:title="Privacy Policy" />
+    <item android:title="Terms and Conditions"
+        android:id="@+id/terms_conditions" />
+    <item android:title="Refund Policy"
+        android:id="@+id/return_policy" />
     <item android:id="@+id/log_out"
         android:title="Log Out" />
 
