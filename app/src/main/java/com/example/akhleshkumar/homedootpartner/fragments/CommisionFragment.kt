@@ -11,9 +11,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.FragmentCommisionBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
+import com.example.akhleshkumar.homedootpartner.adaters.CommissionAdapter
 import com.example.akhleshkumar.homedootpartner.models.VendorCommissionResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,6 +48,7 @@ class CommisionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
        binding.btnStartDate.setOnClickListener {
          showDatePickerDialog(binding.btnStartDate)
        }
@@ -68,8 +71,14 @@ class CommisionFragment : Fragment() {
                                     if (data.invoices.isNullOrEmpty()){
                                         Toast.makeText(requireContext(),"No invoices found", Toast.LENGTH_SHORT).show()
                                     }
+                                    else{
+                                        binding.recyclerView.adapter = CommissionAdapter(requireContext(),data.invoices)
+                                    }
                                     if(data.orderItems.isNullOrEmpty()){
                                         Toast.makeText(requireContext(),"No order items found", Toast.LENGTH_SHORT).show()
+                                    }
+                                    else{
+
                                     }
                                 }
                             }
@@ -108,7 +117,7 @@ class CommisionFragment : Fragment() {
             val selectedCalendar = Calendar.getInstance()
             selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
 
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
             formattedDate = dateFormat.format(selectedCalendar.time)
 
             // Display the selected date in TextView

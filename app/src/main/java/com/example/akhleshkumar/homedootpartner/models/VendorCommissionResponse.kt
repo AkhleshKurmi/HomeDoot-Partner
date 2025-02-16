@@ -11,15 +11,32 @@ data class VendorCommissionResponse(
 
 data class DataCommission(
     @SerializedName("invoices")
-    val invoices: List<Any>,
+    val invoices: List<Invoice>,
     @SerializedName("order_items")
-    val orderItems: List<Any>
+    val orderItems: List<OrderItem>
 )
 
-//data class Invoice(
-//    // Add appropriate fields here if the invoice structure is defined
-//)
-//
-//data class OrderItem(
-//    // Add appropriate fields here if the order item structure is defined
-//)
+data class Invoice(
+    @SerializedName("id") val id: Int,
+    @SerializedName("order_no") val orderNo: String,
+    @SerializedName("product_id") val productId: Int,
+    @SerializedName("item_id") val itemId: Int,
+    @SerializedName("quantity") val quantity: Int,
+    @SerializedName("price") val price: Int,
+    @SerializedName("total_amount") val totalAmount: Int,
+    @SerializedName("order_current_status") val orderCurrentStatus: String,
+    @SerializedName("created_at") val createdAt: String,
+    @SerializedName("updated_at") val updatedAt: String,
+    @SerializedName("gst_percentage") val gstPercentage: Int,
+    @SerializedName("service_name") val serviceName: String,
+    @SerializedName("status_from_vendor") val statusFromVendor: String,
+    @SerializedName("commission") val commission: Int,
+    @SerializedName("tax_on_commission") val taxOnCommission: Int,
+    @SerializedName("item_name") val itemName: String
+)
+
+data class OrderItem(
+    @SerializedName("order_no") val orderNo: String,
+    @SerializedName("discount_total") val discountTotal: Int,
+    @SerializedName("discount") val discount: String?
+)
