@@ -46,7 +46,10 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
         holder.binding.name.text = data.customers.name
         holder.binding.tvItemName.text = data.items[0].products.serviceName +"-"+ data.items[0].products.productItems[0].itemName
         holder.binding.time.text = data.serviceTime
-        holder.binding.tvPaymentMode.text = data.paymentMethod
+        holder.binding.tvQuantity.text = data.items[0].quantity.toString()
+        holder.binding.tvTotal.text = data.discountTotal.toString()
+        holder.binding.tvPaymentStatus.text = data.grandTotal.toString()
+        holder.binding.tvOrderStatus.text = data.paymentMethod
 
 
         holder.binding.ivOrderView.visibility = View.VISIBLE
