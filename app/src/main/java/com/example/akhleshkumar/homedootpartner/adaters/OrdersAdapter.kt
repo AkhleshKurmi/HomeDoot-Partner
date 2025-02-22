@@ -41,6 +41,26 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
         holder.binding.tvPaymentMode.text = data.paymentMethod
         holder.binding.tvAddress.text = data.address
         holder.binding.tvPlacedOn.text = data.updatedAt
+
+        holder.binding.tvvOrderNo1.text = data.orderNo
+        holder.binding.name.text = data.customers.name
+        holder.binding.tvItemName.text = data.items[0].products.productItems[0].itemName
+        holder.binding.time.text = data.serviceTime
+        holder.binding.tvPaymentMode.text = data.paymentMethod
+
+
+        holder.binding.ivOrderView.visibility = View.VISIBLE
+        holder.binding.ivOrderNoView.visibility = View.GONE
+        holder.binding.ivOrderView.setOnClickListener {
+            holder.binding.ivOrderView.visibility = View.GONE
+            holder.binding.ivOrderNoView.visibility = View.VISIBLE
+            holder.binding.llJobDetails.visibility = View.VISIBLE
+        }
+        holder.binding.ivOrderNoView.setOnClickListener {
+            holder.binding.ivOrderView.visibility = View.VISIBLE
+            holder.binding.ivOrderNoView.visibility = View.GONE
+            holder.binding.llJobDetails.visibility = View.GONE
+        }
         if (status == "completed" || status == "cancelled") {
             holder.binding.btnAccept.visibility = View.GONE
             holder.binding.acceptCash.visibility = View.GONE
