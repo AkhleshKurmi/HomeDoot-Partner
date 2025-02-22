@@ -44,7 +44,7 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
 
         holder.binding.tvvOrderNo1.text = data.orderNo
         holder.binding.name.text = data.customers.name
-        holder.binding.tvItemName.text = data.items[0].products.productItems[0].itemName
+        holder.binding.tvItemName.text = data.items[0].products.serviceName +"-"+ data.items[0].products.productItems[0].itemName
         holder.binding.time.text = data.serviceTime
         holder.binding.tvPaymentMode.text = data.paymentMethod
 
