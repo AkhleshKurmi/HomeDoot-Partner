@@ -10,169 +10,60 @@
     android:layout_margin="4dp">
 
     <!-- Horizontal ScrollView to wrap wide content -->
-    <HorizontalScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+
         android:scrollbars="none">
 
         <!-- Table Layout for Header and Data Rows -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:orientation="vertical">
 
-            <!-- Header Row -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:orientation="horizontal"
-                android:paddingBottom="4dp">
-
-                <TextView
-                    android:id="@+id/headerOrderView"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:text="#"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <!-- Column Headers -->
-                <TextView
-                    android:id="@+id/headerOrderNo"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Order No"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/headerServiceDate"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Service Date"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/headerServiceTime"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Service Time"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/headerSubTotal"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Sub Total"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/headerDisc"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Discount"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/headerGrandTotal"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Grand Total"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/headerPaymentMode"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Payment Mode"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/headerAddress"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:text="Full Address"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/headerPlacedOn"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Placed On"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/headerAction"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Action"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-            </LinearLayout>
 
             <!-- Data Row -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:background="#C0D9C5C8"
                 android:paddingTop="4dp">
 
                 <ImageView
                     android:id="@+id/ivOrderNoView"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:padding="4dp"
                     android:visibility="gone"
-                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:padding="2dp"
                     android:src="@drawable/baseline_close_fullscreen_24"
-                    android:text="HD2024112000334"
                     android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
+                    />
                 <ImageView
                     android:id="@+id/ivOrderView"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:padding="4dp"
                     android:visibility="gone"
-                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:padding="2dp"
                     android:src="@drawable/baseline_remove_red_eye_24"
-                    android:text="HD2024112000334"
+                    android:textColor="@android:color/black"
+
+                     />
+                <TextView
+                    android:id="@+id/srNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:text="1"
                     android:textColor="@android:color/black"
                     android:gravity="center"
                     android:textSize="14sp" />
-
                 <!-- Order No -->
                 <TextView
                     android:id="@+id/tvOrderNo"
@@ -184,127 +75,73 @@
                     android:gravity="center"
                     android:textSize="14sp" />
 
-                <!-- Service Date -->
-                <TextView
-                    android:id="@+id/tvServiceDate"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="21-11-2024"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
 
-                <!-- Service Time -->
-                <TextView
-                    android:id="@+id/tvServiceTime"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="07:00 pm"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
+
+
 
                 <!-- Sub Total -->
                 <TextView
                     android:id="@+id/tvSubTotal"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
                     android:text="6398"
+                    android:layout_weight="1"
                     android:textColor="@android:color/black"
                     android:gravity="center"
                     android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/tvDisc"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="6398"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <!-- Grand Total -->
-                <TextView
-                    android:id="@+id/tvGrandTotal"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="6398"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tvPaymentMode"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="on cash"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <!-- Full Address -->
-                <TextView
-                    android:id="@+id/tvAddress"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="India, Karimnagar, MAHARASHTRA - 110020"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <!-- Placed On -->
-                <TextView
-                    android:id="@+id/tvPlacedOn"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="2024-11-20\n01:56 pm"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:textSize="14sp" />
 
                 <!-- Accept Button -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:gravity="center">
+                    android:layout_weight="@integer/material_motion_duration_long_2"
+                    android:layout_gravity="end"
+                    android:gravity="end">
                 <Button
                     android:id="@+id/btnAccept"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
                     android:text="Accept"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:textColor="@android:color/white"
                     android:backgroundTint="@color/purple_500"
                     android:gravity="center" />
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/accept_cash"
-                        android:visibility="gone"
-                        android:text="Accept Cash"/>
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Job Started"
-                        android:visibility="gone"
-                        android:id="@+id/job_started"/>
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/updateStatus"
-                        android:visibility="gone"
-                        android:text="Update Status"/>
+
                 </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#C0D9C5C8"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/accept_cash"
+                    android:layout_margin="5dp"
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:text="Accept\nCash"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Job\nStarted"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:id="@+id/job_started"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:id="@+id/updateStatus"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:text="Update\nStatus"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -313,206 +150,211 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Header Row -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="4dp">
+                    android:layout_marginBottom="8dp">
 
                     <TextView
-                        android:id="@+id/headerOrderNo1"
-                        android:layout_width="150dp"
+                        android:id="@+id/tvServiceDateLabel"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Order No"
+                        android:text="Service Date: "
                         android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <!-- Column Headers -->
-                    <TextView
-                        android:id="@+id/headerItemPhoto"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="Name"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
+                        android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/headerItemName"
-                        android:layout_width="150dp"
+                        android:id="@+id/tvServiceDate"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="item name"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/headerPrice"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="Service Time"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/headerQuntity"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="Sub Total"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/headerTotal"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="Discount"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/headerPaymentStatus"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="Grand Total"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/headerOrderStatus"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="Payment Mode"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
+                        android:text=""
+                        android:textSize="16sp"/>
                 </LinearLayout>
 
-                <!-- Data Row -->
+                <!-- Service Time -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="4dp">
+                    android:layout_marginBottom="8dp">
 
                     <TextView
-                        android:id="@+id/tvvOrderNo1"
-                        android:layout_width="150dp"
+                        android:id="@+id/tvServiceTimeLabel"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:layout_gravity="center"
-                        android:text="HD2024112000334"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <!-- Order No -->
-                    <TextView
-                        android:id="@+id/name"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:text="name"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <!-- Service Date -->
-                    <TextView
-                        android:id="@+id/tvItemName"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:text="dgdgdg"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <!-- Service Time -->
-                    <TextView
-                        android:id="@+id/time"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:text="04646"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <!-- Sub Total -->
-                    <TextView
-                        android:id="@+id/tvQuantity"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:text="63"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
+                        android:text="Service Time: "
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/tvTotal"
-                        android:layout_width="150dp"
+                        android:id="@+id/tvServiceTime"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:text="6398"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
 
-                    <!-- Grand Total -->
-                    <TextView
-                        android:id="@+id/tvPaymentStatus"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:text="6398"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tvOrderStatus"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:text="on cash"
-                        android:textColor="@android:color/black"
-                        android:gravity="center"
-                        android:textSize="14sp" />
-
-                    <!-- Full Address -->
-
+                        android:textSize="16sp"/>
                 </LinearLayout>
+
+                <!-- Partner -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tvPartnerLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Partner: "
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/tvPartner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <!-- Customer Name -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tvCustomerNameLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Customer Name: "
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/tvCustomerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <!-- Mobile -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tvMobileLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mobile: "
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/tvMobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <!-- Email -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tvEmailLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email: "
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/tvEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <!-- Payment Mode -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tvPaymentModeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Payment Mode: "
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/tvPaymentMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <!-- Full Address -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tvFullAddressLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Full Address: "
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/tvAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <!-- Placed On -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tvPlacedOnLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Placed On: "
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/tvPlacedOn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
 
-    </HorizontalScrollView>
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
-
-
-
-
-
-    </HorizontalScrollView>
+    </LinearLayout>
 </LinearLayout>
