@@ -20,11 +20,12 @@ class CommissionAdapter(val context: Context, val invoiceList: List<Invoice>)  :
 
         override fun onBindViewHolder(holder: InvoiceViewHolder, position: Int) {
             val invoice = invoiceList[position]
+            val commission : Float = if(invoice.statusFromVendor.lowercase() == "completed") (invoice.commission.toFloat()*invoice.totalAmount)/100 else 0f
             holder.binding.tvOrderNo.text = "Order No: \n ${invoice.orderNo}"
             holder.binding.tvServiceName.text = "Service: \n ${invoice.serviceName}"
             holder.binding.tvPrice.text = "Price: \n ₹${invoice.price}"
             holder.binding.tvStatus.text = "Status: \n ${invoice.statusFromVendor}"
-            holder.binding.tvCommission.text = "Commission: \n ₹${invoice.commission}"
+            holder.binding.tvCommission.text = "Commission: \n ₹$commission"
         }
 
         override fun getItemCount(): Int = invoiceList.size

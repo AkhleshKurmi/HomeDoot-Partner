@@ -29,6 +29,7 @@ class CommisionFragment : Fragment() {
     lateinit var binding: FragmentCommisionBinding
     lateinit var sharedPreferences: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
+    lateinit var progressDialog: android.app.ProgressDialog
      var dateStart:String = ""
     var dateEnd:String = ""
 
@@ -36,6 +37,9 @@ class CommisionFragment : Fragment() {
         super.onCreate(savedInstanceState)
      sharedPreferences = requireActivity().getSharedPreferences("HomeDoot", MODE_PRIVATE)
         editor = sharedPreferences.edit()
+        progressDialog = android.app.ProgressDialog(requireContext())
+        progressDialog.setTitle("Loading")
+        progressDialog.setMessage("Please wait...")
     }
 
     override fun onCreateView(
@@ -58,13 +62,16 @@ class CommisionFragment : Fragment() {
 
         binding.btnSearch.setOnClickListener {
             if (dateStart.isNotEmpty() && dateEnd.isNotEmpty()){
+                progressDialog.show()
                 RetrofitClient.instance.getVendorCommission(sharedPreferences.getInt("vendor_id",0),dateStart,dateEnd,"search").enqueue(object :
                     Callback<VendorCommissionResponse> {
                     override fun onResponse(
                         call: Call<VendorCommissionResponse>,
                         response: Response<VendorCommissionResponse>
                     ) {
+                        progressDialog.dismiss()
                         if (response.isSuccessful){
+
                             if (response.body()?.success!!){
                                 val data = response.body()?.data
                                 if (data != null){
@@ -94,6 +101,7 @@ class CommisionFragment : Fragment() {
                     }
 
                     override fun onFailure(call: Call<VendorCommissionResponse>, t: Throwable) {
+                        progressDialog.dismiss()
                         Toast.makeText(requireContext(),t.message, Toast.LENGTH_SHORT).show()
                     }
 

@@ -43,7 +43,7 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
         holder.binding.tvPlacedOn.text = data.updatedAt
         holder.binding.tvMobile.text = data.customers.mobile
         holder.binding.tvEmail.text = data.customers.email
-
+        holder.binding.tvServiceName.text = data.items[0].products.serviceName
         holder.binding.tvOrderNo.text = data.orderNo
         holder.binding.tvCustomerName.text = data.customers.name
 //        holder.binding..text = data.items[0].products.serviceName +"-"+ data.items[0].products.productItems[0].itemName

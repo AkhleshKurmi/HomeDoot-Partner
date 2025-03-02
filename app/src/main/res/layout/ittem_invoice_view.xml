@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_marginTop="5dp"
+    android:padding="5dp">
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -58,4 +59,9 @@
 
    </LinearLayout>
     </HorizontalScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/black"/>
 </LinearLayout>
