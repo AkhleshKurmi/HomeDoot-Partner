@@ -35,7 +35,13 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
         holder.binding.srNo.text = "${position+1}"
         holder.binding.tvOrderNo.text = data.orderNo
         holder.binding.tvServiceDate.text = data.serviceDate
-        holder.binding.tvServiceTime.text = data.serviceTime
+       try {
+           holder.binding.tvServiceTime.text =
+               if (data.serviceTime.toInt() <= 12) data.serviceTime + ":00 Am" else if (data.serviceTime.toInt() > 12) (data.serviceTime.toInt() - 12).toString() + ":00 Pm" else data.serviceTime
+       }
+       catch (e: Exception){
+           holder.binding.tvServiceTime.text = data.serviceTime
+       }
         holder.binding.tvSubTotal.text = data.subTotal.toString()
 
         holder.binding.tvPaymentMode.text = data.paymentMethod
@@ -45,9 +51,10 @@ class OrdersAdapter(val context: Context, val list:ArrayList<OrderResponse>, val
         holder.binding.tvEmail.text = data.customers.email
         holder.binding.tvServiceName.text = data.items[0].products.serviceName
         holder.binding.tvOrderNo.text = data.orderNo
+        holder.binding.tvItemName.text = data.items[0].products.productItems[0].itemName
         holder.binding.tvCustomerName.text = data.customers.name
 //        holder.binding..text = data.items[0].products.serviceName +"-"+ data.items[0].products.productItems[0].itemName
-        holder.binding.tvServiceTime.text = data.serviceTime
+//        holder.binding.tvServiceTime.text = data.serviceTime
 //        holder.binding..text = data.items[0].quantity.toString()
 
 
