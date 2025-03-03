@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akhleshkumar.homedootpartner.databinding.DialogAddMoneyBinding
@@ -49,7 +50,7 @@ class WalletFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWalletBinding.inflate(layoutInflater)
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         // Inflate the layout for this fragment
         return binding.root
     }

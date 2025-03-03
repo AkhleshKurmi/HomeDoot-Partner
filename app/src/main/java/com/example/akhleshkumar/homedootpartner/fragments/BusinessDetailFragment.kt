@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.checkPermission
 import androidx.fragment.app.Fragment
@@ -50,6 +51,7 @@ class BusinessDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         sharedPreferences = requireActivity().getSharedPreferences("HomeDoot", android.content.Context.MODE_PRIVATE)
         editorSP = sharedPreferences.edit()
         progressDialog = android.app.ProgressDialog(requireContext()).apply {

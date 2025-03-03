@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.ActivityRegisterBinding
 import com.chaos.view.PinView
@@ -43,6 +44,7 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(binding.root)
         sharedpref = getSharedPreferences("HomeDoot", MODE_PRIVATE)
         editor = sharedpref.edit()

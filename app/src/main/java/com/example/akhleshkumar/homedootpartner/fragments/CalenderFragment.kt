@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.FragmentCalenderBinding
 import com.example.akhleshkumar.homedoot.api.RetrofitClient
@@ -34,7 +35,7 @@ class CalenderFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         sharedPreferences = requireActivity().getSharedPreferences("HomeDoot", Activity.MODE_PRIVATE)
         editorSP = sharedPreferences.edit()
         progressDialog = ProgressDialog(requireContext()).apply {

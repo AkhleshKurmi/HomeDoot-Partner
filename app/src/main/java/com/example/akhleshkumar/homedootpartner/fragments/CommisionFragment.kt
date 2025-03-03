@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akhleshkumar.homedootpartner.R
 import com.akhleshkumar.homedootpartner.databinding.FragmentCommisionBinding
@@ -35,7 +36,8 @@ class CommisionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-     sharedPreferences = requireActivity().getSharedPreferences("HomeDoot", MODE_PRIVATE)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        sharedPreferences = requireActivity().getSharedPreferences("HomeDoot", MODE_PRIVATE)
         editor = sharedPreferences.edit()
         progressDialog = android.app.ProgressDialog(requireContext())
         progressDialog.setTitle("Loading")
